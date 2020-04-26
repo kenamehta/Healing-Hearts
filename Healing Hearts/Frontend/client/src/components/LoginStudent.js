@@ -79,15 +79,13 @@ class LoginStudent extends Component {
                 <img
                   alt="Handshake logo image"
                   height="42"
-                  src="https://handshake-production-cdn.joinhandshake.com/assets/logo-icon-2d294d9834da88f5fdf0ab747dd89fb15f8ab7c12a3e193294bab3d522d71a2c.svg"
+                  src="https://d1sssn74k2rfxk.cloudfront.net/assets/logo-dc4406b950dd8ba10a81ab34703a2bca284e7c4ba46d7ec7656c83e052d0c6f3.svg"
                 ></img>
               </a>
               <div className="content">
-                <h1 style={{ paddingTop: "30%" }}>Get the job done .</h1>
-                <h3 style={{ paddingTop: "10%",color:"yellow" }}>Students</h3>
-                <p>Launch the next step in your career.</p>
-                <h3 style={{ paddingTop: "3%" }}>Employers</h3>
-                <p>Hire the next generation of talent.</p>
+                <h3 style={{ paddingTop: "40%" }}>Giving is not just about making a donation </h3>
+                <h3 style={{ paddingTop: "10%" }}>Its about making a difference</h3>
+               
               </div>
             </div>
           </div>
@@ -99,7 +97,7 @@ class LoginStudent extends Component {
                 <h1 style={{ marginBottom: "9px", fontWeight: "bold" }}>
                   Sign in
                 </h1>
-                <h3 style={{ fontWeight: "bold" }}>Students and alumni</h3>
+                <h3 style={{ fontWeight: "bold" }}>Donors</h3>
                 <p>Please sign in with your email and password</p>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
