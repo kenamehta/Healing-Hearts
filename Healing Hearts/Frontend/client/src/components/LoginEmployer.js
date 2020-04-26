@@ -65,7 +65,7 @@ class LoginEmployer extends Component {
          
        
         <div className="row">
-          <div className="col-3">
+        <div className="col-3">
             <div
               style={{
                 backgroundColor: "#1569e0",
@@ -79,15 +79,13 @@ class LoginEmployer extends Component {
                 <img
                   alt="Handshake logo image"
                   height="42"
-                  src="https://handshake-production-cdn.joinhandshake.com/assets/logo-icon-2d294d9834da88f5fdf0ab747dd89fb15f8ab7c12a3e193294bab3d522d71a2c.svg"
+                  src="https://d1sssn74k2rfxk.cloudfront.net/assets/logo-dc4406b950dd8ba10a81ab34703a2bca284e7c4ba46d7ec7656c83e052d0c6f3.svg"
                 ></img>
               </a>
               <div className="content">
-                <h1 style={{ paddingTop: "30%" }}>Get the job done .</h1>
-                <h3 style={{ paddingTop: "10%" }}>Students</h3>
-                <p>Launch the next step in your career.</p>
-                <h3 style={{ paddingTop: "3%",color:"yellow" }}>Employers</h3>
-                <p>Hire the next generation of talent.</p>
+                <h3 style={{ paddingTop: "40%" }}>We can't help everyone </h3>
+                <h3 style={{ paddingTop: "10%" }}>But everyone can help someone</h3>
+               
               </div>
             </div>
           </div>

@@ -50,7 +50,7 @@ class Navbar extends Component {
             style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
             href="/"
           >
-            Handshake
+            healing HEARTS
           </a>
 
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -61,7 +61,7 @@ class Navbar extends Component {
                   href="/student/login"
                   style={{ fontWeight: "500" }}
                 >
-                  Students
+                  DONORS
                 </a>
               </li>
               <li className="nav-item">
@@ -70,7 +70,7 @@ class Navbar extends Component {
                   href="/company/login"
                   style={{ fontWeight: "500" }}
                 >
-                  Employers
+                  ORGANISATION
                 </a>
               </li>
             </ul>
@@ -86,7 +86,7 @@ class Navbar extends Component {
             style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
             href="/"
           >
-            Handshake
+            healing hEARTS
           </a>
           
         </div>
@@ -195,7 +195,7 @@ class Navbar extends Component {
           style={{  fontWeight: "500",color:'rgba(0,0,0,.5)' }}
             href="/student/list"
           >
-            Students
+            Donors
           </a>
           :
            <a
@@ -203,7 +203,7 @@ class Navbar extends Component {
           style={{  fontWeight: "500",color:'rgba(0,0,0,.5)' }}
             href="/company/list"
           >
-            Students
+            Donors
           </a>
         }
           </div>
