@@ -17,6 +17,7 @@ import StudentEventList from "./company/StudentEventList";
 import CompanyEvent from "./company/CompanyEvent";
 import VisitedCompany from "./company/VisitedCompany.js/VisitedCompany";
 import Message from "./message/Message" ;
+import Home from "./Home" ;
 
 class Main extends Component {
   render() {
@@ -47,6 +48,7 @@ class Main extends Component {
         <Route path="/event/student/:id" component={StudentEventList} />
         <Route path="/company/events" component={CompanyEvent} />
         <Route path="/visitcompany/home/:id" component={VisitedCompany} />
+        <Route path="/home" component={Home} />
         
         {/* <Route path="/" */}
       </div>
