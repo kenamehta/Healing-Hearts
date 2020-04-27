@@ -312,8 +312,8 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
     })
       .then(tokenuser => {
         if (tokenuser) {
-          console.log(tokenuser.company_basic_detail_id + "in details");
-          companyId = tokenuser.company_basic_detail_id;
+          console.log(tokenuser._id + "in details");
+          companyId = tokenuser._id;
           email = tokenuser.emailId;
           name = tokenuser.name;
         } else {
@@ -328,8 +328,8 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
         console.log(`error getting company basic details ${err}`);
       });
 
-    const filter = { company_basic_detail_id: companyId };
-    const update = { profilepicaddress: req.file.originalname };
+    const filter = { _id: companyId };
+    const update = { profilePic: req.file.originalname };
 
     const result = await Company.findOneAndUpdate(filter, update, {
       new: true,

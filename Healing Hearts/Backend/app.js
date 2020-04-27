@@ -54,7 +54,7 @@ app.use(passport.session());
 app.use("/donor", require("./routes/studentRoutes"));
 app.use("/student/experience", require("./routes/studentexperience"));
 app.use("/company", require("./routes/companyRoutes"));
-app.use("/jobs", require("./routes/jobsRoute"));
+app.use("/jobs", require("./routes/fundraiserRoute"));
 app.use("/events", require("./routes/eventRoute"));
 app.use("/student/profile", require("./routes/profileRoute"));
 app.use("/student/message", require("./routes/messageRoute"));
