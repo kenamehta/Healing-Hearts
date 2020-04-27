@@ -79,7 +79,7 @@ class CompanyHome extends Component {
     });
   };
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.companyobj.total)
+    console.log(nextProps)
     this.setState({ perjobarr: nextProps.companyobj.perjobarr });
     this.setState({ jobarr: nextProps.companyobj.jobarr });
     this.setState({ companyobj: nextProps.companyobj.companyobj });

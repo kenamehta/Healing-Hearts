@@ -79,8 +79,8 @@ export const getCompanyProfile = payload => {
           companyobj = res.data.company;
           companyname=res.data.company.company_basic_details.company_name;
           console.log(res.data.company);
-          if (res.data.company.company_basic_details.profilepicaddress) {
-            var src = `${api_route.host}//${res.data.company.company_basic_details.profilepicaddress}`;
+          if (res.data.company.company_basic_details.profilePic) {
+            var src = `${api_route.host}//${res.data.company.company_basic_details.profilePic}`;
             //   this.setState({ propicture: src });
             propicture = src;
           }
