@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import "../styles/login.css";
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {loginStudent} from '../redux/actions/authAction'
+import {loginDonor} from '../redux/actions/authAction'
 
-class LoginStudent extends Component {
+class LoginDonor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,7 @@ class LoginStudent extends Component {
       }
       
     };
-    this.props.loginStudent(data)
+    this.props.loginDonor(data)
     // axios.defaults.withCredentials = true;
 
     // axios.post("http://localhost:3001/student/login", data).then(res=>{
@@ -77,7 +77,7 @@ class LoginStudent extends Component {
             >
               <a className="logo" href="/">
                 <img
-                  alt="Handshake logo image"
+                  alt="Healing heart logo image"
                   height="42"
                   src="https://d1sssn74k2rfxk.cloudfront.net/assets/logo-dc4406b950dd8ba10a81ab34703a2bca284e7c4ba46d7ec7656c83e052d0c6f3.svg"
                 ></img>
@@ -97,7 +97,7 @@ class LoginStudent extends Component {
                 <h1 style={{ marginBottom: "9px", fontWeight: "bold" }}>
                   Sign in
                 </h1>
-                <h3 style={{ fontWeight: "bold" }}>Donors</h3>
+                <h3 style={{ fontWeight: "bold" }}>Welcome Donors</h3>
                 <p>Please sign in with your email and password</p>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
@@ -138,7 +138,7 @@ class LoginStudent extends Component {
                     ></input>
                   </div>
                 </form>
-                <h6>No account?<a href="/student/register"> Sign up here</a></h6>
+                <h6>No account?<a href="/donor/register"> Sign up here</a></h6>
               </div>
             </div>
           </div>
@@ -157,8 +157,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-      loginStudent: payload => dispatch(loginStudent(payload))
+      loginDonor: payload => dispatch(loginDonor(payload))
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginStudent);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginDonor);
 

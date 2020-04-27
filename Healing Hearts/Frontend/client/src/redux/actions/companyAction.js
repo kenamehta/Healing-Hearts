@@ -70,12 +70,14 @@ export const getCompanyProfile = payload => {
     try {
       var propicture = "";
       var companyobj = "";
+      var companyname= "";
       console.log("In try bloc");
       axios
         .get(`${api_route.host}/company/`, config)
         .then(res => {
           // this.setState({ companyobj: res.data.company });
           companyobj = res.data.company;
+          companyname=res.data.company.company_basic_details.company_name;
           console.log(res.data.company);
           if (res.data.company.company_basic_details.profilepicaddress) {
             var src = `${api_route.host}//${res.data.company.company_basic_details.profilepicaddress}`;
@@ -89,7 +91,7 @@ export const getCompanyProfile = payload => {
             var total=''
             console.log("In try bloc");
             axios
-              .get(`${api_route.host}/jobs/${payload.companyFilter}/${payload.locationFilter}/${payload.categoryFilter}/${payload.sortFilter}?limit=${payload.limit}&page=${payload.page}`, config)
+              .get(`${api_route.host}/jobs/${companyname}/${payload.locationFilter}/${payload.categoryFilter}/${payload.sortFilter}?limit=${payload.limit}&page=${payload.page}`, config)
               .then(res => {
                 console.log(res.data);
                 //   this.setState({ jobarr: res.data.result });

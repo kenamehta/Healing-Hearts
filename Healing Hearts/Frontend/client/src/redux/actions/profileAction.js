@@ -110,7 +110,7 @@ export const getProfile = () => {
     }
   };
 
-  let url = `http://localhost:3001/student/`;
+  let url = `http://localhost:3001/donor/`;
   return dispatch => {
     axios
       .get(url, config)

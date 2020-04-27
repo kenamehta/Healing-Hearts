@@ -51,7 +51,7 @@ mongoose.connect(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/student", require("./routes/studentRoutes"));
+app.use("/donor", require("./routes/studentRoutes"));
 app.use("/student/experience", require("./routes/studentexperience"));
 app.use("/company", require("./routes/companyRoutes"));
 app.use("/jobs", require("./routes/jobsRoute"));

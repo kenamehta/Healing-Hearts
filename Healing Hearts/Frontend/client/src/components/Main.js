@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import LoginStudent from "./LoginStudent";
+import LoginDonor from "./LoginDonor";
 import Navbar from "./Navbar";
 import LoginEmployer from "./LoginEmployer";
-import RegisterEmployer from "./RegisterEmployer";
-import RegisterStudent from "./RegisterStudent";
+import RegisterCompany from "./RegisterCompany";
+import DonorRegister from "./DonorRegister";
 import MainProfile from "./mainprofile";
 import StudentEvent from "./StudentEvent";
 import StudentJobs from "./StudentJobs";
@@ -31,10 +31,10 @@ class Main extends Component {
                 <Route path="/create" component={Create}/> */}
 
         <Route path="/" component={Navbar} />
-        <Route path="/student/login" component={LoginStudent} />
+        <Route path="/donor/login" component={LoginDonor} />
         <Route path="/company/login" component={LoginEmployer} />
-        <Route path="/student/register" component={RegisterStudent} />
-        <Route path="/company/register" component={RegisterEmployer} />
+        <Route path="/donor/register" component={DonorRegister} />
+        <Route path="/company/register" component={RegisterCompany} />
         <Route path="/company/home" component={CompanyHome} />
         <Route path="/student/home" component={MainProfile} />
         <Route path="/student/events" component={StudentEvent} />
