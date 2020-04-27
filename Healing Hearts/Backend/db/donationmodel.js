@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Company, Fundraiser } = require("../db/comapnymodel");
+const { Company, Fundraiser } = require("../db/companymodel");
 const { Donor } = require("../db/donormodel");
 const mongoosePaginate = require("mongoose-paginate");
 

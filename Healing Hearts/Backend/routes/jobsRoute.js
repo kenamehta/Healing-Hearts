@@ -8,7 +8,7 @@ const fileUpload = require("express-fileupload");
 
 const { Student } = require("../db/studentmodel");
 const { StudentJobs } = require("../db/jobmodel");
-const { Company, Job } = require("../db/comapnymodel");
+const { Company, Job } = require("../db/companymodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var multer = require("multer");
@@ -39,7 +39,7 @@ route.get(
   async (req, res) => {
     console.log("----------getting jobs");
     Decryptedtoken = decryptToken(req.headers.authorization);
-    var sort=""
+    var sort = "";
     var whereCondition = {};
     if (req.params.categoryFilter !== "empty") {
       whereCondition = {
@@ -66,61 +66,61 @@ route.get(
         location: { $regex: new RegExp(req.params.locationFilter, "i") }
       };
     }
-    if(req.params.sortFilter!=="empty"){
-      console.log("inside sorting"+req.params.sortFilter)
-      console.log(sort)
-      switch(req.params.sortFilter){
-        case "DeadlineAsc":{
-           sort={
-            deadline:1
-          }
+    if (req.params.sortFilter !== "empty") {
+      console.log("inside sorting" + req.params.sortFilter);
+      console.log(sort);
+      switch (req.params.sortFilter) {
+        case "DeadlineAsc": {
+          sort = {
+            deadline: 1
+          };
           break;
         }
-        case "DeadlineDesc":{
-          console.log("in descending") 
-          sort=""
-          sort={
+        case "DeadlineDesc": {
+          console.log("in descending");
+          sort = "";
+          sort = {
             deadline: -1
-          }
+          };
           break;
         }
-        case "LocationAsc":{
-          console.log("in location") 
-          sort={
-            location:1
-          }
+        case "LocationAsc": {
+          console.log("in location");
+          sort = {
+            location: 1
+          };
           break;
         }
-        case "LocationDesc":{
-          console.log("in location") 
-          sort={
-            location:-1
-          }
+        case "LocationDesc": {
+          console.log("in location");
+          sort = {
+            location: -1
+          };
           break;
         }
-        case "PostedonAsc":{
-          console.log("in posting") 
-          sort={
-            createdAt:1
-          }
+        case "PostedonAsc": {
+          console.log("in posting");
+          sort = {
+            createdAt: 1
+          };
           break;
         }
-        case "PostedonDesc":{
-          console.log("in posting") 
-          sort={
-            createdAt:-1
-          }
+        case "PostedonDesc": {
+          console.log("in posting");
+          sort = {
+            createdAt: -1
+          };
           break;
         }
-         default:{
-          sort={
-            deadline:1
-          }
+        default: {
+          sort = {
+            deadline: 1
+          };
           break;
         }
       }
     }
-    console.log(sort)
+    console.log(sort);
 
     try {
       await Student.findOne({
@@ -138,21 +138,21 @@ route.get(
         .catch(err => {
           console.log(`error posting student journey ${err}`);
         });
-       var {page,limit}=req.query;
-       console.log(parseInt(page,10))
-       var options={
-         page:parseInt(page,10)||1,
-         limit:parseInt(limit,10)||10,
-         sort:sort
-       }
+      var { page, limit } = req.query;
+      console.log(parseInt(page, 10));
+      var options = {
+        page: parseInt(page, 10) || 1,
+        limit: parseInt(limit, 10) || 10,
+        sort: sort
+      };
 
-      const result = await Job.paginate(whereCondition,options);
+      const result = await Job.paginate(whereCondition, options);
       console.log("sending jobs-----------------" + result);
-     
+
       res.status(201).send({
         result: result.docs,
-        total:result.total,
-        pages:result.pages
+        total: result.total,
+        pages: result.pages
       });
     } catch (err) {
       console.log(`error getting jobs ${err}`);
@@ -319,13 +319,13 @@ route.get("/applied/:statusFilter", async (req, res) => {
   console.log("----------getting applied jobs");
   Decryptedtoken = decryptToken(req.headers.authorization);
   var studentId;
-  var {page,limit}=req.query;
-    console.log(parseInt(page,10))
-    var options={
-      page:parseInt(page,10)||1,
-      limit:parseInt(limit,10)||10,
-      populate: "job_id"
-    }
+  var { page, limit } = req.query;
+  console.log(parseInt(page, 10));
+  var options = {
+    page: parseInt(page, 10) || 1,
+    limit: parseInt(limit, 10) || 10,
+    populate: "job_id"
+  };
   try {
     var whereCondition = {};
     if (req.params.statusFilter !== "empty") {
@@ -334,8 +334,6 @@ route.get("/applied/:statusFilter", async (req, res) => {
         status: req.params.statusFilter
       };
     }
-    
-
 
     await Student.findOne({
       emailId: Decryptedtoken.email
@@ -353,18 +351,19 @@ route.get("/applied/:statusFilter", async (req, res) => {
         console.log(`applying for jobs ${err}`);
       });
 
-    const jobsAppliedArr = await StudentJobs.paginate({
-      student_basic_detail_id: studentId,...whereCondition
-    },options)
-      
-
-      .then(finalarray => {
-        console.log("sending jobs-----------------" + finalarray);
-        res.status(201).send({
-          result: finalarray.docs,
-          total:finalarray.total
-        });
+    const jobsAppliedArr = await StudentJobs.paginate(
+      {
+        student_basic_detail_id: studentId,
+        ...whereCondition
+      },
+      options
+    ).then(finalarray => {
+      console.log("sending jobs-----------------" + finalarray);
+      res.status(201).send({
+        result: finalarray.docs,
+        total: finalarray.total
       });
+    });
   } catch (err) {
     console.log(`error getting jobs ${err}`);
     res.status(500).send({

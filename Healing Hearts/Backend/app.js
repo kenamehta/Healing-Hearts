@@ -6,12 +6,10 @@ const flash = require("connect-flash");
 const secret = require("./service/key");
 const app = express();
 const mongoose = require("mongoose");
-const Student =require("./db/studentmodel")
-// const passport = require('passport');
+const Student = require("./db/studentmodel");
+const passport = require("passport");
 app.use(flash());
-app.use(express.static('public'));
-
-
+app.use(express.static("public"));
 
 app.use(function(req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -58,6 +56,10 @@ app.use("/jobs", require("./routes/jobsRoute"));
 app.use("/events", require("./routes/eventRoute"));
 app.use("/student/profile", require("./routes/profileRoute"));
 app.use("/student/message", require("./routes/messageRoute"));
+app.use(
+  "/donor/trendingFundraisers",
+  require("./routes/trendingFundraiserRoute")
+);
 
 module.exports = app;
 // app.listen(3001);

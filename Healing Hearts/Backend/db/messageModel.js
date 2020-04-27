@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const { Donor } = require("./donormodel");
-const { Company } = require("./comapnymodel");
+const { Company } = require("./companymodel");
 
 const conversation = new mongoose.Schema(
   {
