@@ -2,7 +2,7 @@ var express = require("express");
 var route = express.Router();
 const { generateToken, decryptToken } = require("../service/tokenservice");
 
-const { Student } = require("../db/studentmodel");
+const { Donor } = require("../db/donormodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -11,7 +11,7 @@ route.get("/", async (req, res) => {
   try {
   if (Decryptedtoken.email !== null) {
     console.log(Decryptedtoken.email)
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -49,7 +49,7 @@ route.post("/", async (req, res) => {
   try {
   if (Decryptedtoken.email !== null) {
    
-    await Student
+    await Donor
       .findOne({
         emailId: Decryptedtoken.email
        } )
@@ -112,7 +112,7 @@ function checkNull(value) {
 route.put("/", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
   if (Decryptedtoken.email !== null) {
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -141,7 +141,7 @@ route.put("/", async (req, res) => {
       console.log(restExperience)
       const filter={ emailId: Decryptedtoken.email}
       const updatearr={experiences: restExperience}
-      await Student.findOneAndUpdate(filter,updatearr,{new:true,useFindAndModify:true})
+      await Donor.findOneAndUpdate(filter,updatearr,{new:true,useFindAndModify:true})
       .then(res1=>{
         res.status(201).send(res1.experiences)
       })
@@ -168,7 +168,7 @@ route.delete('/', async(req,res)=>{
     Decryptedtoken = decryptToken(req.headers.authorization);
     try {
       await 
-      Student
+      Donor
         .findOne({
          
             emailId: Decryptedtoken.email
@@ -179,7 +179,7 @@ route.delete('/', async(req,res)=>{
         console.log(filterexperience)
         const filter={ emailId: Decryptedtoken.email}
         const updatearr={experiences: filterexperience}
-        await Student.findOneAndUpdate(filter,updatearr,{new:true , useFindAndModify:true})
+        await Donor.findOneAndUpdate(filter,updatearr,{new:true , useFindAndModify:true})
         .then(res1=>{
           res.status(201).send(res1.experiences)
               })

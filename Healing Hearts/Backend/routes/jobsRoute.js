@@ -6,9 +6,9 @@ const passport = require("../authenticate/passport_init");
 const key = require("../service/key");
 const fileUpload = require("express-fileupload");
 
-const { Student } = require("../db/studentmodel");
-const { StudentJobs } = require("../db/jobmodel");
-const { Company, Job } = require("../db/comapnymodel");
+const {Donation} =require("../db/donationmodel")
+const { Donor } = require("../db/donormodel");
+const { Company, Fundraiser } = require("../db/comapnymodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var multer = require("multer");
@@ -123,7 +123,7 @@ route.get(
     console.log(sort)
 
     try {
-      await Student.findOne({
+      await Donor.findOne({
         emailId: Decryptedtoken.email
       })
         .then(tokenuser => {
@@ -146,7 +146,7 @@ route.get(
          sort:sort
        }
 
-      const result = await Job.paginate(whereCondition,options);
+      const result = await Fundraiser.paginate(whereCondition,options);
       console.log("sending jobs-----------------" + result);
      
       res.status(201).send({
@@ -190,7 +190,7 @@ route.post("/", async (req, res) => {
         console.log(`error posting jobs ${err}`);
       });
 
-    const result = await Job.create({
+    const result = await Fundraiser.create({
       job_title: req.body.job.job_title,
       deadline: req.body.job.deadline,
       location: req.body.job.location,
@@ -227,7 +227,7 @@ route.post("/apply", async (req, res) => {
   var student, studentObjectId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student.findOne({
+    await Donor.findOne({
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
@@ -254,7 +254,7 @@ route.post("/apply", async (req, res) => {
       "-----------------------------------",
       req.body.job.job_id
     );
-    const result = await StudentJobs.create({
+    const result = await Donation.create({
       job_id: req.body.job.job_id,
       student_basic_detail_id: studentId,
       student_id: studentObjectId,
@@ -298,7 +298,7 @@ route.get("/applicants", async (req, res) => {
         console.log(`error getting student applicant ${err}`);
       });
 
-    const result = await Job.find({
+    const result = await Fundraiser.find({
       company_basic_detail_id: companyId
     });
     console.log("sending jobs-----------------" + result);
@@ -337,7 +337,7 @@ route.get("/applied/:statusFilter", async (req, res) => {
     
 
 
-    await Student.findOne({
+    await Donor.findOne({
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
@@ -353,7 +353,7 @@ route.get("/applied/:statusFilter", async (req, res) => {
         console.log(`applying for jobs ${err}`);
       });
 
-    const jobsAppliedArr = await StudentJobs.paginate({
+    const jobsAppliedArr = await Donation.paginate({
       student_basic_detail_id: studentId,...whereCondition
     },options)
       
@@ -399,7 +399,7 @@ route.get("/:id/students", async (req, res) => {
         console.log(`getting students who applied for this job ${err}`);
       });
     var finalarray = [];
-    await StudentJobs.find({
+    await Donation.find({
       job_id: req.params.id
     })
       .populate("student_id")
@@ -467,7 +467,7 @@ route.post("/:jobId/:studentId", async (req, res) => {
     };
     const update = { status: req.body.company.status };
 
-    await StudentJobs.findOneAndUpdate(filter, update, {
+    await Donation.findOneAndUpdate(filter, update, {
       new: true,
       useFindAndModify: true
     })

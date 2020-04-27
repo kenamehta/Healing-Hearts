@@ -1,6 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const { Student } = require('../db/studentmodel');
+const { Donor } = require('../db/donormodel');
 
 passport.serializeUser(function (user, done) {
 
@@ -25,7 +25,7 @@ passport.use(new LocalStrategy({
 },
   
 function(username, password, done) {
-  Student.findOne({ username: username }, function (err, user) {
+  Donor.findOne({ username: username }, function (err, user) {
     if (err) { return done(err); }
     if (!user) { return done(null, false); }
     bcrypt.compare(password, user.password, function(

@@ -43,7 +43,6 @@ class MainProfile extends Component {
               updateName={this.props.updateName}
               updateProfilePic={this.props.updateProfilePic}
             />
-            <Skills skillData={this.props.profile} addSkill={this.props.addSkill} removeSkill={this.props.removeSkill} />
             <PersonalInfo personalData={this.props.profile} addBasic={this.props.addBasic} />
           </div>
           <div className="col-8">

@@ -54,7 +54,8 @@ export const registerDonor = (payload) =>{
             
         })
         .catch(errors => {
-            if(errors.response.data){
+            console.log(errors)
+            if(errors.response){
             console.log("in catch",errors.response.data);
             // this.setState({ authFlag:false,
             // errors:errors.response.data.errors.body

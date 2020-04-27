@@ -6,7 +6,7 @@ const flash = require("connect-flash");
 const secret = require("./service/key");
 const app = express();
 const mongoose = require("mongoose");
-const Student =require("./db/studentmodel")
+//const Student =require("./db/studentmodel")
 // const passport = require('passport');
 app.use(flash());
 app.use(express.static('public'));
