@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const { Student } = require("./studentmodel");
+const { Donor } = require("./donormodel");
 const { Company } = require("./comapnymodel");
 
 const conversation = new mongoose.Schema(
@@ -29,12 +29,12 @@ const messages = new mongoose.Schema(
     SenderModel: {
       type: String,
       required: true,
-      enum: ["Company", "Donar"]
+      enum: ["Company", "Donor"]
     },
     ReceiverModel: {
       type: String,
       required: true,
-      enum: ["Company", "Donar"]
+      enum: ["Company", "Donor"]
     }
   },
   { timestamps: true }

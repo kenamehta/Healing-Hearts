@@ -45,7 +45,7 @@ var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 //        skill_name:String
 //    })
 
-const donar = new mongoose.Schema({
+const donor = new mongoose.Schema({
   name: String,
   dob: Date,
   title: String,
@@ -58,11 +58,11 @@ const donar = new mongoose.Schema({
   about: String,
   profilePic: String
 });
-student.plugin(uniqueValidator);
-student.plugin(mongoosePaginate);
-student.plugin(aggregatePaginate);
+donor.plugin(uniqueValidator);
+donor.plugin(mongoosePaginate);
+donor.plugin(aggregatePaginate);
 
-const Donar = mongoose.model("Donar", donar);
+const Donor = mongoose.model("Donor", donor);
 
 // student_profile.belongsTo(student_basic_details,{foreignKey:'student_basic_detail_id'})
 // student_education.belongsTo(student_basic_details,{foreignKey:'student_basic_detail_id'})
@@ -70,5 +70,5 @@ const Donar = mongoose.model("Donar", donar);
 // student_skills.belongsTo(student_basic_details,{foreignKey:'student_basic_detail_id'})
 
 module.exports = {
-  Student
+  Donor
 };

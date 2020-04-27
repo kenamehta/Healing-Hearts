@@ -130,7 +130,7 @@ route.post("/details", async (req, res) => {
       .then(tokenuser => {
         console.log(tokenuser);
 
-        companyId = tokenuser._id;
+        companyId = tokenuser.company_basic_detail_id;
         email = tokenuser.emailId;
         name = tokenuser.company_name;
       })
@@ -233,11 +233,11 @@ route.put("/", async (req, res) => {
 
       if (result) {
         console.log(result);
-        res.status(201).send( {
+        res.status(201).send({
           company: {
-          company_basic_details: result
-        }
-      });
+            company_basic_details: result
+          }
+        });
       } else {
         res.status(403).send({
           errors: {

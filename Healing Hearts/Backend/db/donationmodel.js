@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Company, Fundraiser } = require("../db/comapnymodel");
+const { Donor } = require("../db/donormodel");
 const mongoosePaginate = require("mongoose-paginate");
 
 //When donar donates to a particular fundraiser, Donation model will be populated
@@ -9,9 +10,9 @@ const donation = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Fundraiser"
     },
-    donarId: {
+    donorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Donar"
+      ref: "Donor"
     },
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
