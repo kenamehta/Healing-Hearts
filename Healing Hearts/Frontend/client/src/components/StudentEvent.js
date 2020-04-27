@@ -102,7 +102,7 @@ class StudentEvent extends Component {
   render() {
     //   console.log(this.props.authStudent)
     if (!localStorage.getItem("student")) {
-      return <Redirect to="/student/login" />;
+      return <Redirect to="/donor/login" />;
     }
     return (
       <div className="maindiv ">

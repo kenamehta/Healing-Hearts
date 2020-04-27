@@ -13,10 +13,10 @@ const {
   validateEmail
 } = require("../studentmiddleware");
 
-const { Student } = require("../db/studentmodel");
+const { Donor } = require("../db/donormodel");
 const{
-  StudentJobs
-} = require('../db/jobmodel')
+  Donation
+} = require('../db/donationmodel')
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var storage = multer.diskStorage({
@@ -42,15 +42,15 @@ route.get("/", async (req, res) => {
 
   console.log(Decryptedtoken.email);
   if (Decryptedtoken.email !== null) {
-    const student = await Student.findOne({
+    const student = await Donor.findOne({
       emailId: Decryptedtoken.email
     });
 
     res.status(201).json({
       email: student.emailId,
       name: student.name,
-      career_objective: student.career_objective,
-      profile_picture: student.profile_picture,
+      career_objective: student.about,
+      profile_picture: student.profilePic,
       education: student.educations,
       skills: student.skills,
       experience: student.experiences,
@@ -71,7 +71,7 @@ route.get("/visit/:id", async (req, res) => {
 
   // console.log(Decryptedtoken.email);
   // if (Decryptedtoken.email !== null) {
-    const student = await Student.findOne({
+    const student = await Donor.findOne({
       student_basic_detail_id:req.params.id
     });
 
@@ -105,12 +105,10 @@ route.post(
     console.log(req.body.student.email);
 
     try {
-      const registerStudent = await Student.create({
+      const registerStudent = await Donor.create({
         emailId: req.body.student.email,
         password: bcrypt.hashSync(req.body.student.password, 10),
-        student_basic_detail_id: studentid,
         name: req.body.student.name,
-        college: req.body.student.college
       });
       console.log(req.body.student.name);
 
@@ -137,8 +135,8 @@ route.post("/journey", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
     const filter = { emailId: Decryptedtoken.email };
-    const update = { career_objective: req.body.student.career_objective };
-    await Student.findOneAndUpdate(filter, update, {
+    const update = { about: req.body.student.career_objective };
+    await Donor.findOneAndUpdate(filter, update, {
       new: true,useFindAndModify:true
     })
       .then(tokenuser => {
@@ -174,7 +172,7 @@ route.post("/login", validateEmail, validatePassword, async (req, res) => {
 
   const studenttoken = await generateToken(req.body.student.email);
   try {
-    const student = await Student.findOne({
+    const student = await Donor.findOne({
       emailId: req.body.student.email
     });
     // console.log(student)
@@ -231,7 +229,7 @@ route.get("/journey", async (req, res) => {
   console.log("----------getting journey");
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student.findOne({
+    await Donor.findOne({
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
@@ -274,7 +272,7 @@ route.put("/name", async (req, res) => {
     const filter = { emailId: Decryptedtoken.email };
     const update = { name: req.body.student.name };
 
-    await Student.findOneAndUpdate(filter, update, { new: true , useFindAndModify:true})
+    await Donor.findOneAndUpdate(filter, update, { new: true , useFindAndModify:true})
       .then(tokenuser => {
         res.status(201).send({
           tokenuser
@@ -298,7 +296,7 @@ route.post("/education", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student.findOne({
+    await Donor.findOne({
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
@@ -354,7 +352,7 @@ route.put("/education", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
     console.log(req.body.education.gpa)
-    const preeducation = await Student.findOne({
+    const preeducation = await Donor.findOne({
       emailId: Decryptedtoken.email
     });
     console.log(preeducation.educations);
@@ -393,7 +391,7 @@ route.put("/education", async (req, res) => {
 
     const filter={ emailId: Decryptedtoken.email}
     const updatearr={educations: restEducation}
-    await Student.findOneAndUpdate(filter,updatearr,{new:true,useFindAndModify:true})
+    await Donor.findOneAndUpdate(filter,updatearr,{new:true,useFindAndModify:true})
     .then(res1=>{
       res.status(201).send(res1.educations)
     })
@@ -415,7 +413,7 @@ route.delete("/education", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
        
           emailId: Decryptedtoken.email
@@ -428,7 +426,7 @@ route.delete("/education", async (req, res) => {
         console.log(filtereducation)
         const filter={ emailId: Decryptedtoken.email}
         const updatearr={educations: filtereducation}
-        await Student.findOneAndUpdate(filter,updatearr,{new:true , useFindAndModify:true})
+        await Donor.findOneAndUpdate(filter,updatearr,{new:true , useFindAndModify:true})
         .then(res1=>{
           res.status(201).send(res1.educations)
               })
@@ -456,7 +454,7 @@ route.get("/education", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -490,7 +488,7 @@ route.post("/picture",upload.single('myimage'), async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
        
           emailId: Decryptedtoken.email
@@ -510,8 +508,8 @@ route.post("/picture",upload.single('myimage'), async (req, res) => {
 
     //  var imageData = fs.readFileSync(req.file.path);
      // console.log(imageData)
-    const result = await Student.findOneAndUpdate(
-      { student_basic_detail_id: studentId } , { profile_picture: req.file.originalname },
+    const result = await Donor.findOneAndUpdate(
+      { student_basic_detail_id: studentId } , { profilePic: req.file.originalname },
       {new:true,useFindAndModify:true}
     
     );
@@ -542,7 +540,7 @@ route.get('/picture',async(req,res)=>{
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -560,7 +558,7 @@ route.get('/picture',async(req,res)=>{
         console.log(`error getting student basic details ${err}`);
       });
 
-      Student.findOne({
+      Donor.findOne({
         student_basic_detail_id:studentId
       })
       .then(profile => {
@@ -588,7 +586,7 @@ route.post("/skills", async (req, res) => {
   try {
     console.log(Decryptedtoken.email);
 
-    await Student
+    await Donor
       .findOne({
        
           emailId: Decryptedtoken.email
@@ -645,7 +643,7 @@ route.get("/skills", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
         
           emailId: Decryptedtoken.email
@@ -675,7 +673,7 @@ route.delete("/skills", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -687,7 +685,7 @@ route.delete("/skills", async (req, res) => {
        console.log(skillarr)
        const filter={ emailId: Decryptedtoken.email}
     const update={skills:skillarr}
-       await Student.findOneAndUpdate(filter,update,{new:true,useFindAndModify:true})
+       await Donor.findOneAndUpdate(filter,update,{new:true,useFindAndModify:true})
        .then(res1=>{
          res.status(201).send(res1.skills)
              })
@@ -713,7 +711,7 @@ route.post("/basicdetails", async (req, res) => {
   console.log(req.body.basicdetails.studentstate)
   try {
   console.log(Decryptedtoken.email)
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -725,7 +723,7 @@ route.post("/basicdetails", async (req, res) => {
      
       const filter={ emailId: Decryptedtoken.email}
      
-    const result = await Student.findOneAndUpdate(filter,
+    const result = await Donor.findOneAndUpdate(filter,
      
       {
         dob: req.body.basicdetails.dob ? req.body.basicdetails.dob : tokenuser.dob,
@@ -786,7 +784,7 @@ route.post("/upload/:id",upload.single('myimage'), async (req, res) => {
   var student;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
        
           emailId: Decryptedtoken.email
@@ -805,7 +803,7 @@ route.post("/upload/:id",upload.single('myimage'), async (req, res) => {
       
     
       // console.log(student, "-----------------------------------", bookId);
-    const result = await StudentJobs.create({
+    const result = await Donation.create({
       job_id: req.params.id,
       status: "Pending",
       student_basic_detail_id: student.student_basic_detail_id,

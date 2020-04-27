@@ -4,6 +4,7 @@ import PersonalInfo from "./PersonalInfo";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Journey from "./Journey";
+import Fundraiser from "./Fundraiser"
 import Education from "./Education";
 import Experience from "./experience";
 import Skills from "./skills";
@@ -30,7 +31,7 @@ class MainProfile extends Component {
   }
   render() {
     if (!localStorage.getItem("student")) {
-      return <Redirect to="/student/login" />;
+      return <Redirect to="/donor/login" />;
     } else {
     }
     return (
@@ -42,27 +43,16 @@ class MainProfile extends Component {
               updateName={this.props.updateName}
               updateProfilePic={this.props.updateProfilePic}
             />
-            <Skills skillData={this.props.profile} addSkill={this.props.addSkill} removeSkill={this.props.removeSkill} />
             <PersonalInfo personalData={this.props.profile} addBasic={this.props.addBasic} />
           </div>
           <div className="col-8">
-            <Journey
+          <Journey
               journeyData={this.props.profile}
               updateCareerObjective={this.props.updateCareerObjective}
             />
-            <Education
-              educationData={this.props.profile}
-              updateEducation={this.props.updateEducation}
-              addEducation={this.props.addEducation}
-              deleteEducation={this.props.deleteEducation}
-            />
-
-            <Experience
-              experienceData={this.props.profile}
-              updateExperience={this.props.updateExperience}
-              addExperience={this.props.addExperience}
-              deleteExperience={this.props.deleteExperience}
-            />
+          <Fundraiser></Fundraiser>
+           
+           
           </div>
         </div>
       </div>

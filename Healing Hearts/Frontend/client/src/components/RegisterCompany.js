@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import {registerStudent} from '../redux/actions/authAction'
+import {registerCompany} from '../redux/actions/authAction'
 import { Redirect } from 'react-router-dom';
-class RegisterStudent extends Component {
+class RegisterCompany extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      fullname: "",
-      schoolname: "",
+      company_name: "",
+     location:"",
       password: "",
-      confirmpassword: ""
-            };
+      confirmpassword: "",
+      phone:''
+    };
   }
   handleSubmit = e => {
     e.preventDefault();
@@ -21,52 +22,53 @@ class RegisterStudent extends Component {
       alert("Password doesn't match");
     } else {
         const data = {
-            student: {
+            company: {
               email: this.state.email,
               password: this.state.password,
-              name:this.state.fullname,
-              college:this.state.schoolname
+              company_name:this.state.company_name,
+              location:this.state.location,
+              phone:this.state.phone
             }
           };
-          this.props.registerStudent(data);
+          this.props.registerCompany(data);
     }
 
     
     
   };
   render() {
-    if(this.props.authStudent) {
-        return <Redirect to='/student/home' />
+    if(this.props.authCompany) {
+        return <Redirect to='/company/home' />
     }
     return (
-      <div className="row">
-        <div className="col-1"></div>
+      <div className="row mt-3">
+        <div className="col-1 "></div>
         <div className="col-md-4 col-md-offset-1">
-          <h1 style={{ margin: "6px" }}> Join the Handshake community</h1>
+          <h1 style={{ margin: "6px" }}> Join the Healing Hearts community</h1>
           <p style={{ fontSize: "18px", margin: "6px" }}>
-            Discover jobs and internships based on your interests.
+            We can't help everyone, but everyone an help someone
           </p>
-          <a style={{ color: "#1569e0" }} href="/company/register">
-            Are you an employer? Create an account here.
-          </a>
+         
         </div>
+        <div className="col-1"></div>
         <div
           className="col-md-6 col-md-offset-2"
           style={{ padding: "16px", marginBottom: "20px" }}
         >
+        <h3 className='ml-1'>Sign Up as an Organisation</h3>
           <form onSubmit={this.handleSubmit}>
             <div className="form-group col-md-8">
               <label style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                School
+                Location
               </label>
               <input
                 type="text"
-                id="school"
-                name="school"
+                id="location"
+                name="location"
                 className="form-control"
-                placeholder="Enter Your School"
+                placeholder="Location"
                 onChange={e => {
-                        this.setState({ schoolname: e.target.value });
+                        this.setState({ location: e.target.value });
                       }}
                       required
 
@@ -74,16 +76,33 @@ class RegisterStudent extends Component {
             </div>
             <div className="form-group col-md-8">
               <label style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                Student Name
+                Company Name
               </label>
               <input
                 type="text"
                 id="sname"
                 name="sname"
                 className="form-control"
-                placeholder="Enter Your Full Name"
+                placeholder="Enter Company Name"
                 onChange={e => {
-                        this.setState({ fullname: e.target.value });
+                        this.setState({ company_name: e.target.value });
+                      }}
+                      required
+
+              ></input>
+            </div>
+            <div className="form-group col-md-8">
+              <label style={{ fontWeight: "500", marginBottom: "5px" }}>
+                Phone Number
+              </label>
+              <input
+                type="text"
+                id="sname"
+                name="sname"
+                className="form-control"
+                placeholder="Enter Phone number"
+                onChange={e => {
+                        this.setState({ phone: e.target.value });
                       }}
                       required
 
@@ -167,16 +186,16 @@ class RegisterStudent extends Component {
 const mapStateToProps = state => {
     console.log(state)
     return {
-        authStudent: state.auth.authStudent,
+        authCompany: state.auth.authCompany,
         autherror: state.auth.autherror
        // loginSeller: state.loginReducer.isAuthenticatedSeller
     }   
   }
   const mapDispatchToProps = dispatch => {
       return {
-        registerStudent: payload => dispatch(registerStudent(payload))
+        registerCompany: payload => dispatch(registerCompany(payload))
       };
   }
-  export default connect(mapStateToProps, mapDispatchToProps)(RegisterStudent);
+  export default connect(mapStateToProps, mapDispatchToProps)(RegisterCompany);
   
 

@@ -1,10 +1,10 @@
-import {LOGINSTUDENT,UNAUTHENTICATEDSTUDENT,LOGINCOMPANY,UNAUTHENTICATEDCOMPANY,LOGOUTCOMPANY,LOGOUTSTUDENT, REGISTERCOMPANY, REGISTERSTUDENT} from './action_types'
+import {LOGINDONOR,UNAUTHENTICATEDSTUDENT,LOGINCOMPANY,UNAUTHENTICATEDCOMPANY,LOGOUTCOMPANY,LOGOUTSTUDENT, REGISTERCOMPANY, REGISTERDONOR} from './action_types'
 import axios from 'axios'
 import api_route from '../../app-config'
 
-const loginStudentDispatcher =(payload)=>{
+const loginDonorDispatcher =(payload)=>{
     return {
-        type:LOGINSTUDENT,payload
+        type:LOGINDONOR,payload
     };
 }
 const unauthenticatedStudent =(payload)=>{
@@ -37,24 +37,25 @@ const registerCompanyDispatcher =(payload)=>{
         type:REGISTERCOMPANY,payload
     };
 }
-const registerStudentDispatcher =(payload)=>{
+const registerDonorDispatcher =(payload)=>{
     return {
-        type:REGISTERSTUDENT,payload
+        type:REGISTERDONOR,payload
     };
 }
 
-export const registerStudent = (payload) =>{
+export const registerDonor = (payload) =>{
     return dispatch =>{
-        axios.post(`${api_route.host}/student/register`,payload)
+        axios.post(`${api_route.host}/donor/register`,payload)
         .then(res=>{
             if (res.status === 201) {
-                dispatch(registerStudentDispatcher(res.data))
+                dispatch(registerDonorDispatcher(res.data))
               }
               console.log(res)
             
         })
         .catch(errors => {
-            if(errors.response.data){
+            console.log(errors)
+            if(errors.response){
             console.log("in catch",errors.response.data);
             // this.setState({ authFlag:false,
             // errors:errors.response.data.errors.body
@@ -97,12 +98,12 @@ export const registerCompany = (payload) =>{
     }
 }
 
-export const loginStudent = (payload) =>{
+export const loginDonor = (payload) =>{
     return dispatch =>{
-        axios.post(`${api_route.host}/student/login`,payload)
+        axios.post(`${api_route.host}/donor/login`,payload)
         .then(res=>{
             if (res.status === 201) {
-                dispatch(loginStudentDispatcher(res.data))
+                dispatch(loginDonorDispatcher(res.data))
               }
               console.log(res)
             
@@ -129,14 +130,16 @@ export const loginCompany = (payload) =>{
         axios.post(`${api_route.host}/company/login`,payload)
         .then(res=>{
             if (res.status === 201) {
+                console.log("in company login action")
                 dispatch(loginCompanyDispatcher(res.data))
               }
               
             
         })
         .catch(errors => {
-            if(errors.response.data){
-            console.log("in catch",errors.response.data);
+            console.log(errors);
+            if(errors.response){
+            console.log(errors);
             // this.setState({ authFlag:false,
             // errors:errors.response.data.errors.body
             // });

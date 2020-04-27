@@ -70,7 +70,7 @@ componentDidMount(){
             <p className="card-text" style={{fontSize:'14px'}}>
             {this.props.journeyData?this.props.journeyData.career_objective:''}
             </p>
-            <textarea name="bio" placeholder="Type your introduction..." rows="4" type="textarea" id="journey-field" className="form-control"  onClick={e=>{
+            <textarea name="bio" placeholder="Type your introduction..." rows="1" type="textarea" id="journey-field" className="form-control"  onClick={e=>{
               this.setState({saveflag:true}
               )
             }} onChange={e=>{

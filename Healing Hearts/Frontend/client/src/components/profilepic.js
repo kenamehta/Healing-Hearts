@@ -144,43 +144,7 @@ class ProfilePic extends Component {
                     >
                       {this.props.profile ?this.props.profile.name : ""}
                     </h4>
-                    <h4
-                      className="card-title"
-                      style={{ fontSize: "16px", fontWeight: "500" }}
-                    >
-                      {this.props.profile.education.length>0
-                        ? this.props.profile.education[0].school_name
-                        : this.props.profile?this.props.profile.college:''}
-                    </h4>
-                    <h4
-                      className="card-title"
-                      style={{ fontSize: "16px", fontWeight: "500" }}
-                    >
-                      {this.props.profile.education.length>0
-                        ? this.props.profile.education[0].education_level+","
-                        : ""}
-                      
-                      {this.props.profile.education.length>0
-                        ? this.props.profile.education[0].major
-                        : ""}
-                    </h4>
-                    <h4
-                      className="card-title"
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "500",
-                        color: "rgba(0,0,0,.56)"
-                      }}
-                    >
-                      {this.props.profile.education.length>0
-                        ? this.props.profile.education[0].education_level
-                        : ""}{" "}
-                      • GPA:{" "}
-                      {this.props.profile.education.length>0
-                        ? this.props.profile.education[0].gpa
-                        : ""}
-                    </h4>
-
+                   
                     <div className={"collapse navbar-collapse " + showbutton}>
                       <button
                         className="btn btn-primary"

@@ -1,10 +1,4 @@
-// const sequelize = require("sequelize");
-// const DT = sequelize.DataTypes;
-// const bcrypt = require("bcrypt");
-// const sequelizeconnection = new sequelize("handshake", "admin", "admin#123", {
-//   host: "handshake.chf9uwuchcb3.us-east-1.rds.amazonaws.com",
-//   dialect: "mysql"
-// });
+
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 const mongoosePaginate = require("mongoose-paginate");

@@ -15,7 +15,7 @@ var connection = require("../db_connection");
 const bcrypt = require("bcrypt");
 var multer = require("multer");
 
-const { Student } = require("../db/studentmodel");
+const { Donor } = require("../db/donormodel");
 
 route.get(
   "/:studentnameFilter/:majorFilter/:skillFilter/:collegeFilter",
@@ -38,7 +38,7 @@ route.get(
       req.params.collegeFilter=="empty"
     ) {
       try {
-        await Student.findOne({
+        await Donor.findOne({
           emailId: Decryptedtoken.email
         })
           .then(tokenuser => {
@@ -53,11 +53,11 @@ route.get(
           .catch(err => {
             console.log(`error posting student journey ${err}`);
           });
-          var aggregate=Student.aggregate([
+          var aggregate=Donor.aggregate([
             { $unwind: "$educations" },
             { $match: { "educations.isPrimary": "1" } }
           ])
-        const studentarr = await Student.aggregatePaginate(aggregate,options);
+        const studentarr = await Donor.aggregatePaginate(aggregate,options);
         console.log(studentarr)
         var newStudentarr = [];
         var totalDocs=studentarr.totalDocs
@@ -91,7 +91,7 @@ route.get(
       }
     } else {
       try {
-        await Student.findOne({
+        await Donor.findOne({
           emailId: Decryptedtoken.email
         })
           .then(tokenuser => {
@@ -107,7 +107,7 @@ route.get(
             console.log(`error posting student journey ${err}`);
           });
         console.log(req.params.studentnameFilter)
-        var aggregate=Student.aggregate([
+        var aggregate=Donor.aggregate([
           { $unwind: "$educations" },
           {
             $match: {
@@ -138,7 +138,7 @@ route.get(
           }
         ]);
         
-        const studentarr = await Student.aggregatePaginate(aggregate,options);
+        const studentarr = await Donor.aggregatePaginate(aggregate,options);
         console.log(studentarr)
         var newStudentarr = [];
         studentarr.docs.map(e => {

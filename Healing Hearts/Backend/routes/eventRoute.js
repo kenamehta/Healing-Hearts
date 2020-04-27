@@ -7,8 +7,8 @@ const key = require("../service/key");
 const { Company } = require("../db/companymodel");
 const{StudentEvents} =require("../db/eventmodel")
 const {
- Student
-} = require("../db/studentmodel");
+ Donor
+} = require("../db/donormodel");
 
 
 const jwt = require("jsonwebtoken");
@@ -29,7 +29,7 @@ route.get('/:locationAndTitleFilter',async(req,res)=>{
         date:1
       }
     }
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -97,7 +97,7 @@ route.post('/register',async  (req, res, next) => {
      var educationarr;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
       
           emailId: Decryptedtoken.email
@@ -163,7 +163,7 @@ route.get('/registered',async(req,res)=>{
      var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Student
+    await Donor
       .findOne({
        
           emailId: Decryptedtoken.email
@@ -229,7 +229,7 @@ route.post('/isregistered',async(req,res)=>{
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
     var studentId;
-    await Student
+    await Donor
       .findOne({
        
           emailId: Decryptedtoken.email
@@ -340,7 +340,7 @@ route.get("/:id/students", async (req, res) => {
     }).then(async tokenuser=>{
       tokenuser.map(e=>studentIdarr.push(e.student_basic_detail_id))
       
-      await Student.find({
+      await Donor.find({
         student_basic_detail_id:{"$in":studentIdarr}
       }).then(tokenuser1=>{
         res.send({

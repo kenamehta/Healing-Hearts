@@ -1,11 +1,11 @@
 import {
-  LOGINSTUDENT,
+  LOGINDONOR,
   UNAUTHENTICATEDSTUDENT,
   LOGINCOMPANY,
   UNAUTHENTICATEDCOMPANY,
   LOGOUTSTUDENT,
   LOGOUTCOMPANY,
-  REGISTERSTUDENT,
+  REGISTERDONOR,
   REGISTERCOMPANY,
 } from "../actions/action_types";
 
@@ -17,7 +17,7 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
-    case LOGINSTUDENT: {
+    case LOGINDONOR: {
       console.log(action.payload);
       localStorage.setItem(
         "student",
@@ -42,7 +42,7 @@ const authReducer = (state = initState, action) => {
         "company",
         JSON.stringify(action.payload.user.token)
       );
-      localStorage.setItem("loginId", action.payload.user.resp._id);
+      localStorage.setItem("loginId", action.payload.user.res._id);
 
       return {
         authCompany: true,
@@ -75,7 +75,7 @@ const authReducer = (state = initState, action) => {
         authCompany: false,
       };
     }
-    case REGISTERSTUDENT: {
+    case REGISTERDONOR: {
       console.log("inside register student reducer", action.payload);
       localStorage.setItem(
         "student",

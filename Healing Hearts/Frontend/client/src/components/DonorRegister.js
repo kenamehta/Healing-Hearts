@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import {registerCompany} from '../redux/actions/authAction'
+import {registerDonor} from '../redux/actions/authAction'
 import { Redirect } from 'react-router-dom';
-class RegisterEmployer extends Component {
+class DonorRegister extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      company_name: "",
-     location:"",
+      fullname: "",
+      schoolname: "",
       password: "",
-      confirmpassword: "",
-      phone:''
-    };
+      confirmpassword: ""
+            };
   }
   handleSubmit = e => {
     e.preventDefault();
@@ -22,86 +21,54 @@ class RegisterEmployer extends Component {
       alert("Password doesn't match");
     } else {
         const data = {
-            company: {
+            student: {
               email: this.state.email,
               password: this.state.password,
-              company_name:this.state.company_name,
-              location:this.state.location,
-              phone:this.state.phone
+              name:this.state.fullname,
+              college:this.state.schoolname
             }
           };
-          this.props.registerCompany(data);
+          this.props.registerDonor(data);
     }
 
     
     
   };
   render() {
-    if(this.props.authCompany) {
-        return <Redirect to='/company/home' />
+    if(this.props.authStudent) {
+        return <Redirect to='/student/home' />
     }
     return (
       <div className="row">
         <div className="col-1"></div>
         <div className="col-md-4 col-md-offset-1">
-          <h1 style={{ margin: "6px" }}> Join the Handshake community</h1>
+          <h1 style={{ margin: "6px" }}> Join the Healing Hearts community</h1>
           <p style={{ fontSize: "18px", margin: "6px" }}>
-            Discover jobs and internships based on your interests.
+           Giving is not just about making a donation, it is about making a difference  
           </p>
-         
+          <a style={{ color: "#1569e0",padding:'0px' }} href="/company/register">
+            Here to create a fundraiser? Create an account here.
+          </a>
         </div>
+        <div className="col-1"></div>
         <div
           className="col-md-6 col-md-offset-2"
           style={{ padding: "16px", marginBottom: "20px" }}
         >
-        <h3>Sign Up as an Employer</h3>
           <form onSubmit={this.handleSubmit}>
+            
             <div className="form-group col-md-8">
               <label style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                Location
-              </label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                className="form-control"
-                placeholder="Location"
-                onChange={e => {
-                        this.setState({ location: e.target.value });
-                      }}
-                      required
-
-              ></input>
-            </div>
-            <div className="form-group col-md-8">
-              <label style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                Company Name
+                Name
               </label>
               <input
                 type="text"
                 id="sname"
                 name="sname"
                 className="form-control"
-                placeholder="Enter Company Name"
+                placeholder="Enter Your Organization Name"
                 onChange={e => {
-                        this.setState({ company_name: e.target.value });
-                      }}
-                      required
-
-              ></input>
-            </div>
-            <div className="form-group col-md-8">
-              <label style={{ fontWeight: "500", marginBottom: "5px" }}>
-                Phone Number
-              </label>
-              <input
-                type="text"
-                id="sname"
-                name="sname"
-                className="form-control"
-                placeholder="Enter Phone number"
-                onChange={e => {
-                        this.setState({ phone: e.target.value });
+                        this.setState({ fullname: e.target.value });
                       }}
                       required
 
@@ -122,7 +89,7 @@ class RegisterEmployer extends Component {
                   marginBottom: "5px"
                 }}
               >
-                Please use your school email
+                Please use your work email
               </label>
               <input
                 type="email"
@@ -185,16 +152,16 @@ class RegisterEmployer extends Component {
 const mapStateToProps = state => {
     console.log(state)
     return {
-        authCompany: state.auth.authCompany,
+        authStudent: state.auth.authStudent,
         autherror: state.auth.autherror
        // loginSeller: state.loginReducer.isAuthenticatedSeller
     }   
   }
   const mapDispatchToProps = dispatch => {
       return {
-        registerCompany: payload => dispatch(registerCompany(payload))
+        registerDonor: payload => dispatch(registerDonor(payload))
       };
   }
-  export default connect(mapStateToProps, mapDispatchToProps)(RegisterEmployer);
+  export default connect(mapStateToProps, mapDispatchToProps)(DonorRegister);
   
 

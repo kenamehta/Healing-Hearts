@@ -97,7 +97,7 @@ class LoginEmployer extends Component {
                 <h1 style={{ marginBottom: "9px", fontWeight: "bold" }}>
                   Sign in
                 </h1>
-                <h3 style={{ fontWeight: "bold" }}>Welcome Employers!</h3>
+                <h3 style={{ fontWeight: "bold" }}>Organizations & NGOs</h3>
                 <p>Please sign in with your email and password</p>
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">

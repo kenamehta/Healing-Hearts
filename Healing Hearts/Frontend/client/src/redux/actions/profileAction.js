@@ -110,7 +110,7 @@ export const getProfile = () => {
     }
   };
 
-  let url = `http://localhost:3001/student/`;
+  let url = `http://localhost:3001/donor/`;
   return dispatch => {
     axios
       .get(url, config)
@@ -141,7 +141,7 @@ export const getProfileSelected = () => {
     }
   };
 
-  let url = `http://localhost:3001/student/visit/${window.localStorage.getItem("visitedstudent")}`;
+  let url = `http://localhost:3001/donor/visit/${window.localStorage.getItem("visitedstudent")}`;
   return dispatch => {
     axios
       .get(url, config)
@@ -178,7 +178,7 @@ export const updateName = sname => {
       name: sname
     }
   };
-  let url = `http://localhost:3001/student/name`;
+  let url = `http://localhost:3001/donor/name`;
   return dispatch => {
     axios
       .put(url, data, config)
@@ -208,7 +208,7 @@ export const updateProfilePic = payload => {
     console.log("In try block");
     return dispatch => {
       axios
-        .post(`${api_route.host}/student/picture`, picdata, config)
+        .post(`${api_route.host}/donor/picture`, picdata, config)
         .then(res => {
           console.log(res.data);
           var src = `${api_route.host}//${res.data.name}`;
@@ -238,7 +238,7 @@ export const updateCareerObjective = payload => {
   };
   return dispatch => {
     axios
-      .post(`${api_route.host}/student/journey`, data, config)
+      .post(`${api_route.host}/donor/journey`, data, config)
       .then(res => {
         // this.setState({journeyvalue:this.state.value})
         dispatch(updateCareerObjectiveDispatcher(payload));
@@ -439,7 +439,7 @@ export const addBasic = payload => {
   console.log("going to enter student data");
   return dispatch => {
     axios
-      .post(`${api_route.host}/student/basicdetails`, data, config)
+      .post(`${api_route.host}/donor/basicdetails`, data, config)
       .then(res => {
         console.log(res.data);
         dispatch(addBasicDispatcher(res.data.result));
