@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const { Student } = require("./studentmodel");
+const { Donor } = require("./donormodel");
 const { Company } = require("./comapnymodel");
 
 const conversation = new mongoose.Schema(
   {
     Body: {
-      type: String,
+      type: String
     },
-    senderId: String,
+    senderId: String
   },
   { timestamps: true }
 );
@@ -19,28 +19,28 @@ const messages = new mongoose.Schema(
     Sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: "SenderModel",
+      refPath: "SenderModel"
     },
     Receiver: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: "ReceiverModel",
+      refPath: "ReceiverModel"
     },
     SenderModel: {
       type: String,
       required: true,
-      enum: ["student", "company"],
+      enum: ["Company", "Donor"]
     },
     ReceiverModel: {
       type: String,
       required: true,
-      enum: ["student", "company"],
-    },
+      enum: ["Company", "Donor"]
+    }
   },
   { timestamps: true }
 );
-const Messages = mongoose.model("messages", messages);
+const Messages = mongoose.model("Messages", messages);
 
 module.exports = {
-  Messages,
+  Messages
 };

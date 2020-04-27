@@ -24,10 +24,9 @@ class LoginDonor extends Component {
     //console.log(this.state.email,"nfnfdknfdkskd")
     const data = {
       student: {
-      email:this.state.email,
-      password:this.state.password
+        email: this.state.email,
+        password: this.state.password
       }
-      
     };
     this.props.loginDonor(data)
     // axios.defaults.withCredentials = true;
@@ -45,25 +44,22 @@ class LoginDonor extends Component {
     //           })
     //           console.log("in else")
     //       }
-        
+
     // })
     // .catch(errors => {
     //     console.log("in catch",errors.response.data);
     //     this.setState({ authFlag:false,
     //     errors:errors.response.data.errors.body
     //     });
-       
+
     //   });
   };
   render() {
-    if(this.props.authStudent) {
-      return <Redirect to='/student/home' />
-  }
+    if (this.props.authStudent) {
+      return <Redirect to="/student/home" />;
+    }
     return (
       <div>
-      
-         
-       
         <div className="row">
           <div className="col-3">
             <div
@@ -83,17 +79,24 @@ class LoginDonor extends Component {
                 ></img>
               </a>
               <div className="content">
-                <h3 style={{ paddingTop: "40%" }}>Giving is not just about making a donation </h3>
-                <h3 style={{ paddingTop: "10%" }}>Its about making a difference</h3>
-               
+                <h3 style={{ paddingTop: "40%" }}>
+                  Giving is not just about making a donation{" "}
+                </h3>
+                <h3 style={{ paddingTop: "10%" }}>
+                  Its about <ma />king a difference
+                </h3>
               </div>
             </div>
           </div>
           <div className="col-9">
             <div className="row">
-              <div className="col-5"></div>
+              <div className="col-5" />
               <div className="col-4">
-              <p style={{ color: "red",marginTop:"5px",fontWeight:"bold" }}>{this.props.autherror}</p>
+                <p
+                  style={{ color: "red", marginTop: "5px", fontWeight: "bold" }}
+                >
+                  {this.props.autherror}
+                </p>
                 <h1 style={{ marginBottom: "9px", fontWeight: "bold" }}>
                   Sign in
                 </h1>
@@ -109,7 +112,7 @@ class LoginDonor extends Component {
                         this.setState({ email: e.target.value });
                       }}
                       required
-                    ></input>
+                    />
                   </div>
 
                   <div className="form-group">
@@ -122,7 +125,7 @@ class LoginDonor extends Component {
                         this.setState({ password: e.target.value });
                       }}
                       required
-                    ></input>
+                    />
                   </div>
                   <div className="form-group">
                     <input
@@ -135,7 +138,7 @@ class LoginDonor extends Component {
                         backgroundColor: "#1569e0",
                         border: "1px solid #1569e0"
                       }}
-                    ></input>
+                    />
                   </div>
                 </form>
                 <h6>No account?<a href="/donor/register"> Sign up here</a></h6>
@@ -148,13 +151,13 @@ class LoginDonor extends Component {
   }
 }
 const mapStateToProps = state => {
-  console.log(state)
+  console.log(state);
   return {
-      authStudent: state.auth.authStudent,
-      autherror: state.auth.autherror
-     // loginSeller: state.loginReducer.isAuthenticatedSeller
-  }   
-}
+    authStudent: state.auth.authStudent,
+    autherror: state.auth.autherror
+    // loginSeller: state.loginReducer.isAuthenticatedSeller
+  };
+};
 const mapDispatchToProps = dispatch => {
     return {
       loginDonor: payload => dispatch(loginDonor(payload))

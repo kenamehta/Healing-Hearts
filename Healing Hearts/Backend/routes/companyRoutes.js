@@ -32,7 +32,6 @@ route.post(
   validatePassword,
   validateEmail,
   async (req, res) => {
-    const companyid = await generateUUID();
     const companytoken = await generateToken(req.body.company.email);
     console.log(req.body.company);
 
@@ -40,8 +39,7 @@ route.post(
       const registerCompany = await Company.create({
         emailId: req.body.company.email,
         password: bcrypt.hashSync(req.body.company.password, 10),
-        company_basic_detail_id: companyid,
-        company_name: req.body.company.company_name,
+        companyName: req.body.company.company_name,
         location: req.body.company.location,
         phone: req.body.company.phone
       });
@@ -49,8 +47,8 @@ route.post(
 
       res.status(201).json({
         company: {
-          email: registerCompany.email,
-          company_name: registerCompany.company_name,
+          email: registerCompany.emailId,
+          company_name: registerCompany.companyName,
           image: null,
           token: companytoken,
           res: registerCompany
@@ -235,11 +233,11 @@ route.put("/", async (req, res) => {
 
       if (result) {
         console.log(result);
-        res.status(201).send( {
+        res.status(201).send({
           company: {
-          company_basic_details: result
-        }
-      });
+            company_basic_details: result
+          }
+        });
       } else {
         res.status(403).send({
           errors: {
