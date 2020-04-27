@@ -6,9 +6,9 @@ const passport = require("../authenticate/passport_init");
 const key = require("../service/key");
 const fileUpload = require("express-fileupload");
 
-const {Donation} =require("../db/donationmodel")
+const { Donation } = require("../db/donationmodel");
 const { Donor } = require("../db/donormodel");
-const { Company, Fundraiser } = require("../db/comapnymodel");
+const { Company, Fundraiser } = require("../db/companymodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var multer = require("multer");
@@ -146,11 +146,7 @@ route.get(
         sort: sort
       };
 
-<<<<<<< HEAD
-      const result = await Job.paginate(whereCondition, options);
-=======
-      const result = await Fundraiser.paginate(whereCondition,options);
->>>>>>> 415aef94506f3ebae788fd16310eb3bb476978c2
+      const result = await Fundraiser.paginate(whereCondition, options);
       console.log("sending jobs-----------------" + result);
 
       res.status(201).send({
@@ -355,8 +351,7 @@ route.get("/applied/:statusFilter", async (req, res) => {
         console.log(`applying for jobs ${err}`);
       });
 
-<<<<<<< HEAD
-    const jobsAppliedArr = await StudentJobs.paginate(
+    const jobsAppliedArr = await Donation.paginate(
       {
         student_basic_detail_id: studentId,
         ...whereCondition
@@ -367,19 +362,6 @@ route.get("/applied/:statusFilter", async (req, res) => {
       res.status(201).send({
         result: finalarray.docs,
         total: finalarray.total
-=======
-    const jobsAppliedArr = await Donation.paginate({
-      student_basic_detail_id: studentId,...whereCondition
-    },options)
-      
-
-      .then(finalarray => {
-        console.log("sending jobs-----------------" + finalarray);
-        res.status(201).send({
-          result: finalarray.docs,
-          total:finalarray.total
-        });
->>>>>>> 415aef94506f3ebae788fd16310eb3bb476978c2
       });
     });
   } catch (err) {
