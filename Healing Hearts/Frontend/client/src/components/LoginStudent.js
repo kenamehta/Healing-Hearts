@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "../styles/login.css";
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import {loginStudent} from '../redux/actions/authAction'
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { loginStudent } from "../redux/actions/authAction";
 
 class LoginStudent extends Component {
   constructor(props) {
@@ -24,12 +24,11 @@ class LoginStudent extends Component {
     //console.log(this.state.email,"nfnfdknfdkskd")
     const data = {
       student: {
-      email:this.state.email,
-      password:this.state.password
+        email: this.state.email,
+        password: this.state.password
       }
-      
     };
-    this.props.loginStudent(data)
+    this.props.loginStudent(data);
     // axios.defaults.withCredentials = true;
 
     // axios.post("http://localhost:3001/student/login", data).then(res=>{
@@ -45,25 +44,22 @@ class LoginStudent extends Component {
     //           })
     //           console.log("in else")
     //       }
-        
+
     // })
     // .catch(errors => {
     //     console.log("in catch",errors.response.data);
     //     this.setState({ authFlag:false,
     //     errors:errors.response.data.errors.body
     //     });
-       
+
     //   });
   };
   render() {
-    if(this.props.authStudent) {
-      return <Redirect to='/student/home' />
-  }
+    if (this.props.authStudent) {
+      return <Redirect to="/student/home" />;
+    }
     return (
       <div>
-      
-         
-       
         <div className="row">
           <div className="col-3">
             <div
@@ -76,24 +72,27 @@ class LoginStudent extends Component {
               }}
             >
               <a className="logo" href="/">
-                <img
-                  alt="Handshake logo image"
-                  height="42"
-                  src="https://d1sssn74k2rfxk.cloudfront.net/assets/logo-dc4406b950dd8ba10a81ab34703a2bca284e7c4ba46d7ec7656c83e052d0c6f3.svg"
-                ></img>
+                <img alt="Handshake logo image" height="42" src="logo.png" />
               </a>
               <div className="content">
-                <h3 style={{ paddingTop: "40%" }}>Giving is not just about making a donation </h3>
-                <h3 style={{ paddingTop: "10%" }}>Its about making a difference</h3>
-               
+                <h3 style={{ paddingTop: "40%" }}>
+                  Giving is not just about making a donation{" "}
+                </h3>
+                <h3 style={{ paddingTop: "10%" }}>
+                  Its about <ma />king a difference
+                </h3>
               </div>
             </div>
           </div>
           <div className="col-9">
             <div className="row">
-              <div className="col-5"></div>
+              <div className="col-5" />
               <div className="col-4">
-              <p style={{ color: "red",marginTop:"5px",fontWeight:"bold" }}>{this.props.autherror}</p>
+                <p
+                  style={{ color: "red", marginTop: "5px", fontWeight: "bold" }}
+                >
+                  {this.props.autherror}
+                </p>
                 <h1 style={{ marginBottom: "9px", fontWeight: "bold" }}>
                   Sign in
                 </h1>
@@ -109,7 +108,7 @@ class LoginStudent extends Component {
                         this.setState({ email: e.target.value });
                       }}
                       required
-                    ></input>
+                    />
                   </div>
 
                   <div className="form-group">
@@ -122,7 +121,7 @@ class LoginStudent extends Component {
                         this.setState({ password: e.target.value });
                       }}
                       required
-                    ></input>
+                    />
                   </div>
                   <div className="form-group">
                     <input
@@ -135,10 +134,12 @@ class LoginStudent extends Component {
                         backgroundColor: "#1569e0",
                         border: "1px solid #1569e0"
                       }}
-                    ></input>
+                    />
                   </div>
                 </form>
-                <h6>No account?<a href="/student/register"> Sign up here</a></h6>
+                <h6>
+                  No account?<a href="/student/register"> Sign up here</a>
+                </h6>
               </div>
             </div>
           </div>
@@ -148,17 +149,16 @@ class LoginStudent extends Component {
   }
 }
 const mapStateToProps = state => {
-  console.log(state)
+  console.log(state);
   return {
-      authStudent: state.auth.authStudent,
-      autherror: state.auth.autherror
-     // loginSeller: state.loginReducer.isAuthenticatedSeller
-  }   
-}
+    authStudent: state.auth.authStudent,
+    autherror: state.auth.autherror
+    // loginSeller: state.loginReducer.isAuthenticatedSeller
+  };
+};
 const mapDispatchToProps = dispatch => {
-    return {
-      loginStudent: payload => dispatch(loginStudent(payload))
-    };
-}
+  return {
+    loginStudent: payload => dispatch(loginStudent(payload))
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(LoginStudent);
-

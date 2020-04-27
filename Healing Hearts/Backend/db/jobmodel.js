@@ -1,32 +1,28 @@
 const mongoose = require("mongoose");
-const{Company,Job} =require('../db/comapnymodel')
-const mongoosePaginate = require("mongoose-paginate")
+const { Company, Fundraiser } = require("../db/comapnymodel");
+const mongoosePaginate = require("mongoose-paginate");
 
-  
+//When donar donates to a particular fundraiser, Donation model will be populated
+const donation = new mongoose.Schema(
+  {
+    fundraiserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Fundraiser"
+    },
+    donarId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Donar"
+    },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company"
+    },
+    amount: String
+  },
+  { timestamps: true }
+);
 
-    const studentjobs= new mongoose.Schema({
+donation.plugin(mongoosePaginate);
+const Donation = mongoose.model("Donation", donation);
 
-      job_id:
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "job"
-      },
-      company_basic_detail_id:String,
-      student_id:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "student"
-      },
-      student_basic_detail_id:String,
-      resume:String,
-      status:String
-     },
-     { timestamps: true })
-
-    studentjobs.index({student_basic_detail_id: 1, job_id: 1}, {unique: true});
-    studentjobs.plugin(mongoosePaginate);
-    const StudentJobs= mongoose.model("studentjobs",studentjobs)
-    
-    
-  
-    
-  module.exports={StudentJobs}
+module.exports = { Donation };
