@@ -28,7 +28,7 @@ class StudentList extends Component {
       console.log(this.state.studentarr);
     });
     this.setState({ perStudentArr: nextProps.list.donors.docs });
-    this.setState({ count: nextProps.list.total });
+    this.setState({ count: nextProps.list.donors.total });
   }
   getFilterList = () => {
     this.props.getStudents({
@@ -249,9 +249,9 @@ class StudentList extends Component {
                                     cursor: "pointer",
                                   }}
                                   onClick={(e) => {
-                                    this.setRedirect(i.student_basic_detail_id);
+                                    this.setRedirect(i._id);
                                     this.setState({
-                                      id: i.student_basic_detail_id,
+                                      id: i._id,
                                     });
                                   }}
                                 >
@@ -277,7 +277,7 @@ class StudentList extends Component {
                                           {i ? i.name : ""}
                                         </h3>
 
-                                        {/* <h3
+                                        <h3
                                           className="ml-5"
                                           style={{
                                             fontSize: "16px",
@@ -285,8 +285,8 @@ class StudentList extends Component {
                                           }}
                                         >
                                           {" "}
-                                          {i ? i.college : ""}
-                                        </h3> */}
+                                          {i ? i.about : ""}
+                                        </h3>
                                         {/* <div className="ml-5">
                                           {i.skills ? i.skills : ""}
                                         </div> */}
