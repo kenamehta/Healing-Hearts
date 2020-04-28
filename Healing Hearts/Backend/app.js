@@ -9,9 +9,7 @@ const mongoose = require("mongoose");
 //const Student =require("./db/studentmodel")
 // const passport = require('passport');
 app.use(flash());
-app.use(express.static('public'));
-
-
+app.use(express.static("public"));
 
 app.use(function(req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -58,6 +56,10 @@ app.use("/jobs", require("./routes/fundraiserRoute"));
 app.use("/events", require("./routes/eventRoute"));
 app.use("/student/profile", require("./routes/profileRoute"));
 app.use("/student/message", require("./routes/messageRoute"));
+app.use(
+  "/donor/trendingFundraisers",
+  require("./routes/trendingFundraiserRoute")
+);
 
 module.exports = app;
 // app.listen(3001);

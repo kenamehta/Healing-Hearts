@@ -59,7 +59,7 @@ componentDidMount(){
 
     const show = (this.state.saveflag) ? "show" : "" ;
     return (
-      <div className="container mt-3 p-2 pb-5">
+      <div className="container mt-3 p-2 pb-5" style={{width:"100%"}}>
         <div className="card jshadow">
           <div className="card-body">
             <h4 className="card-title" style={{fontSize:"18px",fontWeight:"500"}}>My Journey</h4>

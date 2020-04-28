@@ -10,7 +10,7 @@ const {
   validateEmail
 } = require("../companymiddleware");
 
-const { Company } = require("../db/comapnymodel");
+const { Company } = require("../db/companymodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var multer = require("multer");

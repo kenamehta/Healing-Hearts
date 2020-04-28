@@ -4,7 +4,7 @@ const { generateToken, decryptToken } = require("../service/tokenservice");
 const { generateUUID } = require("../service/uuidservice");
 const passport = require("../authenticate/passport_init");
 const key = require("../service/key");
-const { Company, Event } = require("../db/comapnymodel");
+const { Company } = require("../db/companymodel");
 const{StudentEvents} =require("../db/eventmodel")
 const {
  Donor
