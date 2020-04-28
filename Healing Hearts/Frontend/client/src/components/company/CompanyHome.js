@@ -162,7 +162,10 @@ class CompanyHome extends Component {
                   <div align="center" className="mt-2">
                     {this.state.propicture ? (
                       <div className="style__edit-photo___B-_os">
-                        <img src={this.state.propicture} />
+                        <img
+                          className="circular-avatar-image avatar-image"
+                          src={this.state.propicture}
+                        />
                       </div>
                     ) : (
                       <form onSubmit={this.updatePic}>
@@ -530,7 +533,7 @@ class CompanyHome extends Component {
                               id="funddesc"
                               name="funddesc"
                               className="form-control"
-                              placeholder="Enter Job Description"
+                              placeholder="Enter Description"
                               onChange={e => {
                                 this.setState({
                                   funddesc: e.target.value

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import {registerDonor} from '../redux/actions/authAction'
-import { Redirect } from 'react-router-dom';
+import { connect } from "react-redux";
+import { registerDonor } from "../redux/actions/authAction";
+import { Redirect } from "react-router-dom";
 class DonorRegister extends Component {
   constructor(props) {
     super(props);
@@ -10,8 +10,9 @@ class DonorRegister extends Component {
       fullname: "",
       schoolname: "",
       password: "",
-      confirmpassword: ""
-            };
+      confirmpassword: "",
+      title: ""
+    };
   }
   handleSubmit = e => {
     e.preventDefault();
@@ -20,45 +21,46 @@ class DonorRegister extends Component {
     if (password !== confirmpassword) {
       alert("Password doesn't match");
     } else {
-        const data = {
-            student: {
-              email: this.state.email,
-              password: this.state.password,
-              name:this.state.fullname,
-              college:this.state.schoolname
-            }
-          };
-          this.props.registerDonor(data);
+      const data = {
+        student: {
+          email: this.state.email,
+          title: this.state.title,
+          password: this.state.password,
+          name: this.state.fullname,
+          college: this.state.schoolname
+        }
+      };
+      this.props.registerDonor(data);
     }
-
-    
-    
   };
   render() {
-    if(this.props.authStudent) {
-        return <Redirect to='/student/home' />
+    if (this.props.authStudent) {
+      return <Redirect to="/student/home" />;
     }
     return (
       <div className="row">
-        <div className="col-1"></div>
+        <div className="col-1" />
         <div className="col-md-4 col-md-offset-1">
           <h1 style={{ margin: "6px" }}> Join the Healing Hearts community</h1>
           <p style={{ fontSize: "18px", margin: "6px" }}>
-           Giving is not just about making a donation, it is about making a difference  
+            Giving is not just about making a donation, it is about making a
+            difference
           </p>
-          <a style={{ color: "#1569e0",padding:'0px' }} href="/company/register">
+          <a
+            style={{ color: "#1569e0", padding: "0px" }}
+            href="/company/register"
+          >
             Here to create a fundraiser? Create an account here.
           </a>
         </div>
-        <div className="col-1"></div>
+        <div className="col-1" />
         <div
           className="col-md-6 col-md-offset-2"
           style={{ padding: "16px", marginBottom: "20px" }}
         >
           <form onSubmit={this.handleSubmit}>
-            
             <div className="form-group col-md-8">
-              <label style={{ fontWeight: "bold", marginBottom: "5px" }}>
+              <label style={{ fontWeight: "500", marginBottom: "5px" }}>
                 Name
               </label>
               <input
@@ -68,15 +70,29 @@ class DonorRegister extends Component {
                 className="form-control"
                 placeholder="Enter Your Organization Name"
                 onChange={e => {
-                        this.setState({ fullname: e.target.value });
-                      }}
-                      required
-
-              ></input>
+                  this.setState({ fullname: e.target.value });
+                }}
+                required
+              />
+            </div>
+            <div className="form-group col-md-8">
+              <label style={{ fontWeight: "500", marginBottom: "5px" }}>
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                className="form-control"
+                placeholder="Enter Your Title"
+                onChange={e => {
+                  this.setState({ title: e.target.value });
+                }}
+                required
+              />
             </div>
             <div className="form-group col-md-8">
               <div>
-                
                 <label style={{ fontWeight: "500", marginBottom: "3px" }}>
                   Email Address
                 </label>
@@ -98,11 +114,10 @@ class DonorRegister extends Component {
                 className="form-control"
                 placeholder="john@doe.edu"
                 onChange={e => {
-                        this.setState({ email: e.target.value });
-                      }}
-                      required
-
-              ></input>
+                  this.setState({ email: e.target.value });
+                }}
+                required
+              />
             </div>
             <div className="col-md-8 d-flex p-0">
               <div className="form-group col-md-6 ">
@@ -116,11 +131,10 @@ class DonorRegister extends Component {
                   className="form-control"
                   placeholder="Password"
                   onChange={e => {
-                        this.setState({ password: e.target.value });
-                      }}
-                      required
-
-                ></input>
+                    this.setState({ password: e.target.value });
+                  }}
+                  required
+                />
               </div>
               <div className="form-group col-md-6">
                 <label style={{ fontWeight: "500", marginBottom: "3px" }}>
@@ -133,15 +147,14 @@ class DonorRegister extends Component {
                   className="form-control"
                   placeholder="Confirm Password"
                   onChange={e => {
-                        this.setState({ confirmpassword: e.target.value });
-                      }}
-                      required
-
-                ></input>
+                    this.setState({ confirmpassword: e.target.value });
+                  }}
+                  required
+                />
               </div>
             </div>
             <div className="form-group col-md-8 m-3">
-              <input type="submit" className="btn btn btn-primary"></input>
+              <input type="submit" className="btn btn btn-primary" />
             </div>
           </form>
         </div>
@@ -150,18 +163,16 @@ class DonorRegister extends Component {
   }
 }
 const mapStateToProps = state => {
-    console.log(state)
-    return {
-        authStudent: state.auth.authStudent,
-        autherror: state.auth.autherror
-       // loginSeller: state.loginReducer.isAuthenticatedSeller
-    }   
-  }
-  const mapDispatchToProps = dispatch => {
-      return {
-        registerDonor: payload => dispatch(registerDonor(payload))
-      };
-  }
-  export default connect(mapStateToProps, mapDispatchToProps)(DonorRegister);
-  
-
+  console.log(state);
+  return {
+    authStudent: state.auth.authStudent,
+    autherror: state.auth.autherror
+    // loginSeller: state.loginReducer.isAuthenticatedSeller
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    registerDonor: payload => dispatch(registerDonor(payload))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DonorRegister);
