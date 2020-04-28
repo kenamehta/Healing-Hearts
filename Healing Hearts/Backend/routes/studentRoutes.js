@@ -6,7 +6,7 @@ const { generateUUID } = require("../service/uuidservice");
 const key = require("../service/key");
 const mongoose = require("mongoose");
 var multer = require("multer");
-const passport = require('passport');
+const passport = require("passport");
 const {
   validateUsername,
   validatePassword,
@@ -14,9 +14,7 @@ const {
 } = require("../studentmiddleware");
 
 const { Donor } = require("../db/donormodel");
-const{
-  Donation
-} = require('../db/donationmodel')
+const { Donation } = require("../db/donationmodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var storage = multer.diskStorage({
@@ -24,13 +22,11 @@ var storage = multer.diskStorage({
     cb(null, "public");
   },
   filename: function(req, file, cb) {
-    cb(null,  file.originalname);
+    cb(null, file.originalname);
   }
 });
 
 var upload = multer({ storage: storage });
-
-
 
 route.get("/servercheck", (req, res) => {
   res.status(200).send("Welcome to Handshake server");
@@ -56,11 +52,11 @@ route.get("/", async (req, res) => {
       experience: student.experiences,
       token: req.headers.authorization,
       college: student.college,
-      city:student.city,
-      country:student.country,
-      phone:student.phone,
-      dob:student.dob,
-      state:student.state
+      city: student.city,
+      country: student.country,
+      phone: student.phone,
+      dob: student.dob,
+      state: student.state
     });
   }
 });
@@ -71,27 +67,27 @@ route.get("/visit/:id", async (req, res) => {
 
   // console.log(Decryptedtoken.email);
   // if (Decryptedtoken.email !== null) {
-    const student = await Donor.findOne({
-      student_basic_detail_id:req.params.id
-    });
+  const student = await Donor.findOne({
+    student_basic_detail_id: req.params.id
+  });
 
-    res.status(201).json({
-      email: student.emailId,
-      name: student.name,
-      career_objective: student.career_objective,
-      profile_picture: student.profile_picture,
-      education: student.educations,
-      skills: student.skills,
-      experience: student.experiences,
-      token: req.headers.authorization,
-      college: student.college,
-      city:student.city,
-      country:student.country,
-      phone:student.phone,
-      dob:student.dob,
-      state:student.state
-    });
- // }
+  res.status(201).json({
+    email: student.emailId,
+    name: student.name,
+    career_objective: student.career_objective,
+    profile_picture: student.profile_picture,
+    education: student.educations,
+    skills: student.skills,
+    experience: student.experiences,
+    token: req.headers.authorization,
+    college: student.college,
+    city: student.city,
+    country: student.country,
+    phone: student.phone,
+    dob: student.dob,
+    state: student.state
+  });
+  // }
 });
 
 route.post(
@@ -109,6 +105,7 @@ route.post(
         emailId: req.body.student.email,
         password: bcrypt.hashSync(req.body.student.password, 10),
         name: req.body.student.name,
+        title: req.body.student.title
       });
       console.log(req.body.student.name);
 
@@ -137,23 +134,22 @@ route.post("/journey", async (req, res) => {
     const filter = { emailId: Decryptedtoken.email };
     const update = { about: req.body.student.career_objective };
     await Donor.findOneAndUpdate(filter, update, {
-      new: true,useFindAndModify:true
+      new: true,
+      useFindAndModify: true
     })
       .then(tokenuser => {
-        if(tokenuser){
-        res.status(201).send({
-          result: tokenuser.career_objective
-        });
-      }
-      else{
-        res.status(403).send({
-          errors: {
-            body: "Unauthenticated user"
-          }
-        });
-      }
+        if (tokenuser) {
+          res.status(201).send({
+            result: tokenuser.career_objective
+          });
+        } else {
+          res.status(403).send({
+            errors: {
+              body: "Unauthenticated user"
+            }
+          });
+        }
       })
-      
       .catch(err => {
         console.log(`error posting student journey ${err}`);
       });
@@ -233,23 +229,22 @@ route.get("/journey", async (req, res) => {
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
-        if(tokenuser){
-        studentId = tokenuser.student_basic_detail_id;
-        email = tokenuser.emailId;
-        name = tokenuser.name;
-        result = tokenuser.career_objective;
+        if (tokenuser) {
+          studentId = tokenuser.student_basic_detail_id;
+          email = tokenuser.emailId;
+          name = tokenuser.name;
+          result = tokenuser.career_objective;
 
-        res.status(201).send({
-          result: result
-        });
-      }
-      else{
-        res.status(401).send({
-          errors: {
-            body: "Unauthorised User"
-          }
-        });
-      }
+          res.status(201).send({
+            result: result
+          });
+        } else {
+          res.status(401).send({
+            errors: {
+              body: "Unauthorised User"
+            }
+          });
+        }
       })
       .catch(err => {
         console.log(`error posting student journey ${err}`);
@@ -272,7 +267,10 @@ route.put("/name", async (req, res) => {
     const filter = { emailId: Decryptedtoken.email };
     const update = { name: req.body.student.name };
 
-    await Donor.findOneAndUpdate(filter, update, { new: true , useFindAndModify:true})
+    await Donor.findOneAndUpdate(filter, update, {
+      new: true,
+      useFindAndModify: true
+    })
       .then(tokenuser => {
         res.status(201).send({
           tokenuser
@@ -300,37 +298,35 @@ route.post("/education", async (req, res) => {
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
-        if(tokenuser)
-        {
-        tokenuser.educations.push({
-          school_name: req.body.education.schoolname,
-          education_level: req.body.education.educationlevel,
-          major: req.body.education.major,
-          minor: req.body.education.minor ? req.body.education.minor : "",
-          start_time: req.body.education.startDate,
-          end_time: req.body.education.endDate,
-          gpa: req.body.education.gpa,
-          isPrimary:req.body.education.isPrimary
-        });
-        tokenuser.save(err => {
-          if (err) {
-            res.status(403).send({
-              errors: {
-                err: "Unable to add school"
-              }
-            });
-          } else {
-            res.status(201).send(tokenuser.educations);
-          }
-        });
-      }
-      else{
-        res.status(403).send({
-          errors: {
-            err: "unauthenticated user"
-          }
-        });
-      }
+        if (tokenuser) {
+          tokenuser.educations.push({
+            school_name: req.body.education.schoolname,
+            education_level: req.body.education.educationlevel,
+            major: req.body.education.major,
+            minor: req.body.education.minor ? req.body.education.minor : "",
+            start_time: req.body.education.startDate,
+            end_time: req.body.education.endDate,
+            gpa: req.body.education.gpa,
+            isPrimary: req.body.education.isPrimary
+          });
+          tokenuser.save(err => {
+            if (err) {
+              res.status(403).send({
+                errors: {
+                  err: "Unable to add school"
+                }
+              });
+            } else {
+              res.status(201).send(tokenuser.educations);
+            }
+          });
+        } else {
+          res.status(403).send({
+            errors: {
+              err: "unauthenticated user"
+            }
+          });
+        }
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
@@ -351,7 +347,7 @@ route.put("/education", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    console.log(req.body.education.gpa)
+    console.log(req.body.education.gpa);
     const preeducation = await Donor.findOne({
       emailId: Decryptedtoken.email
     });
@@ -361,10 +357,10 @@ route.put("/education", async (req, res) => {
     filteredEducation = educationarr.filter(
       e => e._id == req.body.education.educationId
     );
-    restEducation= educationarr.filter(
+    restEducation = educationarr.filter(
       e => e._id != req.body.education.educationId
     );
-    console.log("filtered=> "+filteredEducation);
+    console.log("filtered=> " + filteredEducation);
     console.log(restEducation);
 
     const update = {
@@ -374,7 +370,9 @@ route.put("/education", async (req, res) => {
       education_level: req.body.education.educationlevel
         ? req.body.education.educationlevel
         : filteredEducation.education_level,
-      major: req.body.education.major ? req.body.education.major : filteredEducation.major,
+      major: req.body.education.major
+        ? req.body.education.major
+        : filteredEducation.major,
       minor: req.body.education.minor ? req.body.education.minor : "",
       start_time: req.body.education.startDate
         ? req.body.education.startDate
@@ -382,21 +380,25 @@ route.put("/education", async (req, res) => {
       end_time: req.body.education.endDate
         ? req.body.education.endDate
         : filteredEducation.end_time,
-      gpa: req.body.education.gpa ? req.body.education.gpa : filteredEducation.GPA,
-      isPrimary:req.body.education.isPrimary?req.body.education.isPrimary:filteredEducation.isPrimary
+      gpa: req.body.education.gpa
+        ? req.body.education.gpa
+        : filteredEducation.GPA,
+      isPrimary: req.body.education.isPrimary
+        ? req.body.education.isPrimary
+        : filteredEducation.isPrimary
     };
 
-    restEducation.push(update)
-    console.log(restEducation)
+    restEducation.push(update);
+    console.log(restEducation);
 
-    const filter={ emailId: Decryptedtoken.email}
-    const updatearr={educations: restEducation}
-    await Donor.findOneAndUpdate(filter,updatearr,{new:true,useFindAndModify:true})
-    .then(res1=>{
-      res.status(201).send(res1.educations)
-    })
-
-
+    const filter = { emailId: Decryptedtoken.email };
+    const updatearr = { educations: restEducation };
+    await Donor.findOneAndUpdate(filter, updatearr, {
+      new: true,
+      useFindAndModify: true
+    }).then(res1 => {
+      res.status(201).send(res1.educations);
+    });
   } catch (err) {
     console.log(err);
     res.status(403).send({
@@ -413,30 +415,27 @@ route.delete("/education", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-       
-          emailId: Decryptedtoken.email
-        
-      })
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(async tokenuser => {
-       
         studentId = tokenuser.student_basic_detail_id;
-        var filtereducation=tokenuser.educations.filter(e=>e._id!=req.body.data.education.educationId)
-        console.log(filtereducation)
-        const filter={ emailId: Decryptedtoken.email}
-        const updatearr={educations: filtereducation}
-        await Donor.findOneAndUpdate(filter,updatearr,{new:true , useFindAndModify:true})
-        .then(res1=>{
-          res.status(201).send(res1.educations)
-              })
-       
+        var filtereducation = tokenuser.educations.filter(
+          e => e._id != req.body.data.education.educationId
+        );
+        console.log(filtereducation);
+        const filter = { emailId: Decryptedtoken.email };
+        const updatearr = { educations: filtereducation };
+        await Donor.findOneAndUpdate(filter, updatearr, {
+          new: true,
+          useFindAndModify: true
+        }).then(res1 => {
+          res.status(201).send(res1.educations);
+        });
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
-
-    
   } catch (err) {
     console.log(err + "error sdsad");
     res.status(500).send({
@@ -446,7 +445,6 @@ route.delete("/education", async (req, res) => {
     });
   }
 });
-
 
 route.get("/education", async (req, res) => {
   console.log(req.body);
@@ -454,22 +452,15 @@ route.get("/education", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-      
-          emailId: Decryptedtoken.email
-        
-      })
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(tokenuser => {
-       
-        res.status(201).send(tokenuser.educations)
-       
+        res.status(201).send(tokenuser.educations);
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
-
-    
   } catch (err) {
     console.log(err + "error sdsad");
     res.status(500).send({
@@ -480,24 +471,17 @@ route.get("/education", async (req, res) => {
   }
 });
 
+route.post("/picture", upload.single("myimage"), async (req, res) => {
+  console.log(JSON.stringify(req.file) + " file post");
 
-route.post("/picture",upload.single('myimage'), async (req, res) => {
-  console.log(JSON.stringify(req.file)+" file post");
- 
- 
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-       
-          emailId: Decryptedtoken.email
-        
-      })
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(tokenuser => {
-        console.log(
-          tokenuser.student_basic_detail_id + "in details"
-        );
+        console.log(tokenuser.student_basic_detail_id + "in details");
         studentId = tokenuser.student_basic_detail_id;
         email = tokenuser.emailId;
         name = tokenuser.name;
@@ -507,16 +491,16 @@ route.post("/picture",upload.single('myimage'), async (req, res) => {
       });
 
     //  var imageData = fs.readFileSync(req.file.path);
-     // console.log(imageData)
+    // console.log(imageData)
     const result = await Donor.findOneAndUpdate(
-      { student_basic_detail_id: studentId } , { profilePic: req.file.originalname },
-      {new:true,useFindAndModify:true}
-    
+      { student_basic_detail_id: studentId },
+      { profilePic: req.file.originalname },
+      { new: true, useFindAndModify: true }
     );
 
     if (result) {
-      console.log(result)
-        res.status(201).send({name:req.file.originalname});
+      console.log(result);
+      res.status(201).send({ name: req.file.originalname });
     } else {
       res.status(403).send({
         errors: {
@@ -534,22 +518,15 @@ route.post("/picture",upload.single('myimage'), async (req, res) => {
   }
 });
 
-
-route.get('/picture',async(req,res)=>{
-
+route.get("/picture", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-      
-          emailId: Decryptedtoken.email
-        
-      })
-  .then(tokenuser => {
-        console.log(
-          tokenuser.student_basic_detail_id + "in details"
-        );
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
+      .then(tokenuser => {
+        console.log(tokenuser.student_basic_detail_id + "in details");
         studentId = tokenuser.student_basic_detail_id;
         email = tokenuser.emailId;
         name = tokenuser.name;
@@ -558,15 +535,15 @@ route.get('/picture',async(req,res)=>{
         console.log(`error getting student basic details ${err}`);
       });
 
-      Donor.findOne({
-        student_basic_detail_id:studentId
-      })
+    Donor.findOne({
+      student_basic_detail_id: studentId
+    })
       .then(profile => {
-        res.json({ success: true, data: profile })
+        res.json({ success: true, data: profile });
       })
       .catch(err => {
-        console.log('in error :: /api/getProfilePic')
-      })
+        console.log("in error :: /api/getProfilePic");
+      });
   } catch (err) {
     console.log(err);
     res.status(403).send({
@@ -577,7 +554,6 @@ route.get('/picture',async(req,res)=>{
   }
 });
 
-
 route.post("/skills", async (req, res) => {
   console.log(req.body);
   console.log("In posting skills");
@@ -586,45 +562,35 @@ route.post("/skills", async (req, res) => {
   try {
     console.log(Decryptedtoken.email);
 
-    await Donor
-      .findOne({
-       
-          emailId: Decryptedtoken.email
-        
-      })
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(tokenuser => {
-        if(tokenuser){
-       tokenuser.skills.push( {skill_name: req.body.student.skill_name})
+        if (tokenuser) {
+          tokenuser.skills.push({ skill_name: req.body.student.skill_name });
 
-
-       tokenuser.save(err => {
-        if (err) {
-          res.status(403).send({
-            errors: {
-              err: "Unable to add school"
+          tokenuser.save(err => {
+            if (err) {
+              res.status(403).send({
+                errors: {
+                  err: "Unable to add school"
+                }
+              });
+            } else {
+              res.status(201).send(tokenuser.skills);
             }
           });
         } else {
-          res.status(201).send(tokenuser.skills);
+          res.status(403).send({
+            errors: {
+              err: "Unauthenticated User"
+            }
+          });
         }
-      });
-    }
-    else{
-      res.status(403).send({
-        errors: {
-          err: "Unauthenticated User"
-        }
-      });
-    }
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
-    
-
-    
-    
-    
   } catch (err) {
     console.log(err);
     res.status(403).send({
@@ -643,20 +609,15 @@ route.get("/skills", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-        
-          emailId: Decryptedtoken.email
-       
-      })
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(tokenuser => {
         res.status(201).send(tokenuser.skills);
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
-
-   
   } catch (err) {
     console.log(err + "error sdsad");
     res.status(500).send({
@@ -673,29 +634,26 @@ route.delete("/skills", async (req, res) => {
   var studentId;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-      
-          emailId: Decryptedtoken.email
-        
-      })
-
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(async tokenuser => {
-       var skillarr= tokenuser.skills.filter(e=>e._id!=req.body.data.skills.skill_id)
-       console.log(skillarr)
-       const filter={ emailId: Decryptedtoken.email}
-    const update={skills:skillarr}
-       await Donor.findOneAndUpdate(filter,update,{new:true,useFindAndModify:true})
-       .then(res1=>{
-         res.status(201).send(res1.skills)
-             })
-
+        var skillarr = tokenuser.skills.filter(
+          e => e._id != req.body.data.skills.skill_id
+        );
+        console.log(skillarr);
+        const filter = { emailId: Decryptedtoken.email };
+        const update = { skills: skillarr };
+        await Donor.findOneAndUpdate(filter, update, {
+          new: true,
+          useFindAndModify: true
+        }).then(res1 => {
+          res.status(201).send(res1.skills);
+        });
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
-
-   
   } catch (err) {
     console.log(err + "error sdsad");
     res.status(500).send({
@@ -708,62 +666,69 @@ route.delete("/skills", async (req, res) => {
 
 route.post("/basicdetails", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
-  console.log(req.body.basicdetails.studentstate)
+  console.log(req.body.basicdetails.studentstate);
   try {
-  console.log(Decryptedtoken.email)
-    await Donor
-      .findOne({
-      
-          emailId: Decryptedtoken.email
-      
-      })
+    console.log(Decryptedtoken.email);
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(async tokenuser => {
-       
-       
-     
-      const filter={ emailId: Decryptedtoken.email}
-     
-    const result = await Donor.findOneAndUpdate(filter,
-     
-      {
-        dob: req.body.basicdetails.dob ? req.body.basicdetails.dob : tokenuser.dob,
-        state: req.body.basicdetails.studentstate
-          ? req.body.basicdetails.studentstate
-          : tokenuser.studentstate,
-        city: req.body.basicdetails.city ? req.body.basicdetails.city : tokenuser.city,
-        country: req.body.basicdetails.country
-          ? req.body.basicdetails.country
-          : tokenuser.country,
-        email: req.body.basicdetails.email ? req.body.basicdetails.email : tokenuser.emailId,
-        phone: req.body.basicdetails.phone ? req.body.basicdetails.phone : tokenuser.phone
-      },
-      { new:true,useFindAndModify:true}
-    );
-    res.status(201).send({
-      result: {
-        student: {
-          email: req.body.basicdetails.email ? req.body.basicdetails.email : tokenuser.emailId,
-          student_basic_details: {
-            dob: req.body.basicdetails.dob ? req.body.basicdetails.dob : tokenuser.dob,
-            city: req.body.basicdetails.city ? req.body.basicdetails.city : tokenuser.city,
+        const filter = { emailId: Decryptedtoken.email };
+
+        const result = await Donor.findOneAndUpdate(
+          filter,
+          {
+            dob: req.body.basicdetails.dob
+              ? req.body.basicdetails.dob
+              : tokenuser.dob,
             state: req.body.basicdetails.studentstate
               ? req.body.basicdetails.studentstate
               : tokenuser.studentstate,
+            city: req.body.basicdetails.city
+              ? req.body.basicdetails.city
+              : tokenuser.city,
             country: req.body.basicdetails.country
               ? req.body.basicdetails.country
               : tokenuser.country,
+            email: req.body.basicdetails.email
+              ? req.body.basicdetails.email
+              : tokenuser.emailId,
             phone: req.body.basicdetails.phone
               ? req.body.basicdetails.phone
-              : tokenuser.phone_number
+              : tokenuser.phone
+          },
+          { new: true, useFindAndModify: true }
+        );
+        res.status(201).send({
+          result: {
+            student: {
+              email: req.body.basicdetails.email
+                ? req.body.basicdetails.email
+                : tokenuser.emailId,
+              student_basic_details: {
+                dob: req.body.basicdetails.dob
+                  ? req.body.basicdetails.dob
+                  : tokenuser.dob,
+                city: req.body.basicdetails.city
+                  ? req.body.basicdetails.city
+                  : tokenuser.city,
+                state: req.body.basicdetails.studentstate
+                  ? req.body.basicdetails.studentstate
+                  : tokenuser.studentstate,
+                country: req.body.basicdetails.country
+                  ? req.body.basicdetails.country
+                  : tokenuser.country,
+                phone: req.body.basicdetails.phone
+                  ? req.body.basicdetails.phone
+                  : tokenuser.phone_number
+              }
+            }
           }
-        }
-      }
-    });
-  })
-  .catch(err => {
-    console.log(`error posting student journey ${err}`);
-  });
-   
+        });
+      })
+      .catch(err => {
+        console.log(`error posting student journey ${err}`);
+      });
   } catch (err) {
     console.log(`error posting student journey ${err}`);
     res.status(500).send({
@@ -774,42 +739,33 @@ route.post("/basicdetails", async (req, res) => {
   }
 });
 
-
-route.post("/upload/:id",upload.single('myimage'), async (req, res) => {
-  
-  console.log(req.file,"filee");
+route.post("/upload/:id", upload.single("myimage"), async (req, res) => {
+  console.log(req.file, "filee");
   console.log("applying for job");
   var studentId;
   var studentObjectId;
   var student;
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    await Donor
-      .findOne({
-       
-          emailId: Decryptedtoken.email
-        
-      })
+    await Donor.findOne({
+      emailId: Decryptedtoken.email
+    })
       .then(tokenuser => {
-       
         student = tokenuser;
         studentId = tokenuser.student_basic_detail_id;
-        studentObjectId=tokenuser._id
-      
+        studentObjectId = tokenuser._id;
       })
       .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
-      
-    
-      // console.log(student, "-----------------------------------", bookId);
+
+    // console.log(student, "-----------------------------------", bookId);
     const result = await Donation.create({
       job_id: req.params.id,
       status: "Pending",
       student_basic_detail_id: student.student_basic_detail_id,
-      resume:req.file?req.file.originalname:'',
-      student_id:studentObjectId
-
+      resume: req.file ? req.file.originalname : "",
+      student_id: studentObjectId
     });
     if (result) {
       res.status(201).send(result);
