@@ -10,7 +10,7 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false,
+      auth: false
     };
   }
   componentWillMount() {}
@@ -42,7 +42,7 @@ class Navbar extends Component {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <a
             className="navbar-brand"
@@ -96,19 +96,19 @@ class Navbar extends Component {
                 height: "14px",
                 width: "20px",
                 top: "50%",
-                left: "265px",
+                //left: "265px",
                 marginLeft: "10px",
-                size: "13px",
+                size: "13px"
               }}
               size="large"
-            ></ion-icon>
+            />
             <input
               type="text"
               id="navsearch"
               className="form-control mt-2 mx-2 mr-sm-2 pl-4 "
               style={{ marginRight: "15px" }}
               placeholder="search"
-            ></input>
+            />
           </div>
         </div>
         <div className="d-flex">
@@ -131,25 +131,7 @@ class Navbar extends Component {
               </a>
             )}
           </div>
-          <div>
-            {localStorage.getItem("student") ? (
-              <a
-                className={liClasses}
-                style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/student/events"
-              >
-                events
-              </a>
-            ) : (
-              <a
-                className={liClasses}
-                style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/company/events"
-              >
-                events
-              </a>
-            )}
-          </div>
+
           <div>
             {localStorage.getItem("student") ? (
               <a
@@ -157,7 +139,7 @@ class Navbar extends Component {
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
                 href="/student/application"
               >
-                Application
+                History
               </a>
             ) : (
               ""
@@ -235,19 +217,19 @@ class Navbar extends Component {
   }
 }
 Navbar.contextTypes = {
-  router: PropTypes.object,
+  router: PropTypes.object
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   // console.log(state);
   return {
     authStudent: state.auth.authStudent,
-    authCompany: state.auth.authCompany,
+    authCompany: state.auth.authCompany
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     logoutStudent: () => dispatch(logoutStudent()),
-    logoutCompany: () => dispatch(logoutCompany()),
+    logoutCompany: () => dispatch(logoutCompany())
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

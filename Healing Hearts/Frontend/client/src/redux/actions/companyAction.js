@@ -5,7 +5,8 @@ import {
   EDITPROFILEPIC,
   FETCHSTUDENTLIST,
   CHANGESTATUS,
-  FETCHEVENTANDCOMPANY,CREATEEVENT
+  FETCHEVENTANDCOMPANY,
+  CREATEEVENT
 } from "./action_types";
 import axios from "axios";
 import api_route from "../../app-config";
@@ -42,21 +43,19 @@ const getStudentListDispatcher = payload => {
     payload
   };
 };
-const fetchEventDisptacher= payload=>{
+const fetchEventDisptacher = payload => {
   return {
     type: FETCHEVENTANDCOMPANY,
     payload
   };
-}
+};
 
-const createEventDispatcher= payload=>{
+const createEventDispatcher = payload => {
   return {
     type: CREATEEVENT,
     payload
   };
-}
-
-
+};
 
 export const getCompanyProfile = payload => {
   return dispatch => {
@@ -70,17 +69,18 @@ export const getCompanyProfile = payload => {
     try {
       var propicture = "";
       var companyobj = "";
-      var companyname= "";
+      var companyname = "";
       console.log("In try bloc");
       axios
         .get(`${api_route.host}/company/`, config)
         .then(res => {
           // this.setState({ companyobj: res.data.company });
           companyobj = res.data.company;
-          companyname=res.data.company.company_basic_details.company_name;
+          companyname = res.data.company.company_basic_details.companyName;
           console.log(res.data.company);
           if (res.data.company.company_basic_details.profilePic) {
-            var src = `${api_route.host}//${res.data.company.company_basic_details.profilePic}`;
+            var src = `${api_route.host}//${res.data.company
+              .company_basic_details.profilePic}`;
             //   this.setState({ propicture: src });
             propicture = src;
           }
@@ -88,10 +88,13 @@ export const getCompanyProfile = payload => {
             var jobarr = [];
             var perjobarr = [];
             var jobobj = "";
-            var total=''
+            var total = "";
             console.log("In try bloc");
             axios
-              .get(`${api_route.host}/jobs/${companyname}/${payload.locationFilter}/${payload.categoryFilter}/${payload.sortFilter}?limit=${payload.limit}&page=${payload.page}`, config)
+              .get(
+                `${api_route.host}/jobs/${companyname}/${payload.locationFilter}/${payload.categoryFilter}/${payload.sortFilter}?limit=${payload.limit}&page=${payload.page}`,
+                config
+              )
               .then(res => {
                 console.log(res.data);
                 //   this.setState({ jobarr: res.data.result });
@@ -100,7 +103,7 @@ export const getCompanyProfile = payload => {
                 jobarr = res.data.result;
                 perjobarr = res.data.result;
                 jobobj = res.data.result[0];
-                total=res.data.total;
+                total = res.data.total;
                 // console.log(this.state.companyobj);
                 const result = perjobarr.filter(
                   i =>
@@ -145,7 +148,7 @@ export const editCompanyProfile = payload => {
       }
     };
     let data = payload;
-    console.log(payload)
+    console.log(payload);
     axios
       .put(`${api_route.host}/company/`, data, config)
       .then(res => {
@@ -197,15 +200,15 @@ export const createJobs = payload => {
         Authorization: `${window.localStorage.getItem("company")}`
       }
     };
-    let data = payload
+    let data = payload;
     axios
       .post(`${api_route.host}/jobs/`, data, config)
       .then(res => {
         // this.setState({ addSuccessMsg: "Job added Successfully" });
         // let newarr = this.state.perjobarr;
         // newarr.push(res.data);
-         console.log(res.data);
-        dispatch(createJobsDispatcher(res.data))
+        console.log(res.data);
+        dispatch(createJobsDispatcher(res.data));
         // this.setState({ jobarr: newarr });
         // this.setState({ perjobarr: newarr });
       })
@@ -215,8 +218,8 @@ export const createJobs = payload => {
   };
 };
 
-export const getStudentList =payload=>{
-  return dispatch=>{
+export const getStudentList = payload => {
+  return dispatch => {
     let config = {
       headers: {
         Authorization: `${window.localStorage.getItem("company")}`
@@ -234,7 +237,7 @@ export const getStudentList =payload=>{
         .then(res => {
           // this.setState({ studentarr: res.data.msgDesc });
           // this.setState({ perStudentArr: res.data.msgDesc });
-         dispatch(getStudentListDispatcher(res.data))
+          dispatch(getStudentListDispatcher(res.data));
           console.log(res.data);
         })
         .catch(err => {
@@ -243,8 +246,8 @@ export const getStudentList =payload=>{
     } catch (err) {
       console.log(err);
     }
-  }
-}
+  };
+};
 // export const changeStatus =payload=>{
 //  console.log(payload)
 //   return dispatch=>{
@@ -257,7 +260,7 @@ export const getStudentList =payload=>{
 //     console.log("changing  Student status------------");
 //     //this.setState({educationarr:this.props.educationData})
 //     try {
-     
+
 //       axios
 //         .post(`${api_route.host}/jobs/${payload.jobid}/${payload.studentid}`, data, config)
 //         .then(res => {
@@ -272,76 +275,72 @@ export const getStudentList =payload=>{
 //   }
 // }
 
-export const fetchEvents =payload=>{
+export const fetchEvents = payload => {
   try {
-  console.log(payload)
-  var companyobj;
-  var perjobarr=[];
-  return dispatch=>{
-    let config = {
-      headers: {
-        Authorization: `${window.localStorage.getItem("company")}`
-      }
-    };
-    console.log("In try bloc");
-    axios
-      .get(`${api_route.host}/company`, config)
-      .then(res => {
-        companyobj=res.data.company
-        //this.setState({ companyobj: res.data.company });
-        console.log(res.data);
-        try {
-          console.log("In try bloc");
-          axios
-            .get(`${api_route.host}/events/${payload.locationAndTitleFilter}?limit=${payload.limit}&page=${payload.page}`, config)
-            .then(res => {
-
-           
-              perjobarr=res.data.result
-              var total=res.data.total
-              const result = perjobarr.filter(
-                i =>
-                  i.company_basic_detail_id ==
-                  companyobj.company_basic_details
-                    .company_basic_detail_id
-              );
-              console.log(result);
-             
-                var sendobj={
-                  perjobarr:result,
-                  companyobj,
-                  total:total
-                }
-                dispatch(fetchEventDisptacher(sendobj))
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } catch (err) {
-          console.log(err);
+    console.log(payload);
+    var companyobj;
+    var perjobarr = [];
+    return dispatch => {
+      let config = {
+        headers: {
+          Authorization: `${window.localStorage.getItem("company")}`
         }
-     
-     
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    }
+      };
+      console.log("In try bloc");
+      axios
+        .get(`${api_route.host}/company`, config)
+        .then(res => {
+          companyobj = res.data.company;
+          //this.setState({ companyobj: res.data.company });
+          console.log(res.data);
+          try {
+            console.log("In try bloc");
+            axios
+              .get(
+                `${api_route.host}/events/${payload.locationAndTitleFilter}?limit=${payload.limit}&page=${payload.page}`,
+                config
+              )
+              .then(res => {
+                perjobarr = res.data.result;
+                var total = res.data.total;
+                const result = perjobarr.filter(
+                  i =>
+                    i.company_basic_detail_id ==
+                    companyobj.company_basic_details.company_basic_detail_id
+                );
+                console.log(result);
+
+                var sendobj = {
+                  perjobarr: result,
+                  companyobj,
+                  total: total
+                };
+                dispatch(fetchEventDisptacher(sendobj));
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } catch (err) {
+            console.log(err);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    };
   } catch (err) {
     console.log(err);
   }
-
-  
-}
-export const createEvent =payload=>{
-  console.log(payload)
-  return dispatch=>{
+};
+export const createEvent = payload => {
+  console.log(payload);
+  return dispatch => {
     let config = {
       headers: {
         Authorization: `${window.localStorage.getItem("company")}`
       }
     };
-    let data = payload.data
+    let data = payload.data;
     axios
       .post(`${api_route.host}/events/`, data, config)
       .then(res => {
@@ -349,7 +348,7 @@ export const createEvent =payload=>{
         // let newarr = this.state.perjobarr;
         // newarr.push(res.data);
         // console.log(newarr);
-        dispatch(createEventDispatcher(res.data))
+        dispatch(createEventDispatcher(res.data));
         // this.setState({ jobarr: newarr });
         // this.setState({ perjobarr: newarr });
         // const result = this.state.perjobarr.filter(
@@ -361,6 +360,5 @@ export const createEvent =payload=>{
       .catch(err => {
         console.log(err);
       });
-    
-  }
-}
+  };
+};
