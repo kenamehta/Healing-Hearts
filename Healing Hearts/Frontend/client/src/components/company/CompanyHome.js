@@ -34,9 +34,9 @@ class CompanyHome extends Component {
     addSuccessMsg: "",
     id: "",
     propicture: "",
-    companyFilter:'empty',
-    locationFilter:'empty',
-    categoryFilter:'empty',
+    companyFilter: "empty",
+    locationFilter: "empty",
+    categoryFilter: "empty",
     sortFilter: "empty",
     page: "1",
     limit: "10",
@@ -46,7 +46,7 @@ class CompanyHome extends Component {
     this.props.getCompanyProfile({
       companyFilter: this.state.companyFilter,
       locationFilter: this.state.locationFilter,
-      categoryFilter:this.state.categoryFilter,
+      categoryFilter: this.state.categoryFilter,
       sortFilter: this.state.categoryFilter,
       page: this.state.page,
       limit: this.state.limit
@@ -59,11 +59,10 @@ class CompanyHome extends Component {
       this.props.getCompanyProfile({
         companyFilter: this.state.companyFilter,
         locationFilter: this.state.locationFilter,
-        categoryFilter:this.state.categoryFilter,
+        categoryFilter: this.state.categoryFilter,
         sortFilter: this.state.categoryFilter,
-        page:pageNumber,
+        page: pageNumber,
         limit: this.state.limit
-       
       })
     );
   }
@@ -72,19 +71,18 @@ class CompanyHome extends Component {
     this.props.getCompanyProfile({
       companyFilter: this.state.companyFilter,
       locationFilter: this.state.locationFilter,
-      categoryFilter:this.state.categoryFilter,
+      categoryFilter: this.state.categoryFilter,
       page: this.state.page,
       limit: this.state.limit
-     
     });
   };
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+    console.log(nextProps);
     this.setState({ perjobarr: nextProps.companyobj.perjobarr });
     this.setState({ jobarr: nextProps.companyobj.jobarr });
     this.setState({ companyobj: nextProps.companyobj.companyobj });
     this.setState({ propicture: nextProps.companyobj.propicture });
-    this.setState({count:nextProps.companyobj.total})
+    this.setState({ count: nextProps.companyobj.total });
     if (nextProps.propicture) {
       this.setState({ propicture: nextProps.propicture });
     }
@@ -102,7 +100,6 @@ class CompanyHome extends Component {
     }
   }
 
-  
   setRedirect = () => {
     this.setState({
       redirect: true
@@ -115,8 +112,6 @@ class CompanyHome extends Component {
       return <Redirect to={`/job/student/${this.state.id}`} />;
     }
   };
-
-  
 
   handleSubmit = e => {
     e.preventDefault();
@@ -149,14 +144,11 @@ class CompanyHome extends Component {
       }
     };
     this.props.editCompanyProfile(data);
-
-   
   };
 
   updatePic = e => {
     e.preventDefault();
     this.props.editProfilePic(this.state.picture);
-   
   };
 
   render() {
@@ -182,7 +174,7 @@ class CompanyHome extends Component {
                                 size="large"
                                 name="camera"
                                 style={{ color: "#1569e0" }}
-                              ></ion-icon>
+                              />
                             </div>
 
                             <div>
@@ -195,7 +187,7 @@ class CompanyHome extends Component {
                                   console.log(e.target.files[0]);
                                   this.setState({ picture: e.target.files[0] });
                                 }}
-                              ></input>
+                              />
                             </div>
                           </button>
                         </div>
@@ -205,16 +197,18 @@ class CompanyHome extends Component {
                           type="submit"
                           className="btn btn-primary mt-3"
                           value="Edit Pic"
-                        ></input>
+                        />
                       </form>
                     )}
                   </div>
                 </div>
                 <div className="mt-3">
                   <h3 style={{ fontSize: "20px", fontWeight: "600" }}>
-                    {this.state.companyobj.company_basic_details
-                      ? this.state.companyobj.company_basic_details.company_name
-                      : ""}
+                    {this.state.companyobj.company_basic_details ? (
+                      this.state.companyobj.company_basic_details.company_name
+                    ) : (
+                      ""
+                    )}
                   </h3>
                 </div>
               </div>
@@ -225,26 +219,30 @@ class CompanyHome extends Component {
               >
                 {" "}
                 <div className="d-flex">
-                  <div className="d-flex ml-3">
-                    <ion-icon name="location"></ion-icon>
+                  <div className="d-flex">
+                    <ion-icon name="location" />
                     <p
                       style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                       className="ml-2"
                     >
-                      {this.state.companyobj.company_basic_details
-                        ? this.state.companyobj.company_basic_details.location
-                        : ""}
+                      {this.state.companyobj.company_basic_details ? (
+                        this.state.companyobj.company_basic_details.location
+                      ) : (
+                        ""
+                      )}
                     </p>
                   </div>
                   <div className="d-flex ml-3">
-                    <ion-icon name="call"></ion-icon>
+                    <ion-icon name="call" />
                     <p
                       style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                       className="ml-2"
                     >
-                      {this.state.companyobj.company_basic_details
-                        ? this.state.companyobj.company_basic_details.phone
-                        : ""}
+                      {this.state.companyobj.company_basic_details ? (
+                        this.state.companyobj.company_basic_details.phone
+                      ) : (
+                        ""
+                      )}
                     </p>
                   </div>
                 </div>
@@ -252,21 +250,25 @@ class CompanyHome extends Component {
                   <p style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}>
                     {" "}
                     email:{" "}
-                    {this.state.companyobj.company_basic_details
-                      ? this.state.companyobj.company_basic_details.emailId
-                      : ""}
+                    {this.state.companyobj.company_basic_details ? (
+                      this.state.companyobj.company_basic_details.emailId
+                    ) : (
+                      ""
+                    )}
                   </p>
                 </div>
                 <p className="card-text" style={{ fontSize: "14px" }}>
-                  {this.state.companyobj.company_basic_details
-                    ? this.state.companyobj.company_basic_details.description
-                    : ""}
+                  {this.state.companyobj.company_basic_details ? (
+                    this.state.companyobj.company_basic_details.description
+                  ) : (
+                    ""
+                  )}
                 </p>
               </div>
               <div
                 style={{ display: this.state.editInfo }}
                 align="center"
-                className="ml-4"
+                className=""
               >
                 <table>
                   <tr>
@@ -277,20 +279,22 @@ class CompanyHome extends Component {
                           type="text"
                           className="form-control"
                           placeholder={
-                            this.state.companyobj.company_basic_details
-                              ? this.state.companyobj.company_basic_details
-                                  .company_name
-                              : ""
+                            this.state.companyobj.company_basic_details ? (
+                              this.state.companyobj.company_basic_details
+                                .company_name
+                            ) : (
+                              ""
+                            )
                           }
                           onChange={e => {
                             this.setState({ name: e.target.value });
                           }}
-                        ></input>
+                        />
                       </div>
                     </td>
                   </tr>
 
-                  <div className="mt-1"></div>
+                  <div className="mt-1" />
                   <tr>
                     <td>Phone</td>
                     <td>
@@ -299,19 +303,20 @@ class CompanyHome extends Component {
                           type="text"
                           className="form-control"
                           placeholder={
-                            this.state.companyobj.company_basic_details
-                              ? this.state.companyobj.company_basic_details
-                                  .phone
-                              : ""
+                            this.state.companyobj.company_basic_details ? (
+                              this.state.companyobj.company_basic_details.phone
+                            ) : (
+                              ""
+                            )
                           }
                           onChange={e => {
                             this.setState({ phone: e.target.value });
                           }}
-                        ></input>
+                        />
                       </div>
                     </td>
                   </tr>
-                  <div className="mt-1"></div>
+                  <div className="mt-1" />
                   <tr>
                     <td>Location</td>
                     <td>
@@ -320,15 +325,17 @@ class CompanyHome extends Component {
                           type="text"
                           className="form-control"
                           placeholder={
-                            this.state.companyobj.company_basic_details
-                              ? this.state.companyobj.company_basic_details
-                                  .location
-                              : ""
+                            this.state.companyobj.company_basic_details ? (
+                              this.state.companyobj.company_basic_details
+                                .location
+                            ) : (
+                              ""
+                            )
                           }
                           onChange={e => {
                             this.setState({ location: e.target.value });
                           }}
-                        ></input>
+                        />
                       </div>
                     </td>
                   </tr>
@@ -370,369 +377,215 @@ class CompanyHome extends Component {
                 </button>
               </div>
             </div>
-            <div className="container mt-3 p-2 pb-5"></div>
+            <div className="container mt-3 p-2 pb-5" />
           </div>
           <div className="col-8">
             <div className="card">
               <div className="card-body d-flex justify-content-between">
-                <div className="d-flex col-6">
+                <div className="d-flex col-6 mt-2">
                   <div
                     className="m-2"
                     style={{ left: "40px", position: "relative" }}
                   >
-                    <ion-icon name="search"></ion-icon>
+                    <ion-icon name="search" />
                   </div>
                   <input
                     type="text"
-                    className="form-control p-2 pl-5"
-                    placeholder="Job titles or keywords"
+                    className="form-control p-2 pl-4"
+                    placeholder="Category"
                     onChange={e => {
                       this.setState(
-                      { companyFilter: e.target.value || "empty" },
-                      () => {
-                        this.getFilterJobs();
-                      }
-                    );
+                        { categoryFilter: e.target.value || "empty" },
+                        () => {
+                          this.getFilterJobs();
+                        }
+                      );
                       //  this.filterByTitleOrCompany(e.target.value);
                     }}
                   />
                 </div>
-                <div className="d-flex col-6">
-                  <div
-                    className="m-2"
-                    style={{ left: "40px", position: "relative" }}
-                  >
-                    <ion-icon name="location"></ion-icon>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control p-2 pl-5"
-                    placeholder="City, State, Zip Code, or Address"
-                    onChange={e => {
-                    //  this.filterByLocation(e.target.value);
-                    this.setState(
-                      { locationFilter: e.target.value || "empty" },
-                      () => {
-                        this.getFilterJobs();
-                      }
-                    );
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <div className="d-flex p-2 ml-2">
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      // const result = this.state.perjobarr.filter(
-                      //   i => i.job_category == "Full-Time"
-                      // );
-                      // this.setState({ jobarr: result });
-                      this.setState(
-                      { 
-                        categoryFilter: "Full-Time"},
-                    () => {
-                      this.getFilterJobs();
-                    }
-                  );
-                    }}
-                  >
-                    Full-Time Job
-                  </button>
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      // const result = this.state.perjobarr.filter(
-                      //   i => i.job_category == "Part-Time"
-                      // );
-                      // this.setState({ jobarr: result });
-                      this.setState(
-                    { categoryFilter: "Part-Time"},
-                    () => {
-                      this.getFilterJobs();
-                    }
-                  );
-                    }}
-                  >
-                    Part-Time
-                  </button>
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      // const result = this.state.perjobarr.filter(
-                      //   i => i.job_category == "Internship"
-                      // );
-                      // this.setState({ jobarr: result });
-                      this.setState(
-                    { categoryFilter: "Internship"},
-                    () => {
-                      this.getFilterJobs();
-                    }
-                  );
-                    }}
-                  >
-                    Internship
-                  </button>
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      // const result = this.state.perjobarr.filter(
-                      //   i => i.job_category == "On-Campus"
-                      // );
-                      // this.setState({ jobarr: result });
-                      this.setState(
-                    { categoryFilter: "On-Campus"},
-                    () => {
-                      this.getFilterJobs();
-                    }
-                  );
-                    }}
-                  >
-                    On-Campus
-                  </button>
-                </div>
-                <div className="p-2 ml-2">
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      this.setState({ modalShow: "block" });
-                    }}
-                  >
-                    <ion-icon name="add"></ion-icon>
-                    Add Jobs
-                  </button>
-                </div>
-                <div
-                  id="myModal"
-                  className="modal"
-                  style={{ display: this.state.modalShow }}
-                >
-                  <div
-                    className="modal-content col-5"
-                    style={{ fontFamily: "Suisse" }}
-                  >
-                    <div className="container">
-                      <span
-                        class="close"
-                        onClick={e => {
-                          this.setState({ modalShow: "none" });
-                          this.setState({ addSuccessMsg: "" });
-                        }}
-                      >
-                        &times;
-                      </span>
-                      {this.state.addSuccessMsg ? (
-                        <p style={{ color: "green" }}>
-                          {this.state.addSuccessMsg}
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                      <div align="center">
-                        <h3 style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                          New Job
-                        </h3>
-                      </div>
-                      <form onSubmit={this.handleSubmit}>
-                        <div className="form-group col-md-11">
-                          <label
-                            style={{ fontWeight: "bold", marginBottom: "5px" }}
-                          >
-                            Job Title
-                          </label>
-                          <input
-                            type="text"
-                            id="jobtitle"
-                            name="jobtitle"
-                            className="form-control"
-                            placeholder="Enter Job Title"
-                            onChange={e => {
-                              this.setState({ jobtitle: e.target.value });
-                            }}
-                            required
-                          ></input>
-                        </div>
-                        <div className="form-group col-md-11">
-                          <label
-                            style={{ fontWeight: "bold", marginBottom: "5px" }}
-                          >
-                            Category
-                          </label>
-                          <select
-                            value={this.state.job_category}
-                            id="category"
-                            className="form-control"
-                            onChange={e => {
-                              this.setState({ job_category: e.target.value });
-                            }}
-                            required
-                          >
-                            <option value="Full-Time">Full Time</option>
-                            <option value="Part-Time">Part Time</option>
-                            <option value="On-Campus">On Campus</option>
-                            <option value="Internship">Internship</option>
-                          </select>
-                        </div>
-                        <div className="form-group col-md-11">
-                          <div>
-                            <label
-                              style={{
-                                fontWeight: "bold",
-                                marginBottom: "5px"
-                              }}
-                            >
-                              Location
-                            </label>
-                          </div>
 
-                          <label
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "13px",
-                              marginBottom: "5px"
-                            }}
+                <div className="mr-3">
+                  <div className="p-2 ml-2">
+                    <button
+                      className="style__pill___3uHDM"
+                      onClick={e => {
+                        this.setState({ modalShow: "block" });
+                      }}
+                    >
+                      <ion-icon name="add" />
+                      Create a Fundraiser
+                    </button>
+                  </div>
+                  <div
+                    id="myModal"
+                    className="modal"
+                    style={{ display: this.state.modalShow }}
+                  >
+                    <div
+                      className="modal-content col-5"
+                      style={{ fontFamily: "Suisse" }}
+                    >
+                      <div className="container">
+                        <span
+                          class="close"
+                          onClick={e => {
+                            this.setState({ modalShow: "none" });
+                            this.setState({ addSuccessMsg: "" });
+                          }}
+                        >
+                          &times;
+                        </span>
+                        {this.state.addSuccessMsg ? (
+                          <p style={{ color: "green" }}>
+                            {this.state.addSuccessMsg}
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                        <div align="center">
+                          <h3
+                            style={{ fontWeight: "bold", marginBottom: "5px" }}
                           >
-                            Please enter location
-                          </label>
-                          <input
-                            type="text"
-                            id="joblocation"
-                            name="joblocation"
-                            className="form-control"
-                            placeholder="Eg. New York"
-                            onChange={e => {
-                              this.setState({ joblocation: e.target.value });
-                            }}
-                            required
-                          ></input>
+                            New Fundraiser
+                          </h3>
                         </div>
-                        <div className="col-md-11 d-flex p-0">
-                          <div className="form-group col-md-6 ">
+                        <form onSubmit={this.handleSubmit}>
+                          <div className="form-group col-md-11">
                             <label
                               style={{
                                 fontWeight: "bold",
                                 marginBottom: "5px"
                               }}
                             >
-                              Salary
+                              Title
                             </label>
                             <input
-                              type="number"
-                              id="salary"
-                              name="salary"
+                              type="text"
+                              id="jobtitle"
+                              name="jobtitle"
                               className="form-control"
-                              placeholder="Eg. 500000"
+                              placeholder="Enter Job Title"
                               onChange={e => {
-                                this.setState({ salary: e.target.value });
+                                this.setState({ jobtitle: e.target.value });
                               }}
                               required
-                            ></input>
+                            />
                           </div>
-                          <div className="form-group col-md-6">
+                          <div className="form-group col-md-11">
                             <label
                               style={{
                                 fontWeight: "bold",
                                 marginBottom: "5px"
                               }}
                             >
-                              Deadline
+                              Category
                             </label>
-                            <input
-                              type="date"
-                              id="deadline"
-                              name="deadline"
+                            <select
+                              value={this.state.job_category}
+                              id="category"
                               className="form-control"
-                              placeholder="Deadline"
+                              onChange={e => {
+                                this.setState({ job_category: e.target.value });
+                              }}
+                              required
+                            >
+                              <option value="Animals">Animals</option>
+                              <option value="Children">Children</option>
+                              <option value="Coronavirus">Coronavirus</option>
+                              <option value="Homeless">Homeless</option>
+                              <option value="Poverty">Poverty</option>
+                            </select>
+                          </div>
+
+                          <div className="form-group col-md-11">
+                            <label
+                              style={{
+                                fontWeight: "bold",
+                                marginBottom: "5px"
+                              }}
+                            >
+                              Description
+                            </label>
+                            <textarea
+                              id="jobdescription"
+                              name="jobdescription"
+                              className="form-control"
+                              placeholder="Enter Job Description"
                               onChange={e => {
                                 this.setState({
-                                  deadline: e.target.value
+                                  jobdescription: e.target.value
                                 });
                               }}
                               required
-                            ></input>
+                            />
                           </div>
-                        </div>
-                        <div className="form-group col-md-11">
-                          <label
-                            style={{ fontWeight: "bold", marginBottom: "5px" }}
-                          >
-                            Description
-                          </label>
-                          <textarea
-                            id="jobdescription"
-                            name="jobdescription"
-                            className="form-control"
-                            placeholder="Enter Job Description"
-                            onChange={e => {
-                              this.setState({ jobdescription: e.target.value });
-                            }}
-                            required
-                          ></textarea>
-                        </div>
-                        <div className="form-group col-md-8 m-3">
-                          <input
-                            type="submit"
-                            className="btn btn btn-primary"
-                          ></input>
-                        </div>
-                      </form>
+                          <div className="form-group" align="center">
+                            <input
+                              type="submit"
+                              className="btn btn btn-primary"
+                              value="Create"
+                            />
+                          </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="style__divider___1j_Fp mb-3" />
               <div className="style__jobs___3seWY" style={{ height: "500px" }}>
-                {this.state.jobarr
-                  ? this.state.jobarr.map(i => (
-                      <div key={i._id}>
-                        <div
-                          className="style__selected___1DMZ3 p-2 mt-3 jobdiv m-1 card"
-                          onClick={e => {
-                            this.setRedirect(i._id);
-                            this.setState({ id: i._id });
-                          }}
-                        >
-                          <div className="d-flex">
-                            <ion-icon name="briefcase"></ion-icon>
-                            <h3
-                              className="ml-2"
-                              style={{ fontSize: "16px", fontWeight: "700" }}
-                            >
-                              {i.job_title}
-                            </h3>
-                          </div>
-                          <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                            {i ? i.company_name : ""}
-                          </h3>
+                {this.state.jobarr ? (
+                  this.state.jobarr.map(i => (
+                    <div key={i._id}>
+                      <div
+                        className="style__selected___1DMZ3 p-2 mt-3 jobdiv m-1 card"
+                        onClick={e => {
+                          this.setRedirect(i._id);
+                          this.setState({ id: i._id });
+                        }}
+                      >
+                        <div className="d-flex">
+                          <ion-icon name="briefcase" />
                           <h3
-                            style={{
-                              color: "rgba(0,0,0,.56)",
-                              fontWeight: "200px",
-                              fontSize: "14px"
-                            }}
+                            className="ml-2"
+                            style={{ fontSize: "16px", fontWeight: "700" }}
                           >
-                            {i.job_category} Job
+                            {i.job_title}
                           </h3>
                         </div>
+                        <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
+                          {i ? i.company_name : ""}
+                        </h3>
+                        <h3
+                          style={{
+                            color: "rgba(0,0,0,.56)",
+                            fontWeight: "200px",
+                            fontSize: "14px"
+                          }}
+                        >
+                          {i.job_category} Job
+                        </h3>
                       </div>
-                    ))
-                  : ""}
-                  </div>
-                  <div
-                 
-                  className="align-self-center"
-                  style={{ backgroundColor: "white" }}
-                >
-                  <Pagination
-                    hideFirstLastPages
-                    activePage={this.state.page}
-                    itemsCountPerPage={this.state.limit}
-                    totalItemsCount={this.state.count}
-                    pageRangeDisplayed={4}
-                    onChange={this.handlePageChange.bind(this)}
-                  />
-                </div>
-              
+                    </div>
+                  ))
+                ) : (
+                  ""
+                )}
+              </div>
+              <div
+                className="align-self-center"
+                style={{ backgroundColor: "white" }}
+              >
+                <Pagination
+                  hideFirstLastPages
+                  activePage={this.state.page}
+                  itemsCountPerPage={this.state.limit}
+                  totalItemsCount={this.state.count}
+                  pageRangeDisplayed={4}
+                  onChange={this.handlePageChange.bind(this)}
+                />
+              </div>
             </div>
           </div>
         </div>
