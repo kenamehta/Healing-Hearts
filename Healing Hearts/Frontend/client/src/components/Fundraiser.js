@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import Plot from "react-plotly.js";
+// import Plot from "react-plotly.js";
+import Plotly from 'plotly.js-basic-dist'
+import createPlotlyComponent from 'react-plotly.js/factory';
+const Plot = createPlotlyComponent(Plotly);
 class Fundraiser extends Component {
   state = {};
   render() {
@@ -19,8 +22,8 @@ class Fundraiser extends Component {
                     y: [10, 9, 9, 7, 7, 3, 5, 4, 6, 7, 4],
                     type: "scattergl",
                     marker: { color: "red" },
-                    name: "Trending fundraisers"
-                  }
+                    name: "Trending fundraisers",
+                  },
                 ]}
               />
             </div>
