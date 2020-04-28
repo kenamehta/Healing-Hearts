@@ -82,7 +82,7 @@ class ProfilePic extends Component {
     const data = this.state.dataarr;
 
     return (
-      <div className="container mt-3">
+      <div className="mt-3">
         <div className="row">
           <div className="col-12 col-md-offset-1 shadow_style">
             <div className="card">

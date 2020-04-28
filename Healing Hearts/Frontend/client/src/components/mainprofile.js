@@ -37,7 +37,7 @@ class MainProfile extends Component {
     return (
       <div className="d-flex container">
         <div className="row">
-          <div className="col-4">
+          <div className="col-3">
             <ProfilePic
               profile={this.props.profile}
               updateName={this.props.updateName}
@@ -45,7 +45,7 @@ class MainProfile extends Component {
             />
             <PersonalInfo personalData={this.props.profile} addBasic={this.props.addBasic} />
           </div>
-          <div className="col-8">
+          <div className="col-9">
           <Journey
               journeyData={this.props.profile}
               updateCareerObjective={this.props.updateCareerObjective}

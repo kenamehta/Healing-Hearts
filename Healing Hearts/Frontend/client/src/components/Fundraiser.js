@@ -7,7 +7,7 @@ class Fundraiser extends Component {
   state = {};
   render() {
     return (
-      <div className="container pb-5">
+      <div className="container ">
         <div className="card jshadow">
           <div className="card-body">
             <h4 className="pb-3" style={{ fontWeight: "700" }}>

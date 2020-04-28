@@ -31,7 +31,7 @@ class PersonalInfo extends Component {
   }
   render() {
     return (
-      <div className="container mt-4">
+      <div className="mt-4">
         <div className="row">
           <div className="col-12 col-md-offset-1 shadow_style">
             <div className="card">
