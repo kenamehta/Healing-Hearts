@@ -20,14 +20,14 @@ class StudentList extends Component {
     collegeFilter: "empty",
     page: "1",
     limit: "10",
-    count: ""
+    count: "",
   };
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.list.newStudentarr);
-    this.setState({ studentarr: nextProps.list.newStudentarr }, () => {
+     console.log(nextProps.list.donors.docs);
+    this.setState({ studentarr: nextProps.list.donors.docs }, () => {
       console.log(this.state.studentarr);
     });
-    this.setState({ perStudentArr: nextProps.list.newStudentarr });
+    this.setState({ perStudentArr: nextProps.list.donors.docs });
     this.setState({ count: nextProps.list.total });
   }
   getFilterList = () => {
@@ -37,7 +37,7 @@ class StudentList extends Component {
       skillFilter: this.state.skillFilter,
       collegeFilter: this.state.collegeFilter,
       page: this.state.page,
-      limit: this.state.limit
+      limit: this.state.limit,
     });
   };
   componentWillMount() {
@@ -47,7 +47,7 @@ class StudentList extends Component {
       skillFilter: this.state.skillFilter,
       collegeFilter: this.state.collegeFilter,
       page: this.state.page,
-      limit: this.state.limit
+      limit: this.state.limit,
     });
   }
   handlePageChange(pageNumber) {
@@ -60,14 +60,14 @@ class StudentList extends Component {
         skillFilter: this.state.skillFilter,
         collegeFilter: this.state.collegeFilter,
         page: pageNumber,
-        limit: this.state.limit
+        limit: this.state.limit,
       })
     );
   }
 
   setRedirect = () => {
     this.setState({
-      redirect: true
+      redirect: true,
     });
   };
   renderRedirect = () => {
@@ -112,14 +112,14 @@ class StudentList extends Component {
                   style={{
                     paddingBottom: "16px",
                     paddingLeft: "16px",
-                    paddingRight: "16px"
+                    paddingRight: "16px",
                   }}
                 >
                   <input
                     className="form-control"
                     type="text"
                     placeholder="enter a name..."
-                    onChange={e => {
+                    onChange={(e) => {
                       // this.filterName(e.target.value);
                       this.setState(
                         { studentnameFilter: e.target.value || "empty" },
@@ -144,14 +144,14 @@ class StudentList extends Component {
                   style={{
                     paddingBottom: "16px",
                     paddingLeft: "16px",
-                    paddingRight: "16px"
+                    paddingRight: "16px",
                   }}
                 >
                   <input
                     className="form-control"
                     type="text"
                     placeholder="enter a major..."
-                    onChange={e => {
+                    onChange={(e) => {
                       // this.filterMajor(e.target.value);
                       this.setState(
                         { majorFilter: e.target.value || "empty" },
@@ -176,14 +176,14 @@ class StudentList extends Component {
                   style={{
                     paddingBottom: "16px",
                     paddingLeft: "16px",
-                    paddingRight: "16px"
+                    paddingRight: "16px",
                   }}
                 >
                   <input
                     className="form-control"
                     type="text"
                     placeholder="enter college name..."
-                    onChange={e => {
+                    onChange={(e) => {
                       //   this.filterCollege(e.target.value);
                       this.setState(
                         { collegeFilter: e.target.value || "empty" },
@@ -209,14 +209,14 @@ class StudentList extends Component {
                   style={{
                     paddingBottom: "16px",
                     paddingLeft: "16px",
-                    paddingRight: "16px"
+                    paddingRight: "16px",
                   }}
                 >
                   <input
                     className="form-control"
                     type="text"
                     placeholder="enter a skill..."
-                    onChange={e => {
+                    onChange={(e) => {
                       // this.filterSkill(e.target.value);
                       this.setState(
                         { skillFilter: e.target.value || "empty" },
@@ -229,16 +229,16 @@ class StudentList extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-9"  align="center">
+            <div className="col-9" align="center">
               <div className="card" style={{ height: "500px" }}>
                 <div className="style__jobs___3seWY">
                   <div className="style__card-item___B1f7m:last-child"></div>
                   <div className="style__media-body___1_M6P">
                     {console.log(
-                      this.props.list ? this.props.list.newStudentarr[0] : ""
+                      this.props.list ? this.props.list.donors.docs[0] : ""
                     )}
                     {this.state.studentarr
-                      ? this.state.studentarr.map(i => (
+                      ? this.state.studentarr.map((i) => (
                           <div>
                             <div className="p-2">
                               <div class="card mt-4">
@@ -246,12 +246,12 @@ class StudentList extends Component {
                                   className="m-3"
                                   style={{
                                     textDecoration: "underline",
-                                    cursor: "pointer"
+                                    cursor: "pointer",
                                   }}
-                                  onClick={e => {
+                                  onClick={(e) => {
                                     this.setRedirect(i.student_basic_detail_id);
                                     this.setState({
-                                      id: i.student_basic_detail_id
+                                      id: i.student_basic_detail_id,
                                     });
                                   }}
                                 >
@@ -260,9 +260,9 @@ class StudentList extends Component {
                                       <div className="col-5">
                                         <img
                                           style={{
-                                            width:'120px'
+                                            width: "120px",
                                           }}
-                                          src={`${api_route.host}//${i.profile_picture}`}
+                                          src={`${api_route.host}//${i.profilePic}`}
                                         ></img>
                                       </div>
                                       <div>
@@ -270,36 +270,36 @@ class StudentList extends Component {
                                           className="ml-5"
                                           style={{
                                             fontSize: "20px",
-                                            fontWeight: "600"
+                                            fontWeight: "600",
                                           }}
                                         >
                                           {" "}
                                           {i ? i.name : ""}
                                         </h3>
 
-                                        <h3
+                                        {/* <h3
                                           className="ml-5"
                                           style={{
                                             fontSize: "16px",
-                                            fontWeight: "400"
+                                            fontWeight: "400",
                                           }}
                                         >
                                           {" "}
                                           {i ? i.college : ""}
-                                        </h3>
-                                        <div className="ml-5">
+                                        </h3> */}
+                                        {/* <div className="ml-5">
                                           {i.skills ? i.skills : ""}
-                                        </div>
+                                        </div> */}
                                       </div>
                                     </div>
                                     {/* <div className="d-flex justify-content-between"> */}
                                     <div>
-                                      <h3
+                                      {/* <h3
                                         className="ml-5"
                                         style={{
                                           fontSize: "16px",
                                           fontWeight: "400",
-                                          color: "rgba(0,0,0,.8)"
+                                          color: "rgba(0,0,0,.8)",
                                         }}
                                       >
                                         {" "}
@@ -309,15 +309,15 @@ class StudentList extends Component {
                                         {i.educations.major
                                           ? i.educations.major
                                           : ""}
-                                      </h3>
+                                      </h3> */}
 
-                                      {i.educations.end_time ? (
+                                      {/* {i.educations.end_time ? (
                                         <h3
                                           className="mr-5"
                                           style={{
                                             fontSize: "16px",
                                             fontWeight: "400",
-                                            color: "rgba(0,0,0,.8)"
+                                            color: "rgba(0,0,0,.8)",
                                           }}
                                         >
                                           Graduate On{" "}
@@ -327,7 +327,7 @@ class StudentList extends Component {
                                         </h3>
                                       ) : (
                                         ""
-                                      )}
+                                      )} */}
                                     </div>
                                   </div>
                                 </div>
@@ -338,8 +338,7 @@ class StudentList extends Component {
                       : ""}
                   </div>
                 </div>
-             
-              
+
                 <div
                   align="center"
                   className="align-self-center"
@@ -362,15 +361,15 @@ class StudentList extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   console.log(state);
   return {
-    list: state.studentListReducer.studentlist
+    list: state.studentListReducer.studentlist,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getStudents: payload => dispatch(getStudents(payload))
+    getStudents: (payload) => dispatch(getStudents(payload)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StudentList);
