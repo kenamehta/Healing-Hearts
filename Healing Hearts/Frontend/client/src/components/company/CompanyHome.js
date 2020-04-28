@@ -24,13 +24,13 @@ class CompanyHome extends Component {
     jobobj: "",
     perjobarr: [],
     modalShow: "none",
-    jobtitle: "",
+    fundraisertitle: "",
     value: "Full-Time",
-    job_category: "Full-Time",
+    fundraiserCategory: "Full-Time",
     joblocation: "",
     salary: "",
     deadline: "",
-    jobdescription: "",
+    funddesc: "",
     addSuccessMsg: "",
     id: "",
     propicture: "",
@@ -40,7 +40,8 @@ class CompanyHome extends Component {
     sortFilter: "empty",
     page: "1",
     limit: "10",
-    count: ""
+    count: "",
+    amount:''
   };
   componentWillMount() {
     this.props.getCompanyProfile({
@@ -90,7 +91,7 @@ class CompanyHome extends Component {
       this.setState({ companyobj: nextProps.companyobject });
     }
     if (nextProps.jobobj) {
-      this.setState({ addSuccessMsg: "Job added Successfully" });
+      this.setState({ addSuccessMsg: "Fundraiser added Successfully" });
       let newarr = this.state.perjobarr;
       newarr.push(nextProps.jobobj);
       console.log(newarr);
@@ -123,13 +124,11 @@ class CompanyHome extends Component {
     //   }
     // };
     let data = {
-      job: {
-        job_title: this.state.jobtitle,
-        deadline: this.state.deadline,
-        location: this.state.joblocation,
-        salary: this.state.salary,
-        job_description: this.state.jobdescription,
-        job_category: this.state.job_category
+      fundraiser: {
+        title: this.state.fundraisertitle,
+       amount:this.state.amount,
+       description: this.state.funddesc,
+        category: this.state.fundraiserCategory
       }
     };
     this.props.createJobs(data);
@@ -462,12 +461,12 @@ class CompanyHome extends Component {
                             </label>
                             <input
                               type="text"
-                              id="jobtitle"
-                              name="jobtitle"
+                              id="fundraisertitle"
+                              name="fundraisertitle"
                               className="form-control"
-                              placeholder="Enter Job Title"
+                              placeholder="Enter Fundraiser Title"
                               onChange={e => {
-                                this.setState({ jobtitle: e.target.value });
+                                this.setState({ fundraisertitle: e.target.value });
                               }}
                               required
                             />
@@ -486,7 +485,7 @@ class CompanyHome extends Component {
                               id="category"
                               className="form-control"
                               onChange={e => {
-                                this.setState({ job_category: e.target.value });
+                                this.setState({ fundraiserCategory: e.target.value });
                               }}
                               required
                             >
@@ -497,7 +496,27 @@ class CompanyHome extends Component {
                               <option value="Poverty">Poverty</option>
                             </select>
                           </div>
-
+                          <div className="form-group col-md-11">
+                            <label
+                              style={{
+                                fontWeight: "bold",
+                                marginBottom: "5px"
+                              }}
+                            >
+                              Target amount
+                            </label>
+                            <input
+                              type="number"
+                              id="amount"
+                              name="amount"
+                              className="form-control"
+                              placeholder="Enter your target amount"
+                              onChange={e => {
+                                this.setState({ amount: e.target.value });
+                              }}
+                              required
+                            />
+                          </div>
                           <div className="form-group col-md-11">
                             <label
                               style={{
@@ -508,13 +527,13 @@ class CompanyHome extends Component {
                               Description
                             </label>
                             <textarea
-                              id="jobdescription"
-                              name="jobdescription"
+                              id="funddesc"
+                              name="funddesc"
                               className="form-control"
                               placeholder="Enter Job Description"
                               onChange={e => {
                                 this.setState({
-                                  jobdescription: e.target.value
+                                  funddesc: e.target.value
                                 });
                               }}
                               required
@@ -537,34 +556,40 @@ class CompanyHome extends Component {
               <div className="style__jobs___3seWY" style={{ height: "500px" }}>
                 {this.state.jobarr ? (
                   this.state.jobarr.map(i => (
-                    <div key={i._id}>
+                    <div className='p-4 mb-3' key={i._id}>
                       <div
-                        className="style__selected___1DMZ3 p-2 mt-3 jobdiv m-1 card"
+                        className="style__selected___1DMZ3 p-2 mt-3 line jobdiv m-1 card"
                         onClick={e => {
                           this.setRedirect(i._id);
                           this.setState({ id: i._id });
                         }}
                       >
-                        <div className="d-flex">
+                        <div className="d-flex justify-content-between mt-2">
+                          <div className="d-flex">
                           <ion-icon name="briefcase" />
                           <h3
-                            className="ml-2"
+                            className="ml-2 line"
                             style={{ fontSize: "16px", fontWeight: "700" }}
                           >
-                            {i.job_title}
+                            {i.title}
                           </h3>
-                        </div>
-                        <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                          {i ? i.company_name : ""}
+                          </div>
+                          <h3  style={{ fontSize: "16px", fontWeight: "400" }}>
+                          <i>{i ? i.companyName : ""}</i>
                         </h3>
-                        <h3
+                        </div>
+                        <h3 className='ml-4 mt-2' style={{ fontSize: "16px", fontWeight: "400" }}>
+                          {i ? i.description : ""}
+                        </h3>
+                        
+                        <h3 className='ml-2 mt-2'
                           style={{
                             color: "rgba(0,0,0,.56)",
                             fontWeight: "200px",
                             fontSize: "14px"
                           }}
                         >
-                          {i.job_category} Job
+                          <b>Category:</b> {i.category}
                         </h3>
                       </div>
                     </div>

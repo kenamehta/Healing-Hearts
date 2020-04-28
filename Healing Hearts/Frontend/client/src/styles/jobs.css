@@ -38,9 +38,12 @@ ion-icon {
 }
 
  .jobdiv:hover{
-  text-decoration: underline;
+ 
     cursor: pointer;
     background-color:#f5f9ff;
+}
+.line:hover{
+  text-decoration: "underline"
 }
 
 .style__card___31yrn {
