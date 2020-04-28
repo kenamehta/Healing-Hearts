@@ -164,19 +164,7 @@ class Navbar extends Component {
               </a>
             )}
           </div>
-          <div>
-            {localStorage.getItem("student") ? (
-              <a
-                className={liClasses}
-                style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/student/jobs"
-              >
-                jobs
-              </a>
-            ) : (
-              ""
-            )}
-          </div>
+
           <div>
             {localStorage.getItem("student") ? (
               <a

@@ -88,8 +88,11 @@ class ProfilePic extends Component {
             <div className="card">
               <div align="center" className="mt-2">
                 {this.props.profile ? this.props.profile.profile_picture ? (
-                  <div className="style__edit-photo___B-_os">
-                    <img src={this.props.profile.profile_picture} />
+                  <div className="style__edit-photo___B-_os ">
+                    <img
+                      className="circular-avatar-image avatar-image"
+                      src={this.props.profile.profile_picture}
+                    />
                   </div>
                 ) : (
                   <form onSubmit={this.updatePic}>
