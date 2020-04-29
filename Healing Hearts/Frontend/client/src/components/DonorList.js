@@ -8,7 +8,7 @@ import "../styles/jobs.css";
 import { getStudents } from "../redux/actions/studentListAction";
 import Pagination from "react-js-pagination";
 
-class StudentList extends Component {
+class DonorList extends Component {
   state = {
     studentarr: [],
     perStudentArr: [],
@@ -74,7 +74,7 @@ class StudentList extends Component {
     console.log("in redirecting");
     if (this.state.redirect) {
       localStorage.setItem("visitedstudent", this.state.id);
-      return <Redirect to={`/student/profile/${this.state.id}`} />;
+      return <Redirect to={`/donor/profile/${this.state.id}`} />;
     }
   };
   render() {
@@ -372,4 +372,4 @@ const mapDispatchToProps = (dispatch) => {
     getStudents: (payload) => dispatch(getStudents(payload)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(StudentList);
+export default connect(mapStateToProps, mapDispatchToProps)(DonorList);

@@ -4,7 +4,7 @@ import api_route from "../app-config";
 import { Redirect } from "react-router-dom";
 
 import axios from "axios";
-class JobDescription extends Component {
+class FundraiserDesc extends Component {
   state = {
     modalShow: "none",
     selectedFile: null,
@@ -82,18 +82,14 @@ class JobDescription extends Component {
                   marginBottom: "5px"
                 }}
               >
-                {this.props.jobdata.job_category}
+                {this.props.jobdata.category}
               </p>
               <div
                 style={{ textDecoration: "underline", cursor: "pointer" }}
                 onClick={e => {
-                  this.setRedirect(
-                    this.props.jobdata.company_basic_detail
-                      .company_basic_detail_id
-                  );
+                  this.setRedirect(this.props.jobdata.companyId);
                   this.setState({
-                    id: this.props.jobdata.company_basic_detail
-                      .company_basic_detail_id
+                    id: this.props.jobdata.companyId
                   });
                 }}
               >
@@ -105,15 +101,17 @@ class JobDescription extends Component {
                     color: "rgba(0,0,0,.56)"
                   }}
                 >
-                  {this.props.jobdata.company_basic_detail
-                    ? this.props.jobdata.company_basic_detail.company_name
-                    : ""}
+                  {this.props.jobdata.company_basic_detail ? (
+                    this.props.jobdata.company_basic_detail.company_name
+                  ) : (
+                    ""
+                  )}
                 </p>
               </div>
             </div>
             <div className="d-flex ml-3">
               <div className="d-flex ">
-                <ion-icon name="briefcase"></ion-icon>
+                <ion-icon name="briefcase" />
                 <p
                   style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                   className="ml-2"
@@ -122,7 +120,7 @@ class JobDescription extends Component {
                 </p>
               </div>
               <div className="d-flex ml-2">
-                <ion-icon name="location"></ion-icon>
+                <ion-icon name="location" />
                 <p
                   style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                   className="ml-2"
@@ -131,7 +129,7 @@ class JobDescription extends Component {
                 </p>
               </div>
               <div className="d-flex ml-2">
-                <ion-icon name="cash-outline"></ion-icon>
+                <ion-icon name="cash-outline" />
                 <p
                   style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                   className="ml-2"
@@ -153,9 +151,11 @@ class JobDescription extends Component {
                 <p>
                   {" "}
                   Application closes on{" "}
-                  {this.props.jobdata.deadline
-                    ? this.props.jobdata.deadline.split("T")[0]
-                    : ""}
+                  {this.props.jobdata.deadline ? (
+                    this.props.jobdata.deadline.split("T")[0]
+                  ) : (
+                    ""
+                  )}
                 </p>
                 <button
                   id="myBtn"
@@ -193,15 +193,19 @@ class JobDescription extends Component {
                       </span>
                       <p style={{ fontSize: "18px", fontWeight: "700" }}>
                         Apply to{" "}
-                        {this.props.jobdata.company_basic_detail
-                          ? this.props.jobdata.company_basic_detail.company_name
-                          : ""}
+                        {this.props.jobdata.company_basic_detail ? (
+                          this.props.jobdata.company_basic_detail.company_name
+                        ) : (
+                          ""
+                        )}
                       </p>
                       <p style={{ fontSize: "15px", fontWeight: "500" }}>
                         Details from{" "}
-                        {this.props.jobdata.company_basic_detail
-                          ? this.props.jobdata.company_basic_detail.company_name
-                          : ""}
+                        {this.props.jobdata.company_basic_detail ? (
+                          this.props.jobdata.company_basic_detail.company_name
+                        ) : (
+                          ""
+                        )}
                         :
                       </p>
                       <p
@@ -285,4 +289,4 @@ class JobDescription extends Component {
   }
 }
 
-export default JobDescription;
+export default FundraiserDesc;

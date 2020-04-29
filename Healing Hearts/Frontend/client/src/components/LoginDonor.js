@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "../styles/login.css";
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import {loginDonor} from '../redux/actions/authAction'
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { loginDonor } from "../redux/actions/authAction";
 
 class LoginDonor extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class LoginDonor extends Component {
         password: this.state.password
       }
     };
-    this.props.loginDonor(data)
+    this.props.loginDonor(data);
     // axios.defaults.withCredentials = true;
 
     // axios.post("http://localhost:3001/student/login", data).then(res=>{
@@ -56,7 +56,7 @@ class LoginDonor extends Component {
   };
   render() {
     if (this.props.authStudent) {
-      return <Redirect to="/student/home" />;
+      return <Redirect to="/donor/home" />;
     }
     return (
       <div>
@@ -76,7 +76,7 @@ class LoginDonor extends Component {
                   alt="Healing heart logo image"
                   height="42"
                   src="https://d1sssn74k2rfxk.cloudfront.net/assets/logo-dc4406b950dd8ba10a81ab34703a2bca284e7c4ba46d7ec7656c83e052d0c6f3.svg"
-                ></img>
+                />
               </a>
               <div className="content">
                 <h3 style={{ paddingTop: "40%" }}>
@@ -141,7 +141,9 @@ class LoginDonor extends Component {
                     />
                   </div>
                 </form>
-                <h6>No account?<a href="/donor/register"> Sign up here</a></h6>
+                <h6>
+                  No account?<a href="/donor/register"> Sign up here</a>
+                </h6>
               </div>
             </div>
           </div>
@@ -159,9 +161,8 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => {
-    return {
-      loginDonor: payload => dispatch(loginDonor(payload))
-    };
-}
+  return {
+    loginDonor: payload => dispatch(loginDonor(payload))
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(LoginDonor);
-

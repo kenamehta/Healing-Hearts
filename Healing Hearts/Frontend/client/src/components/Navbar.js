@@ -44,24 +44,23 @@ class Navbar extends Component {
           >
             <span className="navbar-toggler-icon" />
           </button>
-          <div>
-          {localStorage.getItem("company") ? 
-          <a
-              className="navbar-brand"
-              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
-              href="/home"
-            >
-              healing hEARTS
-            </a>:
+          {localStorage.getItem("student") ? (
             <a
               className="navbar-brand"
               style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
               href="/student/home"
             >
-              healing hEARTS
-            </a>}
-
-          </div>
+              healing HEARTS
+            </a>
+          ) : (
+            <a
+              className="navbar-brand"
+              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
+              href="/company/home"
+            >
+              healing HEARTS
+            </a>
+          )}
 
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav mr-auto mt-2 mt-md-0">
@@ -137,9 +136,9 @@ class Navbar extends Component {
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/student/home"
+                href="/donor/fundraisers"
               >
-                Profile
+                Fundraisers
               </a>
             ) : (
               <a

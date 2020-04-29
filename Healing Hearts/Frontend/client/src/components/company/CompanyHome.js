@@ -207,7 +207,7 @@ class CompanyHome extends Component {
                 <div className="mt-3">
                   <h3 style={{ fontSize: "20px", fontWeight: "600" }}>
                     {this.state.companyobj.company_basic_details ? (
-                      this.state.companyobj.company_basic_details.company_name
+                      this.state.companyobj.company_basic_details.companyName
                     ) : (
                       ""
                     )}

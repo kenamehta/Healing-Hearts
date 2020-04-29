@@ -10,7 +10,7 @@ import {
  getStudentList
 } from "../../redux/actions/companyAction";
 
-class StudentJobList extends Component {
+class DonorFundraiserList extends Component {
   state = {
     studentarr: [],
     perStudentArr: [],
@@ -395,5 +395,5 @@ const mapDispatchToProps = dispatch => {
    
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(StudentJobList);
+export default connect(mapStateToProps, mapDispatchToProps)(DonorFundraiserList);
 
