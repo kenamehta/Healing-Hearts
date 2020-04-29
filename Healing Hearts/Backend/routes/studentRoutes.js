@@ -739,9 +739,8 @@ route.post("/basicdetails", async (req, res) => {
   }
 });
 
-route.post("/upload/:id", upload.single("myimage"), async (req, res) => {
-  console.log(req.file, "filee");
-  console.log("applying for job");
+route.post("/upload/:id", async (req, res) => {
+  console.log("applying for fundraiser");
   var studentId;
   var studentObjectId;
   var student;
@@ -761,11 +760,10 @@ route.post("/upload/:id", upload.single("myimage"), async (req, res) => {
 
     // console.log(student, "-----------------------------------", bookId);
     const result = await Donation.create({
-      job_id: req.params.id,
-      status: "Pending",
-      student_basic_detail_id: student.student_basic_detail_id,
-      resume: req.file ? req.file.originalname : "",
-      student_id: studentObjectId
+      fundraiserId: req.params.id,
+      donorId: req.body.donorId,
+      companyId: req.body.companyId,
+      amount: req.body.amountRaised
     });
     if (result) {
       res.status(201).send(result);

@@ -4,7 +4,14 @@ import axios from "axios";
 import "../../../styles/companyprofilepic.css";
 import "../../../styles/company.css";
 import { Redirect } from "react-router-dom";
-
+import { connect } from "react-redux";
+import {
+  getCompanyProfile,
+  editCompanyProfile,
+  editProfilePic,
+  createJobs
+} from "../../../redux/actions/companyAction";
+import Pagination from "react-js-pagination";
 class VisitedCompany extends Component {
   state = {
     companyobj: "",
@@ -17,21 +24,86 @@ class VisitedCompany extends Component {
     jobobj: "",
     perjobarr: [],
     modalShow: "none",
-    jobtitle: "",
+    fundraisertitle: "",
     value: "",
-    job_category: "",
+    fundraiserCategory: "Animals",
     joblocation: "",
     salary: "",
     deadline: "",
-    jobdescription: "",
+    funddesc: "",
     addSuccessMsg: "",
     id: "",
-    propicture:''
+    propicture: "",
+    companyFilter: "empty",
+    locationFilter: "empty",
+    categoryFilter: "empty",
+    sortFilter: "empty",
+    page: "1",
+    limit: "10",
+    count: "",
+    amount: ""
   };
+  componentWillMount() {
+    this.props.getCompanyProfile({
+      companyFilter: this.state.companyFilter,
+      locationFilter: this.state.locationFilter,
+      categoryFilter: this.state.categoryFilter,
+      sortFilter: this.state.categoryFilter,
+      page: this.state.page,
+      limit: this.state.limit
+    });
+  }
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState(
+      { page: pageNumber },
+      this.props.getCompanyProfile({
+        companyFilter: this.state.companyFilter,
+        locationFilter: this.state.locationFilter,
+        categoryFilter: this.state.categoryFilter,
+        sortFilter: this.state.categoryFilter,
+        page: pageNumber,
+        limit: this.state.limit
+      })
+    );
+  }
+
+  getFilterJobs = () => {
+    this.props.getCompanyProfile({
+      companyFilter: this.state.companyFilter,
+      locationFilter: this.state.locationFilter,
+      categoryFilter: this.state.categoryFilter,
+      page: this.state.page,
+      limit: this.state.limit
+    });
+  };
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({ perjobarr: nextProps.companyobj.perjobarr });
+    this.setState({ jobarr: nextProps.companyobj.jobarr });
+    this.setState({ companyobj: nextProps.companyobj.companyobj });
+    this.setState({ propicture: nextProps.companyobj.propicture });
+    this.setState({ count: nextProps.companyobj.total });
+    if (nextProps.propicture) {
+      this.setState({ propicture: nextProps.propicture });
+    }
+    if (nextProps.companyobject) {
+      this.setState({ companyobj: nextProps.companyobject });
+    }
+    if (nextProps.jobobj) {
+      this.setState({ addSuccessMsg: "Fundraiser added Successfully" });
+      let newarr = this.state.perjobarr;
+      newarr.push(nextProps.jobobj);
+      console.log(newarr);
+
+      this.setState({ jobarr: newarr });
+      this.setState({ perjobarr: newarr });
+    }
+  }
   componentDidMount() {
     let config = {
       headers: {
-        Authorization: `${window.localStorage.getItem("company")}`
+        Authorization: `${window.localStorage.getItem("student")}`
       }
     };
     console.log("mounting in education------------");
@@ -39,18 +111,26 @@ class VisitedCompany extends Component {
     try {
       console.log("In try bloc");
       axios
-        .get(`${api_route.host}/company/${localStorage.getItem('visitedcompany')}`, config)
+        .get(
+          `${api_route.host}/company/${localStorage.getItem("visitedcompany")}`,
+          config
+        )
         .then(res => {
           this.setState({ companyobj: res.data.company });
           console.log(res.data.company);
-          if(res.data.company.company_profile.profilepicaddress){
-            var src=`${api_route.host}//${res.data.company.company_profile.profilepicaddress}`
-            this.setState({propicture:src})
-            }
+          if (res.data.company.company_basic_details.profilePic) {
+            var src = `${api_route.host}//${res.data.company
+              .company_basic_details.profilePic}`;
+            this.setState({ propicture: src });
+          }
           try {
             console.log("In try bloc");
             axios
-              .get(`${api_route.host}/jobs/`, config)
+              .get(
+                `${api_route.host}/jobs/${res.data.company.company_basic_details
+                  .companyName}/empty/empty/empty`,
+                config
+              )
               .then(res => {
                 this.setState({ jobarr: res.data.result });
                 this.setState({ perjobarr: res.data.result });
@@ -79,26 +159,8 @@ class VisitedCompany extends Component {
       console.log(err);
     }
     console.log("getting education in mount");
-  //  this.props.getEducation();
-   
-    
+    //  this.props.getEducation();
   }
-  filterByTitleOrCompany = value => {
-    let result = [];
-    console.log(value);
-    this.state.perjobarr.map(i => {
-      console.log(i.company_basic_detail.company_name.indexOf(value));
-      if (
-        i.job_title.toLowerCase().indexOf(value) >= 0 ||
-        i.company_basic_detail.company_name.toLowerCase().indexOf(value) >= 0 ||
-        i.job_title.indexOf(value) >= 0 ||
-        i.company_basic_detail.company_name.indexOf(value) >= 0
-      ) {
-        result.push(i);
-      }
-    });
-    this.setState({ jobarr: result });
-  };
 
   setRedirect = () => {
     this.setState({
@@ -113,62 +175,27 @@ class VisitedCompany extends Component {
     }
   };
 
-  filterByLocation = value => {
-    let result = [];
-    console.log(value);
-    this.state.perjobarr.map(i => {
-      //console.log( i.company_basic_detail.company_name.indexOf(value))
-      if (
-        i.location.toLowerCase().indexOf(value) >= 0 ||
-        i.location.indexOf(value) >= 0
-      ) {
-        result.push(i);
-      }
-    });
-    this.setState({ jobarr: result });
-  };
-
   handleSubmit = e => {
     e.preventDefault();
-    let config = {
-      headers: {
-        Authorization: `${window.localStorage.getItem("company")}`
-      }
-    };
-    let data = {
-      job: {
-        job_title: this.state.jobtitle,
-        deadline: this.state.deadline,
-        location: this.state.joblocation,
-        salary: this.state.salary,
-        job_description: this.state.jobdescription,
-        job_category: this.state.job_category
-      }
-    };
-    axios
-      .post(`${api_route.host}/jobs/`, data, config)
-      .then(res => {
-        this.setState({ addSuccessMsg: "Job added Successfully" });
-        let newarr = this.state.perjobarr;
-        newarr.push(res.data);
-        console.log(newarr);
+    e.target.reset();
 
-        this.setState({ jobarr: newarr });
-        this.setState({ perjobarr: newarr });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // let config = {
+    //   headers: {
+    //     Authorization: `${window.localStorage.getItem("company")}`
+    //   }
+    // };
+    let data = {
+      fundraiser: {
+        title: this.state.fundraisertitle,
+        amount: this.state.amount,
+        description: this.state.funddesc,
+        category: this.state.fundraiserCategory
+      }
+    };
+    this.props.createJobs(data);
   };
 
   editCompanyInfo = e => {
-    //console.log(this.state.schoolname+" "+editid)
-
-    let config = {
-      headers: {
-        Authorization: `${window.localStorage.getItem("company")}`
-      }
-    };
     let data = {
       company: {
         location: this.state.location ? this.state.location : "",
@@ -176,50 +203,13 @@ class VisitedCompany extends Component {
         name: this.state.name ? this.state.name : ""
       }
     };
-    axios
-      .put(`${api_route.host}/company/`, data, config)
-      .then(res => {
-        console.log("response coming");
-        // let newarr = this.state.educationarr;
-        // newarr.push(res.data);
-        console.log(res.data);
-        this.setState({ companyobj: res.data.company });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.editCompanyProfile(data);
   };
 
-  updatePic=(e)=>{
+  updatePic = e => {
     e.preventDefault();
-    console.log("pro pic change")
-    console.log(this.state.picture)
-    let picdata=new FormData();
-    picdata.append('myimage',this.state.picture)
-    let config = {
-          headers: {
-            Authorization: `${window.localStorage.getItem("company")}`
-          }
-        };
-       
-        console.log("mounting in picture------------");
-        try {
-          console.log("In try block");
-          axios
-            .post(`${api_route.host}/company/picture`,picdata, config)
-            .then(res => {
-              console.log(res.data);
-              var src=`${api_route.host}//${res.data.name}`
-             this.setState({ propicture: src });
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } catch (err) {
-          console.log(err);
-        }
-     
-  }
+    this.props.editProfilePic(this.state.picture);
+  };
 
   render() {
     return (
@@ -231,10 +221,12 @@ class VisitedCompany extends Component {
               <div className="card-title p-2" align="center">
                 <div>
                   <div align="center" className="mt-2">
-                    {console.log(api_route.host / this.state.propicture)}
                     {this.state.propicture ? (
                       <div className="style__edit-photo___B-_os">
-                        <img src={this.state.propicture} />
+                        <img
+                          className="circular-avatar-image avatar-image"
+                          src={this.state.propicture}
+                        />
                       </div>
                     ) : (
                       <form onSubmit={this.updatePic}>
@@ -245,7 +237,7 @@ class VisitedCompany extends Component {
                                 size="large"
                                 name="camera"
                                 style={{ color: "#1569e0" }}
-                              ></ion-icon>
+                              />
                             </div>
 
                             <div>
@@ -258,7 +250,7 @@ class VisitedCompany extends Component {
                                   console.log(e.target.files[0]);
                                   this.setState({ picture: e.target.files[0] });
                                 }}
-                              ></input>
+                              />
                             </div>
                           </button>
                         </div>
@@ -268,16 +260,18 @@ class VisitedCompany extends Component {
                           type="submit"
                           className="btn btn-primary mt-3"
                           value="Edit Pic"
-                        ></input>
+                        />
                       </form>
                     )}
                   </div>
                 </div>
                 <div className="mt-3">
                   <h3 style={{ fontSize: "20px", fontWeight: "600" }}>
-                    {this.state.companyobj.company_basic_details
-                      ? this.state.companyobj.company_basic_details.company_name
-                      : ""}
+                    {this.state.companyobj.company_basic_details ? (
+                      this.state.companyobj.company_basic_details.companyName
+                    ) : (
+                      ""
+                    )}
                   </h3>
                 </div>
               </div>
@@ -288,26 +282,30 @@ class VisitedCompany extends Component {
               >
                 {" "}
                 <div className="d-flex">
-                  <div className="d-flex ml-3">
-                    <ion-icon name="location"></ion-icon>
+                  <div className="d-flex">
+                    <ion-icon name="location" />
                     <p
                       style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                      className="ml-2"
+                      className="ml-1"
                     >
-                      {this.state.companyobj.company_basic_details
-                        ? this.state.companyobj.company_basic_details.location
-                        : ""}
+                      {this.state.companyobj.company_basic_details ? (
+                        this.state.companyobj.company_basic_details.location
+                      ) : (
+                        ""
+                      )}
                     </p>
                   </div>
-                  <div className="d-flex ml-3">
-                    <ion-icon name="call"></ion-icon>
+                  <div className="d-flex ml-2">
+                    <ion-icon name="call" />
                     <p
                       style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                      className="ml-2"
+                      className="ml-1"
                     >
-                      {this.state.companyobj.company_profile
-                        ? this.state.companyobj.company_profile.phone
-                        : ""}
+                      {this.state.companyobj.company_basic_details ? (
+                        this.state.companyobj.company_basic_details.phone
+                      ) : (
+                        ""
+                      )}
                     </p>
                   </div>
                 </div>
@@ -315,434 +313,138 @@ class VisitedCompany extends Component {
                   <p style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}>
                     {" "}
                     email:{" "}
-                    {this.state.companyobj.company_basic_details
-                      ? this.state.companyobj.company_basic_details.emailId
-                      : ""}
+                    {this.state.companyobj.company_basic_details ? (
+                      this.state.companyobj.company_basic_details.emailId
+                    ) : (
+                      ""
+                    )}
                   </p>
                 </div>
-                <p className="card-text" style={{ fontSize: "14px" }}>
-                  {this.state.companyobj.company_profile
-                    ? this.state.companyobj.company_profile.description
-                    : ""}
-                </p>
-              </div>
-              <div
-                style={{ display: this.state.editInfo }}
-                align="center"
-                className="ml-4"
-              >
-                <table>
-                  <tr>
-                    <td>Name</td>
-                    <td>
-                      <div className="col-11">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder={
-                            this.state.companyobj.company_basic_details
-                              ? this.state.companyobj.company_basic_details
-                                  .company_name
-                              : ""
-                          }
-                          onChange={e => {
-                            this.setState({ name: e.target.value });
-                          }}
-                        ></input>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <div className="mt-1"></div>
-                  <tr>
-                    <td>Phone</td>
-                    <td>
-                      <div className="col-11">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder={
-                            this.state.companyobj.company_profile
-                              ? this.state.companyobj.company_profile.phone
-                              : ""
-                          }
-                          onChange={e => {
-                            this.setState({ phone: e.target.value });
-                          }}
-                        ></input>
-                      </div>
-                    </td>
-                  </tr>
-                  <div className="mt-1"></div>
-                  <tr>
-                    <td>Location</td>
-                    <td>
-                      <div className="col-11">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder={
-                            this.state.companyobj.company_basic_details
-                              ? this.state.companyobj.company_basic_details
-                                  .location
-                              : ""
-                          }
-                          onChange={e => {
-                            this.setState({ location: e.target.value });
-                          }}
-                        ></input>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-                <div
-                  style={{ display: this.state.editInfo }}
-                  className="col-7 ml-2 mt-2"
-                >
-                  <button
-                    className="btn btn-primary m-2"
-                    onClick={e => {
-                      this.setState({ editInfo: "none", showInfo: "block" });
-                      this.editCompanyInfo();
-                    }}
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-              {/* <div className="p-2">
-                <p>
-                  {this.state.companyobj
-                    ? this.state.companyobj.company_profile.description
-                    : ""}
-                </p>
-              </div> */}
-              <div
-                style={{ display: this.state.showInfo }}
-                className="col-7 ml-5 mt-2"
-                align="center"
-              >
-                {/* <button
-                  className="btn btn-primary m-2"
-                  onClick={e => {
-                    this.setState({ editInfo: "block", showInfo: "none" });
-                  }}
-                >
-                  Edit
-                </button> */}
+               
               </div>
             </div>
-            <div className="container mt-3 p-2 pb-5"></div>
+            <div className="container mt-3 p-2 pb-5" />
           </div>
           <div className="col-8">
             <div className="card">
               <div className="card-body d-flex justify-content-between">
-                <div className="d-flex col-6">
+                <div className="d-flex col-6 mt-2">
                   <div
                     className="m-2"
                     style={{ left: "40px", position: "relative" }}
                   >
-                    <ion-icon name="search"></ion-icon>
+                    <ion-icon name="search" />
                   </div>
                   <input
                     type="text"
-                    className="form-control p-2 pl-5"
-                    placeholder="Job titles or keywords"
+                    className="form-control p-2 pl-4"
+                    placeholder="Category"
                     onChange={e => {
-                      this.filterByTitleOrCompany(e.target.value);
+                      this.setState(
+                        { categoryFilter: e.target.value || "empty" },
+                        () => {
+                          this.getFilterJobs();
+                        }
+                      );
+                      //  this.filterByTitleOrCompany(e.target.value);
                     }}
                   />
                 </div>
-                <div className="d-flex col-6">
-                  <div
-                    className="m-2"
-                    style={{ left: "40px", position: "relative" }}
-                  >
-                    <ion-icon name="location"></ion-icon>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control p-2 pl-5"
-                    placeholder="City, State, Zip Code, or Address"
-                    onChange={e => {
-                      this.filterByLocation(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <div className="d-flex p-2 ml-2">
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      const result = this.state.perjobarr.filter(
-                        i => i.job_category == "Full-Time"
-                      );
-                      this.setState({ jobarr: result });
-                    }}
-                  >
-                    Full-Time Job
-                  </button>
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      const result = this.state.perjobarr.filter(
-                        i => i.job_category == "Part-Time"
-                      );
-                      this.setState({ jobarr: result });
-                    }}
-                  >
-                    Part-Time
-                  </button>
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      const result = this.state.perjobarr.filter(
-                        i => i.job_category == "Internship"
-                      );
-                      this.setState({ jobarr: result });
-                    }}
-                  >
-                    Internship
-                  </button>
-                  <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      const result = this.state.perjobarr.filter(
-                        i => i.job_category == "On-Campus"
-                      );
-                      this.setState({ jobarr: result });
-                    }}
-                  >
-                    On-Campus
-                  </button>
-                </div>
-                <div className="p-2 ml-2">
-                  {/* <button
-                    className="style__pill___3uHDM"
-                    onClick={e => {
-                      this.setState({ modalShow: "block" });
-                    }}
-                  >
-                    <ion-icon name="add"></ion-icon>
-                    Add Jobs
-                  </button> */}
-                </div>
-                <div
-                  id="myModal"
-                  className="modal"
-                  style={{ display: this.state.modalShow }}
-                >
-                  <div
-                    className="modal-content col-5"
-                    style={{ fontFamily: "Suisse" }}
-                  >
-                    <div className="container">
-                      <span
-                        class="close"
-                        onClick={e => {
-                          this.setState({ modalShow: "none" });
-                        }}
-                      >
-                        &times;
-                      </span>
-                      {this.state.addSuccessMsg ? (
-                        <p style={{ color: "green" }}>
-                          {this.state.addSuccessMsg}
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                      <div align="center">
-                        <h3 style={{ fontWeight: "bold", marginBottom: "5px" }}>
-                          New Job
-                        </h3>
-                      </div>
-                      <form onSubmit={this.handleSubmit}>
-                        <div className="form-group col-md-11">
-                          <label
-                            style={{ fontWeight: "bold", marginBottom: "5px" }}
-                          >
-                            Job Title
-                          </label>
-                          <input
-                            type="text"
-                            id="jobtitle"
-                            name="jobtitle"
-                            className="form-control"
-                            placeholder="Enter Job Title"
-                            onChange={e => {
-                              this.setState({ jobtitle: e.target.value });
-                            }}
-                            required
-                          ></input>
-                        </div>
-                        <div className="form-group col-md-11">
-                          <label
-                            style={{ fontWeight: "bold", marginBottom: "5px" }}
-                          >
-                            Category
-                          </label>
-                          <select
-                            value={this.state.job_category}
-                            id="category"
-                            className="form-control"
-                            onChange={e => {
-                              this.setState({ job_category: e.target.value });
-                            }}
-                            required
-                          >
-                            <option value="Full-Time">Full Time</option>
-                            <option value="Part-Time">Part Time</option>
-                            <option value="On-Campus">On Campus</option>
-                            <option value="Internship">Internship</option>
-                          </select>
-                        </div>
-                        <div className="form-group col-md-11">
-                          <div>
-                            <label
-                              style={{
-                                fontWeight: "bold",
-                                marginBottom: "5px"
-                              }}
-                            >
-                              Location
-                            </label>
-                          </div>
 
-                          <label
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "13px",
-                              marginBottom: "5px"
-                            }}
-                          >
-                            Please enter location
-                          </label>
-                          <input
-                            type="text"
-                            id="joblocation"
-                            name="joblocation"
-                            className="form-control"
-                            placeholder="Eg. New York"
-                            onChange={e => {
-                              this.setState({ joblocation: e.target.value });
-                            }}
-                            required
-                          ></input>
-                        </div>
-                        <div className="col-md-11 d-flex p-0">
-                          <div className="form-group col-md-6 ">
-                            <label
-                              style={{
-                                fontWeight: "bold",
-                                marginBottom: "5px"
-                              }}
-                            >
-                              Salary
-                            </label>
-                            <input
-                              type="number"
-                              id="salary"
-                              name="salary"
-                              className="form-control"
-                              placeholder="Eg. 500000"
-                              onChange={e => {
-                                this.setState({ salary: e.target.value });
-                              }}
-                              required
-                            ></input>
-                          </div>
-                          <div className="form-group col-md-6">
-                            <label
-                              style={{
-                                fontWeight: "bold",
-                                marginBottom: "5px"
-                              }}
-                            >
-                              Deadline
-                            </label>
-                            <input
-                              type="date"
-                              id="deadline"
-                              name="deadline"
-                              className="form-control"
-                              placeholder="Deadline"
-                              onChange={e => {
-                                this.setState({
-                                  deadline: e.target.value
-                                });
-                              }}
-                              required
-                            ></input>
-                          </div>
-                        </div>
-                        <div className="form-group col-md-11">
-                          <label
-                            style={{ fontWeight: "bold", marginBottom: "5px" }}
-                          >
-                            Description
-                          </label>
-                          <textarea
-                            id="jobdescription"
-                            name="jobdescription"
-                            className="form-control"
-                            placeholder="Enter Job Description"
-                            onChange={e => {
-                              this.setState({ jobdescription: e.target.value });
-                            }}
-                            required
-                          ></textarea>
-                        </div>
-                        <div className="form-group col-md-8 m-3">
-                          <input
-                            type="submit"
-                            className="btn btn btn-primary"
-                          ></input>
-                        </div>
-                      </form>
+                <div className="mr-3">
+                  <div
+                    id="myModal"
+                    className="modal"
+                    style={{ display: this.state.modalShow }}
+                  >
+                    <div
+                      className="modal-content col-5"
+                      style={{ fontFamily: "Suisse" }}
+                    >
+                      <div className="container">
+                        <span
+                          class="close"
+                          onClick={e => {
+                            this.setState({ modalShow: "none" });
+                            this.setState({ addSuccessMsg: "" });
+                          }}
+                        >
+                          &times;
+                        </span>
+                        {this.state.addSuccessMsg ? (
+                          <p style={{ color: "green" }}>
+                            {this.state.addSuccessMsg}
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="style__divider___1j_Fp mb-3" />
               <div className="style__jobs___3seWY" style={{ height: "500px" }}>
-                {this.state.jobarr
-                  ? this.state.jobarr.map(i => (
-                      <div key={i.job_id}>
-                        <div
-                          className="style__selected___1DMZ3 p-2 mt-3 m-1 card"
-                        //   onClick={e => {
-                        //     this.setRedirect(i.job_id);
-                        //     this.setState({ id: i.job_id });
-                        //   }}
-                        >
+                {this.state.jobarr ? (
+                  this.state.jobarr.map(i => (
+                    <div className="p-4 mb-3" key={i._id}>
+                      <div
+                        className="style__selected___1DMZ3 p-2 mt-3 line jobdiv m-1 card"
+                        onClick={e => {
+                          this.setRedirect(i._id);
+                          this.setState({ id: i._id });
+                        }}
+                      >
+                        <div className="d-flex justify-content-between mt-2">
                           <div className="d-flex">
-                            <ion-icon name="briefcase"></ion-icon>
+                            <ion-icon name="briefcase" />
                             <h3
-                              className="ml-2"
+                              className="ml-2 line"
                               style={{ fontSize: "16px", fontWeight: "700" }}
                             >
-                              {i.job_title}
+                              {i.title}
                             </h3>
                           </div>
                           <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                            {i.company_basic_detail
-                              ? i.company_basic_detail.company_name
-                              : ""}
-                          </h3>
-                          <h3
-                            style={{
-                              color: "rgba(0,0,0,.56)",
-                              fontWeight: "200px",
-                              fontSize: "14px"
-                            }}
-                          >
-                            {i.job_category} Job
+                            <i>{i ? i.companyName : ""}</i>
                           </h3>
                         </div>
+                        <h3
+                          className="ml-4 mt-2"
+                          style={{ fontSize: "16px", fontWeight: "400" }}
+                        >
+                          {i ? i.description : ""}
+                        </h3>
+
+                        <h3
+                          className="ml-2 mt-2"
+                          style={{
+                            color: "rgba(0,0,0,.56)",
+                            fontWeight: "200px",
+                            fontSize: "14px"
+                          }}
+                        >
+                          <b>Category:</b> {i.category}
+                        </h3>
                       </div>
-                    ))
-                  : ""}
+                    </div>
+                  ))
+                ) : (
+                  ""
+                )}
+              </div>
+              <div
+                className="align-self-center"
+                style={{ backgroundColor: "white" }}
+              >
+                <Pagination
+                  hideFirstLastPages
+                  activePage={this.state.page}
+                  itemsCountPerPage={this.state.limit}
+                  totalItemsCount={this.state.count}
+                  pageRangeDisplayed={4}
+                  onChange={this.handlePageChange.bind(this)}
+                />
               </div>
             </div>
           </div>
@@ -752,4 +454,21 @@ class VisitedCompany extends Component {
   }
 }
 
-export default VisitedCompany;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    jobobj: state.companyReducer.jobobj,
+    companyobj: state.companyReducer.companyobj,
+    companyobject: state.companyReducer.companyobject,
+    propicture: state.companyReducer.propicture
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    editCompanyProfile: payload => dispatch(editCompanyProfile(payload)),
+    getCompanyProfile: payload => dispatch(getCompanyProfile(payload)),
+    editProfilePic: payload => dispatch(editProfilePic(payload)),
+    createJobs: payload => dispatch(createJobs(payload))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(VisitedCompany);

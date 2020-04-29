@@ -18,9 +18,9 @@ class FundraiserDesc extends Component {
     e.preventDefault();
     console.log(this.state.selectedjobId);
 
-    const data = new FormData();
-    console.log(this.state.selectedFile);
-    data.append("myimage", this.state.selectedFile);
+    // const data = new FormData();
+    // console.log(this.state.selectedFile);
+    // data.append("myimage", this.state.selectedFile);
 
     let config = {
       headers: {
@@ -28,22 +28,24 @@ class FundraiserDesc extends Component {
       }
     };
 
-    console.log(data);
-
     axios
       .post(
-        `${api_route.host}/student/upload/${this.state.selectedjobId}`,
-        data,
+        `${api_route.host}/donor/upload/${this.state.selectedFundId}`,
+        {
+          amountRaised: this.state.amountRaised,
+          companyId: this.state.selectedCompanyId,
+          donorId: localStorage.getItem("loginId")
+        },
         config
       )
       .then(res => {
         console.log(res);
-        var path = `${api_route.host}//${res.data.resume}`;
+        var path = `${api_route.host}//thankyou-note.pdf`;
         this.setState({ resumeShow: path });
-        this.setState({ applyerror: "Successfully Applied" });
+        this.setState({ applyerror: "Successfully Donated" });
       })
       .catch(err => {
-        this.setState({ applyerror: "Job Already Applied" });
+        this.setState({ applyerror: "Donation Failed" });
         console.log(err);
       });
   };
@@ -143,8 +145,10 @@ class FundraiserDesc extends Component {
               >
                 <div>
                   {" "}
-                  We wish to raise <span style={{fontWeight:"bold"}}>${this.props.jobdata.amount}</span>
-                  
+                  We wish to raise{" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    ${this.props.jobdata.amount}
+                  </span>
                 </div>
                 <button
                   id="myBtn"
@@ -180,65 +184,38 @@ class FundraiserDesc extends Component {
                       >
                         &times;
                       </span>
-                      <p style={{ fontSize: "18px", fontWeight: "700" }}>
-                        Apply to{" "}
-                        {this.props.jobdata.company_basic_detail ? (
-                          this.props.jobdata.company_basic_detail.company_name
+                      <p style={{ fontSize: "20px", fontWeight: "700" }}>
+                        Raise money for{" "}
+                        {this.props.jobdata ? (
+                          this.props.jobdata.companyName
                         ) : (
                           ""
                         )}
                       </p>
-                      <p style={{ fontSize: "15px", fontWeight: "500" }}>
-                        Details from{" "}
-                        {this.props.jobdata.company_basic_detail ? (
-                          this.props.jobdata.company_basic_detail.company_name
-                        ) : (
-                          ""
-                        )}
-                        :
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "15px",
-                          fontWeight: "200",
-                          color: "rgba(0,0,0,0.8)"
-                        }}
-                      >
-                        Applying for {this.props.jobdata.job_title} requires a
-                        few documents. Attach them below and get one step closer
-                        to your next job!
-                      </p>
-                      <h4> Attach your Resume!</h4>
                       <div>
-                        <label
-                          style={{ fontSize: "15px", fontWeight: "500" }}
-                          for="img"
-                        >
-                          Your Resume:
-                        </label>
+                        <span style={{ fontSize: "16px" }}>Enter Amount:</span>
+                        <input
+                          className="ml-2"
+                          type="text"
+                          placeholder="In Dollars"
+                          onChange={e => {
+                            this.setState({ amountRaised: e.target.value });
+                          }}
+                        />
+                      </div>
+                      <div>
                         <form
                           onSubmit={this.onResumeSubmit}
                           enctype="multipart/form-data"
                         >
-                          <input
-                            style={{ fontSize: "13px" }}
-                            type="file"
-                            name="file"
-                            id="file"
-                            onChange={event => {
-                              console.log(event.target.files[0]);
-                              this.setState({
-                                selectedFile: event.target.files[0]
-                              });
-                            }}
-                          />
                           {this.state.resumeShow ? (
                             <a
+                              style={{ fontSize: "13px" }}
                               href={this.state.resumeShow}
                               target="_blank"
                               download="Resume"
                             >
-                              Download
+                              Download Your Thankyou Note Here
                             </a>
                           ) : (
                             ""
@@ -249,11 +226,13 @@ class FundraiserDesc extends Component {
                               className="form-control mt-2 btn btn-outline-success"
                               onClick={e => {
                                 this.setState({
-                                  selectedjobId: this.props.jobdata._id
+                                  selectedFundId: this.props.jobdata._id,
+                                  selectedCompanyId: this.props.jobdata
+                                    .companyId._id
                                 });
                               }}
                             >
-                              Submit
+                              Donate
                             </button>
                           </div>
                         </form>
@@ -264,9 +243,9 @@ class FundraiserDesc extends Component {
               </div>
             </div>
             <div className="style__card___31yrn m-2">
-              <h4 className="mb-3">Description about the job</h4>
+              <h4 className="mb-3">Description about this fundraiser:</h4>
               <p style={{ color: "dodgerblue" }}>
-                {this.props.jobdata.job_description}
+                {this.props.jobdata.description}
               </p>{" "}
             </div>
           </div>

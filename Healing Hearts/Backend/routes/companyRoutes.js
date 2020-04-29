@@ -260,22 +260,8 @@ route.get("/:id", async (req, res) => {
   console.log("----------getting particular company details");
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
-    var companyId;
-    await Company.findOne({
-      emailId: Decryptedtoken.email
-    })
-      .then(tokenuser => {
-        company = tokenuser.dataValues;
-        companyId = tokenuser.dataValues.company_basic_detail_id;
-        email = tokenuser.dataValues.emailId;
-        name = tokenuser.dataValues.company_name;
-      })
-      .catch(err => {
-        console.log(`error getting company details ${err}`);
-      });
-
     const companybasic = await Company.findOne({
-      company_basic_detail_id: req.params.id
+      _id: req.params.id
     });
 
     if (companybasic) {
