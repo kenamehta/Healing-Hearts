@@ -72,6 +72,7 @@ route.get("/visit/:id", async (req, res) => {
   });
 
   res.status(201).json({
+    _id:student._id,
     email: student.emailId,
     name: student.name,
     career_objective: student.about,

@@ -9,6 +9,8 @@ import VisitedExperience from "./VisitedExperience";
 import VisitedSkills from "./VisitedSkills";
 // //import {getEducation} from '../redux/actions/profileAction'
 import { getProfileSelected } from "../../redux/actions/profileAction";
+import { sendMessage } from "../../redux/actions/messageAction";
+
 
 class MainProfile extends Component {
   state = {};
@@ -25,7 +27,10 @@ class MainProfile extends Component {
       <div className="d-flex container">
         <div className="row">
           <div className="col-4">
-            <VisitedProfilePic profile={this.props.profile} />
+            <VisitedProfilePic profile={this.props.profile} 
+              
+              sendMessage={this.props.sendMessage}
+            />
             {/* <VisitedSkills skillData={this.props.profile} /> */}
             <VisitedPersonalInfo personalData={this.props.profile} />
           </div>
@@ -54,7 +59,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getProfileSelected: () => dispatch(getProfileSelected())
+    getProfileSelected: () => dispatch(getProfileSelected()),
+    sendMessage: (payload)=> dispatch(sendMessage(payload))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MainProfile);

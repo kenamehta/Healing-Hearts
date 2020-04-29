@@ -83,7 +83,7 @@ class DonorList extends Component {
         {this.renderRedirect()}
         <div className="style__secondary-nav___3_H_G pb-2 mb-3" align="center">
           <h2 className="ml-5" style={{ fontSize: "20px", fontWeight: "600" }}>
-            Student List
+            Donors List
           </h2>
         </div>
         <div className="container mt-3">
@@ -245,8 +245,8 @@ class DonorList extends Component {
                                 <div
                                   className="m-3"
                                   style={{
-                                    textDecoration: "underline",
-                                    cursor: "pointer",
+                                    
+                                    cursor: "pointer"
                                   }}
                                   onClick={(e) => {
                                     this.setRedirect(i._id);

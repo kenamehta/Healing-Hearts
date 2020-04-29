@@ -48,7 +48,7 @@ class Navbar extends Component {
             <a
               className="navbar-brand"
               style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
-              href="/student/home"
+              href="/donor/home"
             >
               healing HEARTS
             </a>
@@ -101,7 +101,7 @@ class Navbar extends Component {
             <a
               className="navbar-brand"
               style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
-              href="/student/home"
+              href="/donor/home"
             >
               healing hEARTS
             </a>}
@@ -136,9 +136,9 @@ class Navbar extends Component {
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/donor/fundraisers"
+                href="/donor/home"
               >
-                Fundraisers
+                Profile
               </a>
             ) : (
               <a
@@ -150,13 +150,25 @@ class Navbar extends Component {
               </a>
             )}
           </div>
+          <div>
+            {localStorage.getItem("student") ? (
+              <a
+                className={liClasses}
+                style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
+                href="/donor/fundraisers"
+              >
+                Fundraisers
+              </a>
+            ) :''
+            }
+          </div>
 
           <div>
             {localStorage.getItem("student") ? (
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/student/application"
+                href="/donor/application"
               >
                 History
               </a>
@@ -189,7 +201,7 @@ class Navbar extends Component {
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/student/list"
+                href="/donor/list"
               >
                 Donors
               </a>
