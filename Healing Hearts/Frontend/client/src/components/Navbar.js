@@ -44,13 +44,24 @@ class Navbar extends Component {
           >
             <span className="navbar-toggler-icon" />
           </button>
+          <div>
+          {localStorage.getItem("company") ? 
           <a
-            className="navbar-brand"
-            style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
-            href="/home"
-          >
-            healing HEARTS
-          </a>
+              className="navbar-brand"
+              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
+              href="/home"
+            >
+              healing hEARTS
+            </a>:
+            <a
+              className="navbar-brand"
+              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
+              href="/student/home"
+            >
+              healing hEARTS
+            </a>}
+
+          </div>
 
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav mr-auto mt-2 mt-md-0">
@@ -80,13 +91,22 @@ class Navbar extends Component {
       <nav className="navbar  navbar-light bg-light">
         <div className="d-flex">
           <div>
-            <a
+          {localStorage.getItem("student") ? 
+          <a
               className="navbar-brand"
               style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
               href="/home"
             >
               healing hEARTS
-            </a>
+            </a>:
+            <a
+              className="navbar-brand"
+              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
+              href="/student/home"
+            >
+              healing hEARTS
+            </a>}
+
           </div>
           <div className="d-flex">
             <ion-icon

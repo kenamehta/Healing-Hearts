@@ -29,7 +29,7 @@ class VisitedProfilePic extends Component {
               <div align="center" className="mt-2">
               {console.log("Picture here")}
               {this.props.profile?
-              <img src={this.props.profile.profile_picture} />:
+              <img src={this.props.profile.profilePic} />:
               <form onSubmit={this.updatePic}>
               <div>
                 <div className="style__edit-photo___B-_os">
@@ -75,7 +75,7 @@ class VisitedProfilePic extends Component {
                     >
                       {this.props.profile ? this.props.profile.name : ""}
                     </h4>
-                    <h4
+                    {/* <h4
                       className="card-title"
                       style={{ fontSize: "16px", fontWeight: "500" }}
                     >
@@ -94,8 +94,8 @@ class VisitedProfilePic extends Component {
                       {this.props.profile
                         ? this.props.profile.education[0].major
                         : ""}
-                    </h4>
-                    <h4
+                    </h4> */}
+                    {/* <h4
                       className="card-title"
                       style={{
                         fontSize: "16px",
@@ -110,7 +110,7 @@ class VisitedProfilePic extends Component {
                       {this.props.profile
                         ? this.props.profile.education[0].GPA
                         : ""}
-                    </h4>
+                    </h4> */}
 
                     <div className={"collapse navbar-collapse " + showbutton}>
                       {/* <button

@@ -26,7 +26,7 @@ class MainProfile extends Component {
         <div className="row">
           <div className="col-4">
             <VisitedProfilePic profile={this.props.profile} />
-            <VisitedSkills skillData={this.props.profile} />
+            {/* <VisitedSkills skillData={this.props.profile} /> */}
             <VisitedPersonalInfo personalData={this.props.profile} />
           </div>
           <div className="col-8">
@@ -34,9 +34,9 @@ class MainProfile extends Component {
               journeyData={this.props.profile}
               //  updateCareerObjective={this.props.updateCareerObjective}
             />
-            <VisitedEducation educationData={this.props.profile} />
+            {/* <VisitedEducation educationData={this.props.profile} />
 
-            <VisitedExperience experienceData={this.props.profile} />
+            <VisitedExperience experienceData={this.props.profile} /> */}
           </div>
         </div>
       </div>

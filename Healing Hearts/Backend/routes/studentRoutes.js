@@ -63,19 +63,19 @@ route.get("/", async (req, res) => {
 
 route.get("/visit/:id", async (req, res) => {
   console.log("In student route" + JSON.stringify(req.headers));
-  Decryptedtoken = decryptToken(req.headers.authorization);
+ // Decryptedtoken = decryptToken(req.headers.authorization);
 
   // console.log(Decryptedtoken.email);
   // if (Decryptedtoken.email !== null) {
   const student = await Donor.findOne({
-    student_basic_detail_id: req.params.id
+    _id: req.params.id
   });
 
   res.status(201).json({
     email: student.emailId,
     name: student.name,
-    career_objective: student.career_objective,
-    profile_picture: student.profile_picture,
+    career_objective: student.about,
+    profilePic: student.profilePic,
     education: student.educations,
     skills: student.skills,
     experience: student.experiences,

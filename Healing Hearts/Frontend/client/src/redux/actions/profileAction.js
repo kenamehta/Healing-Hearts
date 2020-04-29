@@ -149,11 +149,11 @@ export const getProfileSelected = () => {
         if (res.status === 201) {
           console.log(res.data);
           var profile = res.data;
-          if(res.data.profile_picture){
-          var src = `${api_route.host}//${res.data.profile_picture}`;
+          if(res.data.profilePic){
+          var src = `${api_route.host}//${res.data.profilePic}`;
          
-          profile = { ...profile, profile_picture: src };
-          console.log(profile);
+          profile = { ...profile, profilePic: src };
+          console.log(src);
           }
           dispatch(getProfileDispatcher(profile));
         }
