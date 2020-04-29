@@ -25,8 +25,8 @@ class CompanyHome extends Component {
     perjobarr: [],
     modalShow: "none",
     fundraisertitle: "",
-    value: "Full-Time",
-    fundraiserCategory: "Full-Time",
+    value: "",
+    fundraiserCategory: "Animals",
     joblocation: "",
     salary: "",
     deadline: "",
@@ -41,7 +41,7 @@ class CompanyHome extends Component {
     page: "1",
     limit: "10",
     count: "",
-    amount:''
+    amount: ""
   };
   componentWillMount() {
     this.props.getCompanyProfile({
@@ -126,8 +126,8 @@ class CompanyHome extends Component {
     let data = {
       fundraiser: {
         title: this.state.fundraisertitle,
-       amount:this.state.amount,
-       description: this.state.funddesc,
+        amount: this.state.amount,
+        description: this.state.funddesc,
         category: this.state.fundraiserCategory
       }
     };
@@ -469,7 +469,9 @@ class CompanyHome extends Component {
                               className="form-control"
                               placeholder="Enter Fundraiser Title"
                               onChange={e => {
-                                this.setState({ fundraisertitle: e.target.value });
+                                this.setState({
+                                  fundraisertitle: e.target.value
+                                });
                               }}
                               required
                             />
@@ -488,7 +490,9 @@ class CompanyHome extends Component {
                               id="category"
                               className="form-control"
                               onChange={e => {
-                                this.setState({ fundraiserCategory: e.target.value });
+                                this.setState({
+                                  fundraiserCategory: e.target.value
+                                });
                               }}
                               required
                             >
@@ -559,7 +563,7 @@ class CompanyHome extends Component {
               <div className="style__jobs___3seWY" style={{ height: "500px" }}>
                 {this.state.jobarr ? (
                   this.state.jobarr.map(i => (
-                    <div className='p-4 mb-3' key={i._id}>
+                    <div className="p-4 mb-3" key={i._id}>
                       <div
                         className="style__selected___1DMZ3 p-2 mt-3 line jobdiv m-1 card"
                         onClick={e => {
@@ -569,23 +573,27 @@ class CompanyHome extends Component {
                       >
                         <div className="d-flex justify-content-between mt-2">
                           <div className="d-flex">
-                          <ion-icon name="briefcase" />
-                          <h3
-                            className="ml-2 line"
-                            style={{ fontSize: "16px", fontWeight: "700" }}
-                          >
-                            {i.title}
-                          </h3>
+                            <ion-icon name="briefcase" />
+                            <h3
+                              className="ml-2 line"
+                              style={{ fontSize: "16px", fontWeight: "700" }}
+                            >
+                              {i.title}
+                            </h3>
                           </div>
-                          <h3  style={{ fontSize: "16px", fontWeight: "400" }}>
-                          <i>{i ? i.companyName : ""}</i>
-                        </h3>
+                          <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
+                            <i>{i ? i.companyName : ""}</i>
+                          </h3>
                         </div>
-                        <h3 className='ml-4 mt-2' style={{ fontSize: "16px", fontWeight: "400" }}>
+                        <h3
+                          className="ml-4 mt-2"
+                          style={{ fontSize: "16px", fontWeight: "400" }}
+                        >
                           {i ? i.description : ""}
                         </h3>
-                        
-                        <h3 className='ml-2 mt-2'
+
+                        <h3
+                          className="ml-2 mt-2"
                           style={{
                             color: "rgba(0,0,0,.56)",
                             fontWeight: "200px",

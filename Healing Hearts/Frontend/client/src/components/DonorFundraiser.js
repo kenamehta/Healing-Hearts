@@ -154,28 +154,46 @@ class DonorFundraiser extends Component {
                           }}
                         >
                           <div className="d-flex">
-                            <ion-icon name="briefcase" />
-                            <h3
-                              className="ml-2"
-                              style={{ fontSize: "16px", fontWeight: "700" }}
-                            >
-                              {i.title}
-                            </h3>
+                            <div className="col-3">
+                              {i.companyId ? i.companyId.profilePic ? (
+                                <div>
+                                  <img
+                                    className="circular-avatar-image-small avatar-image-small"
+                                    src={`${api_route.host}//${i.companyId
+                                      .profilePic}`}
+                                  />
+                                </div>
+                              ) : (
+                                ""
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            <div >
+                              <div
+                               
+                                style={{ fontSize: "16px", fontWeight: "700" }}
+                              >
+                                {i.title}
+                              </div>
+
+                              <div
+                                style={{ fontSize: "16px", fontWeight: "400" }}
+                              >
+                                {i.companyName}
+                              </div>
+
+                              <div
+                                style={{
+                                  color: "rgba(0,0,0,.56)",
+                                  fontWeight: "200px",
+                                  fontSize: "14px"
+                                }}
+                              >
+                                {i.category} category
+                              </div>
+                            </div>
                           </div>
-
-                          <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                            {i.companyName}
-                          </h3>
-
-                          <h3
-                            style={{
-                              color: "rgba(0,0,0,.56)",
-                              fontWeight: "200px",
-                              fontSize: "14px"
-                            }}
-                          >
-                            {i.category} category
-                          </h3>
                         </div>
                       </div>
                     ))

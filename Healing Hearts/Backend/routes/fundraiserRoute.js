@@ -53,10 +53,10 @@ route.get(
         ...whereCondition,
         $or: [
           {
-            companyName: { $regex: new RegExp(req.params.companyFilter, "i") },
-            title: { $regex: new RegExp(req.params.companyFilter, "i") },
-            category: { $regex: new RegExp(req.params.companyFilter, "i") }
-          }
+            companyName: { $regex: new RegExp(req.params.companyFilter, "i") }
+          },
+          { title: { $regex: new RegExp(req.params.companyFilter, "i") } },
+          { category: { $regex: new RegExp(req.params.companyFilter, "i") } }
         ]
       };
     }
@@ -150,7 +150,8 @@ route.post("/", async (req, res) => {
       companyId: companyId,
       title: req.body.fundraiser.title,
       description: req.body.fundraiser.description,
-      category: req.body.fundraiser.category
+      category: req.body.fundraiser.category,
+      amount: req.body.fundraiser.amount
     });
 
     if (result) {

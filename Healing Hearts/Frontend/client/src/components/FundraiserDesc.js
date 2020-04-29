@@ -72,70 +72,63 @@ class FundraiserDesc extends Component {
         {this.props.jobdata ? (
           <div>
             {this.renderRedirect()}
-
-            <div className="p-2 ml-3 b-1">
-              <p
-                style={{
-                  fontSize: "24px",
-                  fontWeight: "700",
-                  fontFamily: "Suisse Int",
-                  marginBottom: "5px"
-                }}
-              >
-                {this.props.jobdata.category}
-              </p>
-              <div
-                style={{ textDecoration: "underline", cursor: "pointer" }}
-                onClick={e => {
-                  this.setRedirect(this.props.jobdata.companyId);
-                  this.setState({
-                    id: this.props.jobdata.companyId
-                  });
-                }}
-              >
+            <div className="d-flex">
+              <div className=" pt-2 col-2">
+                {this.props.jobdata.companyId ? this.props.jobdata.companyId
+                  .profilePic ? (
+                  <div>
+                    <img
+                      className="circular-avatar-image-medium avatar-image-medium"
+                      src={`${api_route.host}//${this.props.jobdata.companyId
+                        .profilePic}`}
+                    />
+                  </div>
+                ) : (
+                  ""
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="p-2 b-1 ml-4">
                 <p
                   style={{
-                    fontSize: "18px",
-                    fontWeight: "500",
+                    fontSize: "24px",
+                    fontWeight: "700",
                     fontFamily: "Suisse Int",
-                    color: "rgba(0,0,0,.56)"
+                    marginBottom: "5px"
                   }}
                 >
-                  {this.props.jobdata.company_basic_detail ? (
-                    this.props.jobdata.company_basic_detail.company_name
-                  ) : (
-                    ""
-                  )}
+                  {this.props.jobdata.title}
                 </p>
-              </div>
-            </div>
-            <div className="d-flex ml-3">
-              <div className="d-flex ">
-                <ion-icon name="briefcase" />
-                <p
-                  style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                  className="ml-2"
+                <div
+                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                  onClick={e => {
+                    this.setRedirect(this.props.jobdata.companyId._id);
+                    this.setState({
+                      id: this.props.jobdata.companyId._id
+                    });
+                  }}
                 >
-                  {this.props.jobdata.job_category} Job,
-                </p>
-              </div>
-              <div className="d-flex ml-2">
-                <ion-icon name="location" />
-                <p
-                  style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                  className="ml-2"
-                >
-                  {this.props.jobdata.location},
-                </p>
-              </div>
-              <div className="d-flex ml-2">
-                <ion-icon name="cash-outline" />
-                <p
-                  style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                  className="ml-2"
-                >
-                  ${this.props.jobdata.salary} per year
-                </p>
+                  <p
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "500",
+                      fontFamily: "Suisse Int",
+                      color: "rgba(0,0,0,.56)"
+                    }}
+                  >
+                    {this.props.jobdata ? this.props.jobdata.companyName : ""}
+                  </p>
+                </div>
+
+                <div>
+                  <p
+                    style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
+                    className=""
+                  >
+                    {this.props.jobdata.category} Category
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -148,15 +141,11 @@ class FundraiserDesc extends Component {
                   alignSelf: "center"
                 }}
               >
-                <p>
+                <div>
                   {" "}
-                  Application closes on{" "}
-                  {this.props.jobdata.deadline ? (
-                    this.props.jobdata.deadline.split("T")[0]
-                  ) : (
-                    ""
-                  )}
-                </p>
+                  We wish to raise <span style={{fontWeight:"bold"}}>${this.props.jobdata.amount}</span>
+                  
+                </div>
                 <button
                   id="myBtn"
                   className="btn btn-outline-success"
@@ -165,7 +154,7 @@ class FundraiserDesc extends Component {
                     this.setState({ modalShow: "block" });
                   }}
                 >
-                  Apply
+                  Raise
                 </button>
                 <div
                   id="myModal"
