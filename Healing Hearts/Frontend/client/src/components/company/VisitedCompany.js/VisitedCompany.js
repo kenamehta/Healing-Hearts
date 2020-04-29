@@ -320,7 +320,6 @@ class VisitedCompany extends Component {
                     )}
                   </p>
                 </div>
-               
               </div>
             </div>
             <div className="container mt-3 p-2 pb-5" />
@@ -337,7 +336,7 @@ class VisitedCompany extends Component {
                   </div>
                   <input
                     type="text"
-                    className="form-control p-2 pl-4"
+                    className="form-control p-2 pl-5"
                     placeholder="Category"
                     onChange={e => {
                       this.setState(
@@ -387,15 +386,15 @@ class VisitedCompany extends Component {
               <div className="style__jobs___3seWY" style={{ height: "500px" }}>
                 {this.state.jobarr ? (
                   this.state.jobarr.map(i => (
-                    <div className="p-4 mb-3" key={i._id}>
+                    <div className="" key={i._id}>
                       <div
-                        className="style__selected___1DMZ3 p-2 mt-3 line jobdiv m-1 card"
+                        className="style__selected___1DMZ3 p-2 line jobdiv m-1 card"
                         onClick={e => {
                           this.setRedirect(i._id);
                           this.setState({ id: i._id });
                         }}
                       >
-                        <div className="d-flex justify-content-between mt-2">
+                        <div className="d-flex justify-content-between">
                           <div className="d-flex">
                             <ion-icon name="briefcase" />
                             <h3
@@ -410,12 +409,15 @@ class VisitedCompany extends Component {
                           </h3>
                         </div>
                         <h3
-                          className="ml-4 mt-2"
-                          style={{ fontSize: "16px", fontWeight: "400" }}
+                          className="ml-2 mt-2"
+                          style={{
+                            //color: "rgba(0,0,0,.56)",
+                            fontWeight: "200px",
+                            fontSize: "14px"
+                          }}
                         >
-                          {i ? i.description : ""}
+                          Wish to raise ${i.amount}
                         </h3>
-
                         <h3
                           className="ml-2 mt-2"
                           style={{
