@@ -27,7 +27,8 @@ const fundraisers = new mongoose.Schema(
     title: String,
     description: String,
     category: String,
-    amount: String
+    amount: String,
+    amountDonated:Number
   },
   { timestamps: true }
 );

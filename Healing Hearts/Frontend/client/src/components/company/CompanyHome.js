@@ -5,11 +5,15 @@ import "../../styles/companyprofilepic.css";
 import "../../styles/company.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { CircularProgressbar } from "react-circular-progressbar";
+
+import "react-circular-progressbar/dist/styles.css";
+
 import {
   getCompanyProfile,
   editCompanyProfile,
   editProfilePic,
-  createJobs
+  createJobs,
 } from "../../redux/actions/companyAction";
 import Pagination from "react-js-pagination";
 class CompanyHome extends Component {
@@ -41,7 +45,7 @@ class CompanyHome extends Component {
     page: "1",
     limit: "10",
     count: "",
-    amount: ""
+    amount: "",
   };
   componentWillMount() {
     this.props.getCompanyProfile({
@@ -50,7 +54,7 @@ class CompanyHome extends Component {
       categoryFilter: this.state.categoryFilter,
       sortFilter: this.state.categoryFilter,
       page: this.state.page,
-      limit: this.state.limit
+      limit: this.state.limit,
     });
   }
   handlePageChange(pageNumber) {
@@ -63,7 +67,7 @@ class CompanyHome extends Component {
         categoryFilter: this.state.categoryFilter,
         sortFilter: this.state.categoryFilter,
         page: pageNumber,
-        limit: this.state.limit
+        limit: this.state.limit,
       })
     );
   }
@@ -74,7 +78,7 @@ class CompanyHome extends Component {
       locationFilter: this.state.locationFilter,
       categoryFilter: this.state.categoryFilter,
       page: this.state.page,
-      limit: this.state.limit
+      limit: this.state.limit,
     });
   };
   componentWillReceiveProps(nextProps) {
@@ -103,7 +107,7 @@ class CompanyHome extends Component {
 
   setRedirect = () => {
     this.setState({
-      redirect: true
+      redirect: true,
     });
   };
   renderRedirect = () => {
@@ -114,7 +118,7 @@ class CompanyHome extends Component {
     }
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     e.target.reset();
 
@@ -128,24 +132,24 @@ class CompanyHome extends Component {
         title: this.state.fundraisertitle,
         amount: this.state.amount,
         description: this.state.funddesc,
-        category: this.state.fundraiserCategory
-      }
+        category: this.state.fundraiserCategory,
+      },
     };
     this.props.createJobs(data);
   };
 
-  editCompanyInfo = e => {
+  editCompanyInfo = (e) => {
     let data = {
       company: {
         location: this.state.location ? this.state.location : "",
         phone: this.state.phone ? this.state.phone : "",
-        name: this.state.name ? this.state.name : ""
-      }
+        name: this.state.name ? this.state.name : "",
+      },
     };
     this.props.editCompanyProfile(data);
   };
 
-  updatePic = e => {
+  updatePic = (e) => {
     e.preventDefault();
     this.props.editProfilePic(this.state.picture);
   };
@@ -185,7 +189,7 @@ class CompanyHome extends Component {
                                 style={{ color: "#1569e0", fontSize: "13px" }}
                                 type="file"
                                 name="file"
-                                onChange={e => {
+                                onChange={(e) => {
                                   console.log(e.target.files[0]);
                                   this.setState({ picture: e.target.files[0] });
                                 }}
@@ -206,11 +210,9 @@ class CompanyHome extends Component {
                 </div>
                 <div className="mt-3">
                   <h3 style={{ fontSize: "20px", fontWeight: "600" }}>
-                    {this.state.companyobj.company_basic_details ? (
-                      this.state.companyobj.company_basic_details.companyName
-                    ) : (
-                      ""
-                    )}
+                    {this.state.companyobj.company_basic_details
+                      ? this.state.companyobj.company_basic_details.companyName
+                      : ""}
                   </h3>
                 </div>
               </div>
@@ -227,11 +229,9 @@ class CompanyHome extends Component {
                       style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                       className="ml-2"
                     >
-                      {this.state.companyobj.company_basic_details ? (
-                        this.state.companyobj.company_basic_details.location
-                      ) : (
-                        ""
-                      )}
+                      {this.state.companyobj.company_basic_details
+                        ? this.state.companyobj.company_basic_details.location
+                        : ""}
                     </p>
                   </div>
                   <div className="d-flex ml-3">
@@ -240,11 +240,9 @@ class CompanyHome extends Component {
                       style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
                       className="ml-2"
                     >
-                      {this.state.companyobj.company_basic_details ? (
-                        this.state.companyobj.company_basic_details.phone
-                      ) : (
-                        ""
-                      )}
+                      {this.state.companyobj.company_basic_details
+                        ? this.state.companyobj.company_basic_details.phone
+                        : ""}
                     </p>
                   </div>
                 </div>
@@ -252,19 +250,15 @@ class CompanyHome extends Component {
                   <p style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}>
                     {" "}
                     email:{" "}
-                    {this.state.companyobj.company_basic_details ? (
-                      this.state.companyobj.company_basic_details.emailId
-                    ) : (
-                      ""
-                    )}
+                    {this.state.companyobj.company_basic_details
+                      ? this.state.companyobj.company_basic_details.emailId
+                      : ""}
                   </p>
                 </div>
                 <p className="card-text" style={{ fontSize: "14px" }}>
-                  {this.state.companyobj.company_basic_details ? (
-                    this.state.companyobj.company_basic_details.description
-                  ) : (
-                    ""
-                  )}
+                  {this.state.companyobj.company_basic_details
+                    ? this.state.companyobj.company_basic_details.description
+                    : ""}
                 </p>
               </div>
               <div
@@ -281,14 +275,12 @@ class CompanyHome extends Component {
                           type="text"
                           className="form-control"
                           placeholder={
-                            this.state.companyobj.company_basic_details ? (
-                              this.state.companyobj.company_basic_details
-                                .company_name
-                            ) : (
-                              ""
-                            )
+                            this.state.companyobj.company_basic_details
+                              ? this.state.companyobj.company_basic_details
+                                  .company_name
+                              : ""
                           }
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({ name: e.target.value });
                           }}
                         />
@@ -305,13 +297,12 @@ class CompanyHome extends Component {
                           type="text"
                           className="form-control"
                           placeholder={
-                            this.state.companyobj.company_basic_details ? (
-                              this.state.companyobj.company_basic_details.phone
-                            ) : (
-                              ""
-                            )
+                            this.state.companyobj.company_basic_details
+                              ? this.state.companyobj.company_basic_details
+                                  .phone
+                              : ""
                           }
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({ phone: e.target.value });
                           }}
                         />
@@ -327,14 +318,12 @@ class CompanyHome extends Component {
                           type="text"
                           className="form-control"
                           placeholder={
-                            this.state.companyobj.company_basic_details ? (
-                              this.state.companyobj.company_basic_details
-                                .location
-                            ) : (
-                              ""
-                            )
+                            this.state.companyobj.company_basic_details
+                              ? this.state.companyobj.company_basic_details
+                                  .location
+                              : ""
                           }
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({ location: e.target.value });
                           }}
                         />
@@ -348,7 +337,7 @@ class CompanyHome extends Component {
                 >
                   <button
                     className="btn btn-primary m-2"
-                    onClick={e => {
+                    onClick={(e) => {
                       this.setState({ editInfo: "none", showInfo: "block" });
                       this.editCompanyInfo();
                     }}
@@ -371,7 +360,7 @@ class CompanyHome extends Component {
               >
                 <button
                   className="btn btn-primary m-2"
-                  onClick={e => {
+                  onClick={(e) => {
                     this.setState({ editInfo: "block", showInfo: "none" });
                   }}
                 >
@@ -386,16 +375,16 @@ class CompanyHome extends Component {
               <div className="card-body d-flex justify-content-between">
                 <div className="d-flex col-6 mt-2">
                   <div
-                    className="m-2"
-                    style={{ left: "40px", position: "relative" }}
+                    className="m-2 ml-1"
+                    style={{ left: "45px", position: "relative" }}
                   >
                     <ion-icon name="search" />
                   </div>
                   <input
                     type="text"
-                    className="form-control p-2 pl-4"
+                    className="form-control p-2 pl-4 mx-3"
                     placeholder="Category"
-                    onChange={e => {
+                    onChange={(e) => {
                       this.setState(
                         { categoryFilter: e.target.value || "empty" },
                         () => {
@@ -411,7 +400,7 @@ class CompanyHome extends Component {
                   <div className="p-2 ml-2">
                     <button
                       className="style__pill___3uHDM"
-                      onClick={e => {
+                      onClick={(e) => {
                         this.setState({ modalShow: "block" });
                       }}
                     >
@@ -431,7 +420,7 @@ class CompanyHome extends Component {
                       <div className="container">
                         <span
                           class="close"
-                          onClick={e => {
+                          onClick={(e) => {
                             this.setState({ modalShow: "none" });
                             this.setState({ addSuccessMsg: "" });
                           }}
@@ -457,7 +446,7 @@ class CompanyHome extends Component {
                             <label
                               style={{
                                 fontWeight: "bold",
-                                marginBottom: "5px"
+                                marginBottom: "5px",
                               }}
                             >
                               Title
@@ -468,9 +457,9 @@ class CompanyHome extends Component {
                               name="fundraisertitle"
                               className="form-control"
                               placeholder="Enter Fundraiser Title"
-                              onChange={e => {
+                              onChange={(e) => {
                                 this.setState({
-                                  fundraisertitle: e.target.value
+                                  fundraisertitle: e.target.value,
                                 });
                               }}
                               required
@@ -480,7 +469,7 @@ class CompanyHome extends Component {
                             <label
                               style={{
                                 fontWeight: "bold",
-                                marginBottom: "5px"
+                                marginBottom: "5px",
                               }}
                             >
                               Category
@@ -489,9 +478,9 @@ class CompanyHome extends Component {
                               value={this.state.job_category}
                               id="category"
                               className="form-control"
-                              onChange={e => {
+                              onChange={(e) => {
                                 this.setState({
-                                  fundraiserCategory: e.target.value
+                                  fundraiserCategory: e.target.value,
                                 });
                               }}
                               required
@@ -507,7 +496,7 @@ class CompanyHome extends Component {
                             <label
                               style={{
                                 fontWeight: "bold",
-                                marginBottom: "5px"
+                                marginBottom: "5px",
                               }}
                             >
                               Target amount
@@ -518,7 +507,7 @@ class CompanyHome extends Component {
                               name="amount"
                               className="form-control"
                               placeholder="Enter your target amount"
-                              onChange={e => {
+                              onChange={(e) => {
                                 this.setState({ amount: e.target.value });
                               }}
                               required
@@ -528,7 +517,7 @@ class CompanyHome extends Component {
                             <label
                               style={{
                                 fontWeight: "bold",
-                                marginBottom: "5px"
+                                marginBottom: "5px",
                               }}
                             >
                               Description
@@ -538,9 +527,9 @@ class CompanyHome extends Component {
                               name="funddesc"
                               className="form-control"
                               placeholder="Enter Description"
-                              onChange={e => {
+                              onChange={(e) => {
                                 this.setState({
-                                  funddesc: e.target.value
+                                  funddesc: e.target.value,
                                 });
                               }}
                               required
@@ -561,53 +550,57 @@ class CompanyHome extends Component {
               </div>
               <div className="style__divider___1j_Fp mb-3" />
               <div className="style__jobs___3seWY" style={{ height: "500px" }}>
-                {this.state.jobarr ? (
-                  this.state.jobarr.map(i => (
-                    <div className="p-4 mb-3" key={i._id}>
-                      <div
-                        className="style__selected___1DMZ3 p-2 mt-3 line jobdiv m-1 card"
-                        onClick={e => {
-                          this.setRedirect(i._id);
-                          this.setState({ id: i._id });
-                        }}
-                      >
-                        <div className="d-flex justify-content-between mt-2">
-                          <div className="d-flex">
-                            <ion-icon name="briefcase" />
-                            <h3
-                              className="ml-2 line"
-                              style={{ fontSize: "16px", fontWeight: "700" }}
-                            >
-                              {i.title}
-                            </h3>
-                          </div>
-                          <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                            <i>{i ? i.companyName : ""}</i>
-                          </h3>
-                        </div>
-                        <h3
-                          className="ml-4 mt-2"
-                          style={{ fontSize: "16px", fontWeight: "400" }}
-                        >
-                          {i ? i.description : ""}
-                        </h3>
-
-                        <h3
-                          className="ml-2 mt-2"
-                          style={{
-                            color: "rgba(0,0,0,.56)",
-                            fontWeight: "200px",
-                            fontSize: "14px"
+                {this.state.jobarr
+                  ? this.state.jobarr.map((i) => (
+                      <div className="p-4 mb-3" key={i._id}>
+                        <div
+                          className="style__selected___1DMZ3 p-2 mt-3 line jobdiv m-1 card"
+                          onClick={(e) => {
+                            this.setRedirect(i._id);
+                            this.setState({ id: i._id });
                           }}
                         >
-                          <b>Category:</b> {i.category}
-                        </h3>
+                          <div className="d-flex justify-content-between mt-2">
+                            <div className="d-flex">
+                              <ion-icon name="briefcase" />
+                              <h3
+                                className="ml-2 line"
+                                style={{ fontSize: "16px", fontWeight: "700" }}
+                              >
+                                {i.title}
+                              </h3>
+                            </div>
+                            <div className="col-3 pt-2">
+                              <CircularProgressbar
+                                value={i.amountDonated}
+                                maxValue={i.amount}
+                                text={`${(
+                                  (i.amountDonated /
+                                    i.amount) *
+                                  100
+                                ).toFixed(2)}%`}
+                              />
+                              
+                            </div>
+                            <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
+                              <i>{i ? i.companyName : ""}</i>
+                            </h3>
+                          </div>
+
+                          <h3
+                            className="ml-2 mt-2"
+                            style={{
+                              color: "rgba(0,0,0,.56)",
+                              fontWeight: "200px",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <b>Category:</b> {i.category}
+                          </h3>
+                        </div>
                       </div>
-                    </div>
-                  ))
-                ) : (
-                  ""
-                )}
+                    ))
+                  : ""}
               </div>
               <div
                 className="align-self-center"
@@ -630,21 +623,21 @@ class CompanyHome extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   console.log(state);
   return {
     jobobj: state.companyReducer.jobobj,
     companyobj: state.companyReducer.companyobj,
     companyobject: state.companyReducer.companyobject,
-    propicture: state.companyReducer.propicture
+    propicture: state.companyReducer.propicture,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    editCompanyProfile: payload => dispatch(editCompanyProfile(payload)),
-    getCompanyProfile: payload => dispatch(getCompanyProfile(payload)),
-    editProfilePic: payload => dispatch(editProfilePic(payload)),
-    createJobs: payload => dispatch(createJobs(payload))
+    editCompanyProfile: (payload) => dispatch(editCompanyProfile(payload)),
+    getCompanyProfile: (payload) => dispatch(getCompanyProfile(payload)),
+    editProfilePic: (payload) => dispatch(editProfilePic(payload)),
+    createJobs: (payload) => dispatch(createJobs(payload)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyHome);

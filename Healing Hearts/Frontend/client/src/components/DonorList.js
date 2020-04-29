@@ -257,7 +257,7 @@ class DonorList extends Component {
                                 >
                                   <div className="d-flex justify-content-between">
                                     <div className="d-flex">
-                                      <div className="col-5">
+                                      <div>
                                         <img
                                           style={{
                                             width: "120px",

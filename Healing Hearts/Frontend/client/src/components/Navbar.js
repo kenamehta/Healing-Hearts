@@ -168,7 +168,7 @@ class Navbar extends Component {
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/donor/application"
+                href="/donor/history"
               >
                 History
               </a>

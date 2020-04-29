@@ -100,6 +100,7 @@ route.get(
         total: result.total,
         pages: result.pages
       });
+      
     } catch (err) {
       console.log(`error getting jobs ${err}`);
       res.status(500).send({
@@ -144,7 +145,8 @@ route.post("/", async (req, res) => {
       title: req.body.fundraiser.title,
       description: req.body.fundraiser.description,
       category: req.body.fundraiser.category,
-      amount: req.body.fundraiser.amount
+      amount: req.body.fundraiser.amount,
+      amountDonated:0
     });
 
     if (result) {
@@ -270,7 +272,7 @@ route.get("/applied/:statusFilter", async (req, res) => {
   var options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(limit, 10) || 10,
-    populate: "job_id"
+    populate: ["fundraiserId","companyId"]
   };
   try {
     var whereCondition = {};
@@ -286,10 +288,10 @@ route.get("/applied/:statusFilter", async (req, res) => {
     })
       .then(tokenuser => {
         console.log(
-          tokenuser.student_basic_detail_id +
+          tokenuser._id +
             "in details ------------------------"
         );
-        studentId = tokenuser.student_basic_detail_id;
+        studentId = tokenuser._id;
         email = tokenuser.emailId;
         name = tokenuser.name;
       })
@@ -297,14 +299,14 @@ route.get("/applied/:statusFilter", async (req, res) => {
         console.log(`applying for jobs ${err}`);
       });
 
-    const jobsAppliedArr = await Donation.paginate(
+    const doantionarr = await Donation.paginate(
       {
-        student_basic_detail_id: studentId,
+        donorId: studentId,
         ...whereCondition
       },
       options
     ).then(finalarray => {
-      console.log("sending jobs-----------------" + finalarray);
+      console.log( finalarray);
       res.status(201).send({
         result: finalarray.docs,
         total: finalarray.total

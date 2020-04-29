@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "../styles/jobs.css";
 import api_route from "../app-config";
 import { Redirect } from "react-router-dom";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 import axios from "axios";
 class FundraiserDesc extends Component {
@@ -11,10 +13,14 @@ class FundraiserDesc extends Component {
     jobId: "",
     applyerror: "",
     selectedjobId: "",
-    resumeShow: ""
+    resumeShow: "",
+    amountDonate: "",
   };
+  componentWillReceiveProps(nextProps) {
+    this.setState({ amountDonate: nextProps.jobdata.amountDonated });
+  }
 
-  onResumeSubmit = e => {
+  onResumeSubmit = (e) => {
     e.preventDefault();
     console.log(this.state.selectedjobId);
 
@@ -24,8 +30,8 @@ class FundraiserDesc extends Component {
 
     let config = {
       headers: {
-        Authorization: `${window.localStorage.getItem("student")}`
-      }
+        Authorization: `${window.localStorage.getItem("student")}`,
+      },
     };
 
     axios
@@ -34,17 +40,18 @@ class FundraiserDesc extends Component {
         {
           amountRaised: this.state.amountRaised,
           companyId: this.state.selectedCompanyId,
-          donorId: localStorage.getItem("loginId")
+          donorId: localStorage.getItem("loginId"),
         },
         config
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
+        this.setState({ amountDonate: res.data.amountdonate });
         var path = `${api_route.host}//thankyou-note.pdf`;
         this.setState({ resumeShow: path });
         this.setState({ applyerror: "Successfully Donated" });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ applyerror: "Donation Failed" });
         console.log(err);
       });
@@ -52,7 +59,7 @@ class FundraiserDesc extends Component {
 
   setRedirect = () => {
     this.setState({
-      redirect: true
+      redirect: true,
     });
   };
   renderRedirect = () => {
@@ -74,63 +81,76 @@ class FundraiserDesc extends Component {
         {this.props.jobdata ? (
           <div>
             {this.renderRedirect()}
-            <div className="d-flex">
-              <div className=" pt-2 col-2">
-                {this.props.jobdata.companyId ? this.props.jobdata.companyId
-                  .profilePic ? (
-                  <div>
-                    <img
-                      className="circular-avatar-image-medium avatar-image-medium"
-                      src={`${api_route.host}//${this.props.jobdata.companyId
-                        .profilePic}`}
-                    />
-                  </div>
-                ) : (
-                  ""
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="p-2 b-1 ml-4">
-                <p
-                  style={{
-                    fontSize: "24px",
-                    fontWeight: "700",
-                    fontFamily: "Suisse Int",
-                    marginBottom: "5px"
-                  }}
-                >
-                  {this.props.jobdata.title}
-                </p>
-                <div
-                  style={{ textDecoration: "underline", cursor: "pointer" }}
-                  onClick={e => {
-                    this.setRedirect(this.props.jobdata.companyId._id);
-                    this.setState({
-                      id: this.props.jobdata.companyId._id
-                    });
-                  }}
-                >
+            <div className="d-flex justify-content-between">
+              <div className="d-flex">
+                <div className=" pt-2 col-3">
+                  {this.props.jobdata.companyId ? (
+                    this.props.jobdata.companyId.profilePic ? (
+                      <div>
+                        <img
+                          className="circular-avatar-image-medium avatar-image-medium"
+                          src={`${api_route.host}//${this.props.jobdata.companyId.profilePic}`}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="p-2 b-1 ml-4">
                   <p
                     style={{
-                      fontSize: "18px",
-                      fontWeight: "500",
+                      fontSize: "24px",
+                      fontWeight: "700",
                       fontFamily: "Suisse Int",
-                      color: "rgba(0,0,0,.56)"
+                      marginBottom: "5px",
                     }}
                   >
-                    {this.props.jobdata ? this.props.jobdata.companyName : ""}
+                    {this.props.jobdata.title}
                   </p>
-                </div>
-
-                <div>
-                  <p
-                    style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                    className=""
+                  <div
+                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                    onClick={(e) => {
+                      this.setRedirect(this.props.jobdata.companyId._id);
+                      this.setState({
+                        id: this.props.jobdata.companyId._id,
+                      });
+                    }}
                   >
-                    {this.props.jobdata.category} Category
-                  </p>
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "500",
+                        fontFamily: "Suisse Int",
+                        color: "rgba(0,0,0,.56)",
+                      }}
+                    >
+                      {this.props.jobdata ? this.props.jobdata.companyName : ""}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p
+                      style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
+                      className=""
+                    >
+                      {this.props.jobdata.category} Category
+                    </p>
+                  </div>
                 </div>
+              </div>
+              <div className="col-3 pt-2">
+                <CircularProgressbar
+                  value={this.state.amountDonate}
+                  maxValue={this.props.jobdata.amount}
+                  text={`${(
+                    (this.state.amountDonate / this.props.jobdata.amount) *
+                    100
+                  ).toFixed(2)}%`}
+                />
+                
               </div>
             </div>
 
@@ -140,7 +160,7 @@ class FundraiserDesc extends Component {
                 style={{
                   fontSize: "20px",
                   fontWeight: "600",
-                  alignSelf: "center"
+                  alignSelf: "center",
                 }}
               >
                 <div>
@@ -154,7 +174,7 @@ class FundraiserDesc extends Component {
                   id="myBtn"
                   className="btn btn-outline-success"
                   style={{ fontSize: "13px" }}
-                  onClick={e => {
+                  onClick={(e) => {
                     this.setState({ modalShow: "block" });
                   }}
                 >
@@ -177,7 +197,7 @@ class FundraiserDesc extends Component {
                       )}
                       <span
                         class="close"
-                        onClick={e => {
+                        onClick={(e) => {
                           this.setState({ modalShow: "none" });
                           this.setState({ applyerror: "" });
                         }}
@@ -186,11 +206,9 @@ class FundraiserDesc extends Component {
                       </span>
                       <p style={{ fontSize: "20px", fontWeight: "700" }}>
                         Raise money for{" "}
-                        {this.props.jobdata ? (
-                          this.props.jobdata.companyName
-                        ) : (
-                          ""
-                        )}
+                        {this.props.jobdata
+                          ? this.props.jobdata.companyName
+                          : ""}
                       </p>
                       <div>
                         <span style={{ fontSize: "16px" }}>Enter Amount:</span>
@@ -198,7 +216,7 @@ class FundraiserDesc extends Component {
                           className="ml-2"
                           type="text"
                           placeholder="In Dollars"
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({ amountRaised: e.target.value });
                           }}
                         />
@@ -224,11 +242,11 @@ class FundraiserDesc extends Component {
                           <div>
                             <button
                               className="form-control mt-2 btn btn-outline-success"
-                              onClick={e => {
+                              onClick={(e) => {
                                 this.setState({
                                   selectedFundId: this.props.jobdata._id,
                                   selectedCompanyId: this.props.jobdata
-                                    .companyId._id
+                                    .companyId._id,
                                 });
                               }}
                             >
