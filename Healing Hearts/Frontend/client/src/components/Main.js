@@ -6,14 +6,12 @@ import LoginEmployer from "./LoginEmployer";
 import RegisterCompany from "./RegisterCompany";
 import DonorRegister from "./DonorRegister";
 import MainProfile from "./mainprofile";
-import StudentEvent from "./StudentEvent";
-import StudentJobs from "./StudentJobs";
-import StudentApplication from "./StudentApplication";
-import StudentList from "./StudentList";
+import DonorFundraiser from "./DonorFundraiser";
+import DonorHistory from "./DonorHistory";
+import DonorList from "./DonorList";
 import MainVisitedProfile from "./Profile/MainVisitedProfile";
 import CompanyHome from "./company/CompanyHome";
-import StudentJobList from "./company/StudentJobList";
-import StudentEventList from "./company/StudentEventList";
+import DonorFundraiserList from "./company/DonorFundraiserList";
 import CompanyEvent from "./company/CompanyEvent";
 import VisitedCompany from "./company/VisitedCompany.js/VisitedCompany";
 import Message from "./message/Message" ;
@@ -36,16 +34,14 @@ class Main extends Component {
         <Route path="/donor/register" component={DonorRegister} />
         <Route path="/company/register" component={RegisterCompany} />
         <Route path="/company/home" component={CompanyHome} />
-        <Route path="/student/home" component={MainProfile} />
-        <Route path="/student/events" component={StudentEvent} />
-        <Route path="/student/jobs" component={StudentJobs} />
-        <Route path="/student/application" component={StudentApplication} />
-        <Route path="/student/list" component={StudentList} />
-        <Route path="/company/list" component={StudentList} />
+        <Route path="/donor/home" component={MainProfile} />
+        <Route path="/donor/fundraisers" component={DonorFundraiser} />
+        <Route path="/donor/history" component={DonorHistory} />
+        <Route path="/donor/list" component={DonorList} />
+        <Route path="/company/list" component={DonorList} />
         <Route path="/message" component={Message} />
-        <Route path="/student/profile/:id" component={MainVisitedProfile} />
-        <Route path="/job/student/:id" component={StudentJobList} />
-        <Route path="/event/student/:id" component={StudentEventList} />
+        <Route path="/donor/profile/:id" component={MainVisitedProfile} />
+        <Route path="/job/donor/:id" component={DonorFundraiserList} />
         <Route path="/company/events" component={CompanyEvent} />
         <Route path="/visitcompany/home/:id" component={VisitedCompany} />
         <Route path="/home" component={Home} />

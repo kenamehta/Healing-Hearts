@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { getAppliedJobs } from "../redux/actions/applicationAction";
 import Pagination from "react-js-pagination";
 
-class StudentApplication extends Component {
+class DonorHistory extends Component {
   state = {
     jobarr: "",
     perjobArr: "",
@@ -22,7 +22,6 @@ class StudentApplication extends Component {
 
   componentWillMount() {
     this.props.getAppliedJobs({
-     
       statusFilter: this.state.statusFilter,
       page: this.state.page,
       limit: this.state.limit
@@ -31,7 +30,6 @@ class StudentApplication extends Component {
   }
   getFilterJobs = () => {
     this.props.getAppliedJobs({
-     
       statusFilter: this.state.statusFilter,
       page: this.state.page,
       limit: this.state.limit
@@ -42,19 +40,17 @@ class StudentApplication extends Component {
     this.setState({ perjobArr: nextProps.result });
     this.setState({ jobobj: nextProps.result[0] });
     this.setState({ count: nextProps.total });
-
   }
   handlePageChange(pageNumber) {
     console.log(`active page is ${pageNumber}`);
     this.setState(
       { page: pageNumber },
       this.props.getAppliedJobs({
-     
         statusFilter: this.state.statusFilter,
         page: pageNumber,
         limit: this.state.limit
       })
-    )
+    );
   }
   render() {
     return (
@@ -66,12 +62,10 @@ class StudentApplication extends Component {
         </div>
         <div className="container mt-3">
           <div className="card">
-           
             <div className="d-flex p-2 ml-5">
               <button
                 className="style__pill___3uHDM"
                 onClick={e => {
-                
                   this.setState({ statusFilter: "Pending" }, () => {
                     this.getFilterJobs();
                   });
@@ -82,7 +76,6 @@ class StudentApplication extends Component {
               <button
                 className="style__pill___3uHDM"
                 onClick={e => {
-                 
                   this.setState({ statusFilter: "Reviewed" }, () => {
                     this.getFilterJobs();
                   });
@@ -93,7 +86,6 @@ class StudentApplication extends Component {
               <button
                 className="style__pill___3uHDM"
                 onClick={e => {
-                  
                   this.setState({ statusFilter: "Declined" }, () => {
                     this.getFilterJobs();
                   });
@@ -117,50 +109,52 @@ class StudentApplication extends Component {
                     {" "}
                     All your applied jobs are shown here{" "}
                   </h4>
-                  {this.state.jobarr
-                    ? this.state.jobarr.map(i => (
-                        <div key={i.job_id}>
-                          <div
-                            className="style__selected___1DMZ3 p-2 mt-3 jobdiv m-1 card"
-                            onClick={e => {
-                              this.setState({ jobobj: i });
-                            }}
-                          >
-                            <div className="d-flex">
-                              <ion-icon name="briefcase"></ion-icon>
-                              <h3
-                                className="ml-2"
-                                style={{ fontSize: "16px", fontWeight: "700" }}
-                              >
-                                {i.job_id.job_title}
-                              </h3>
-                            </div>
-                            <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                              {i.job_id.company_name}
-                            </h3>
+                  {this.state.jobarr ? (
+                    this.state.jobarr.map(i => (
+                      <div key={i.job_id}>
+                        <div
+                          className="style__selected___1DMZ3 p-2 mt-3 jobdiv m-1 card"
+                          onClick={e => {
+                            this.setState({ jobobj: i });
+                          }}
+                        >
+                          <div className="d-flex">
+                            <ion-icon name="briefcase" />
                             <h3
-                              style={{
-                                color: "rgba(0,0,0,.56)",
-                                fontWeight: "200px",
-                                fontSize: "14px"
-                              }}
+                              className="ml-2"
+                              style={{ fontSize: "16px", fontWeight: "700" }}
                             >
-                              {i.job_id.job_category} Job
-                            </h3>
-                            <h3
-                              style={{
-                                color: "rgba(0,0,0,.56)",
-                                fontWeight: "200px",
-                                fontSize: "14px"
-                              }}
-                            >
-                              Applied for this job on{" "}
-                              {i ? i.createdAt.split("T")[0] : ""}{" "}
+                              {i.job_id.job_title}
                             </h3>
                           </div>
+                          <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
+                            {i.job_id.company_name}
+                          </h3>
+                          <h3
+                            style={{
+                              color: "rgba(0,0,0,.56)",
+                              fontWeight: "200px",
+                              fontSize: "14px"
+                            }}
+                          >
+                            {i.job_id.job_category} Job
+                          </h3>
+                          <h3
+                            style={{
+                              color: "rgba(0,0,0,.56)",
+                              fontWeight: "200px",
+                              fontSize: "14px"
+                            }}
+                          >
+                            Applied for this job on{" "}
+                            {i ? i.createdAt.split("T")[0] : ""}{" "}
+                          </h3>
                         </div>
-                      ))
-                    : ""}
+                      </div>
+                    ))
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div
                   align="center"
@@ -203,4 +197,4 @@ const mapDispatchToProps = dispatch => {
     getAppliedJobs: payload => dispatch(getAppliedJobs(payload))
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(StudentApplication);
+export default connect(mapStateToProps, mapDispatchToProps)(DonorHistory);

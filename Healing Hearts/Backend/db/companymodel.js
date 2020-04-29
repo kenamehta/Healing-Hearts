@@ -1,19 +1,36 @@
-
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 const mongoosePaginate = require("mongoose-paginate");
 
+const company = new mongoose.Schema({
+  companyName: String,
+  emailId: { type: String, unique: true },
+  password: String,
+  location: String,
+  about: String,
+  phone: String,
+  profilePic: String
+});
+
+company.plugin(uniqueValidator);
+// event.plugin(mongoosePaginate);
+
+const Company = mongoose.model("Company", company);
+
 const fundraisers = new mongoose.Schema(
   {
     companyName: String,
-    companyId: String,
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company"
+    },
     title: String,
     description: String,
     category: String
   },
   { timestamps: true }
 );
-
+fundraisers.plugin(mongoosePaginate);
 // const event= new mongoose.Schema({
 //     company_basic_detail_id:String,
 //     company_name:String,
@@ -27,20 +44,6 @@ const fundraisers = new mongoose.Schema(
 // },
 //    { timestamps: true })
 
-const company = new mongoose.Schema({
-  companyName: String,
-  emailId: { type: String, unique: true },
-  password: String,
-  location: String,
-  about: String,
-  phone: String,
-  profilePic: String
-});
-fundraisers.plugin(mongoosePaginate);
-company.plugin(uniqueValidator);
-// event.plugin(mongoosePaginate);
-
-const Company = mongoose.model("Company", company);
 const Fundraiser = mongoose.model("Fundraiser", fundraisers);
 // const Event = mongoose.model("event", event);
 

@@ -24,12 +24,12 @@ route.use(fileUpload());
 // })
 
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, "public");
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     cb(null, new Date() + "-" + file.originalname);
-  },
+  }
 });
 
 var upload = multer({ storage: storage });
@@ -44,121 +44,68 @@ route.get(
     if (req.params.categoryFilter !== "empty") {
       whereCondition = {
         ...whereCondition,
-        job_category: req.params.categoryFilter,
+        job_category: req.params.categoryFilter
       };
     }
     if (req.params.companyFilter !== "empty") {
-      console.log("looooo"+req.params.companyFilter);
+      console.log("looooo" + req.params.companyFilter);
       whereCondition = {
         ...whereCondition,
         $or: [
           {
             companyName: { $regex: new RegExp(req.params.companyFilter, "i") },
+            title: { $regex: new RegExp(req.params.companyFilter, "i") },
+            category: { $regex: new RegExp(req.params.companyFilter, "i") }
           }
-        ],
+        ]
       };
     }
 
     if (req.params.locationFilter !== "empty") {
       whereCondition = {
         ...whereCondition,
-        location: { $regex: new RegExp(req.params.locationFilter, "i") },
+        location: { $regex: new RegExp(req.params.locationFilter, "i") }
       };
     }
-    if (req.params.sortFilter !== "empty") {
-      console.log("inside sorting" + req.params.sortFilter);
-      console.log(sort);
-      switch (req.params.sortFilter) {
-        case "DeadlineAsc": {
-          sort = {
-            deadline: 1,
-          };
-          break;
-        }
-        case "DeadlineDesc": {
-          console.log("in descending");
-          sort = "";
-          sort = {
-            deadline: -1,
-          };
-          break;
-        }
-        case "LocationAsc": {
-          console.log("in location");
-          sort = {
-            location: 1,
-          };
-          break;
-        }
-        case "LocationDesc": {
-          console.log("in location");
-          sort = {
-            location: -1,
-          };
-          break;
-        }
-        case "PostedonAsc": {
-          console.log("in posting");
-          sort = {
-            createdAt: 1,
-          };
-          break;
-        }
-        case "PostedonDesc": {
-          console.log("in posting");
-          sort = {
-            createdAt: -1,
-          };
-          break;
-        }
-        default: {
-          sort = {
-            deadline: 1,
-          };
-          break;
-        }
-      }
-    }
+
     console.log(Decryptedtoken.email);
 
     try {
       await Company.findOne({
-        emailId: Decryptedtoken.email,
+        emailId: Decryptedtoken.email
       })
-        .then((tokenuser) => {
-          console.log(
-            tokenuser +
-              "in details ------------------------"
-          );
+        .then(tokenuser => {
+          console.log(tokenuser + "in details ------------------------");
           studentId = tokenuser._id;
           email = tokenuser.emailId;
           name = tokenuser.name;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(`error posting student journey ${err}`);
         });
       var { page, limit } = req.query;
       console.log(parseInt(page, 10));
       var options = {
+        populate: "companyId",
         page: parseInt(page, 10) || 1,
-        limit: parseInt(limit, 10) || 10,
-       // sort: sort,
+        limit: parseInt(limit, 10) || 10
+        // sort: sort,
       };
-      console.log(whereCondition)
+      console.log(whereCondition);
       const result = await Fundraiser.paginate(whereCondition, options);
       console.log("sending jobs-----------------" + result);
-      console.log(result)
+      console.log(result);
       res.status(201).send({
         result: result.docs,
         total: result.total,
-        pages: result.pages,
+        pages: result.pages
       });
     } catch (err) {
       console.log(`error getting jobs ${err}`);
       res.status(500).send({
         errors: {
-          body: err,
-        },
+          body: err
+        }
       });
     }
   }
@@ -170,10 +117,10 @@ route.post("/", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
     await Company.findOne({
-      emailId: Decryptedtoken.email,
+      emailId: Decryptedtoken.email
     })
-      .then((tokenuser) => {
-        console.log(tokenuser)
+      .then(tokenuser => {
+        console.log(tokenuser);
         if (tokenuser) {
           companyId = tokenuser._id;
           email = tokenuser.emailId;
@@ -181,12 +128,12 @@ route.post("/", async (req, res) => {
         } else {
           res.status(403).send({
             errors: {
-              err: "Unauthenticated user",
-            },
+              err: "Unauthenticated user"
+            }
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(`error posting jobs ${err}`);
       });
 
@@ -211,16 +158,16 @@ route.post("/", async (req, res) => {
     } else {
       res.status(403).send({
         errors: {
-          err: "Unable to add job",
-        },
+          err: "Unable to add job"
+        }
       });
     }
   } catch (err) {
     console.log(err);
     res.status(403).send({
       errors: {
-        err: err,
-      },
+        err: err
+      }
     });
   }
 });
@@ -233,9 +180,9 @@ route.post("/apply", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
     await Donor.findOne({
-      emailId: Decryptedtoken.email,
+      emailId: Decryptedtoken.email
     })
-      .then((tokenuser) => {
+      .then(tokenuser => {
         if (tokenuser) {
           student = tokenuser;
           studentId = tokenuser.student_basic_detail_id;
@@ -245,12 +192,12 @@ route.post("/apply", async (req, res) => {
         } else {
           res.status(403).send({
             errors: {
-              err: "Unauthenticated user",
-            },
+              err: "Unauthenticated user"
+            }
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(`error getting student basic details ${err}`);
       });
 
@@ -263,7 +210,7 @@ route.post("/apply", async (req, res) => {
       job_id: req.body.job.job_id,
       student_basic_detail_id: studentId,
       student_id: studentObjectId,
-      status: "Pending",
+      status: "Pending"
     });
     if (result) {
       res.status(201).send(result);
@@ -272,8 +219,8 @@ route.post("/apply", async (req, res) => {
     console.log(err);
     res.status(403).send({
       errors: {
-        err: err,
-      },
+        err: err
+      }
     });
   }
 });
@@ -284,9 +231,9 @@ route.get("/applicants", async (req, res) => {
   try {
     var companyId;
     await Company.findOne({
-      emailId: Decryptedtoken.email,
+      emailId: Decryptedtoken.email
     })
-      .then((tokenuser) => {
+      .then(tokenuser => {
         if (tokenuser) {
           companyId = tokenuser.company_basic_detail_id;
           email = tokenuser.emailId;
@@ -294,28 +241,28 @@ route.get("/applicants", async (req, res) => {
         } else {
           res.status(403).send({
             errors: {
-              err: "Unauthenticated User",
-            },
+              err: "Unauthenticated User"
+            }
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(`error getting student applicant ${err}`);
       });
 
     const result = await Fundraiser.find({
-      company_basic_detail_id: companyId,
+      company_basic_detail_id: companyId
     });
     console.log("sending jobs-----------------" + result);
     res.status(201).send({
-      result: result,
+      result: result
     });
   } catch (err) {
     console.log(`error getting jobs ${err}`);
     res.status(500).send({
       errors: {
-        body: err,
-      },
+        body: err
+      }
     });
   }
 });
@@ -329,21 +276,21 @@ route.get("/applied/:statusFilter", async (req, res) => {
   var options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(limit, 10) || 10,
-    populate: "job_id",
+    populate: "job_id"
   };
   try {
     var whereCondition = {};
     if (req.params.statusFilter !== "empty") {
       whereCondition = {
         ...whereCondition,
-        status: req.params.statusFilter,
+        status: req.params.statusFilter
       };
     }
 
     await Donor.findOne({
-      emailId: Decryptedtoken.email,
+      emailId: Decryptedtoken.email
     })
-      .then((tokenuser) => {
+      .then(tokenuser => {
         console.log(
           tokenuser.student_basic_detail_id +
             "in details ------------------------"
@@ -352,29 +299,29 @@ route.get("/applied/:statusFilter", async (req, res) => {
         email = tokenuser.emailId;
         name = tokenuser.name;
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(`applying for jobs ${err}`);
       });
 
     const jobsAppliedArr = await Donation.paginate(
       {
         student_basic_detail_id: studentId,
-        ...whereCondition,
+        ...whereCondition
       },
       options
-    ).then((finalarray) => {
+    ).then(finalarray => {
       console.log("sending jobs-----------------" + finalarray);
       res.status(201).send({
         result: finalarray.docs,
-        total: finalarray.total,
+        total: finalarray.total
       });
     });
   } catch (err) {
     console.log(`error getting jobs ${err}`);
     res.status(500).send({
       errors: {
-        body: err,
-      },
+        body: err
+      }
     });
   }
 });
@@ -384,9 +331,9 @@ route.get("/:id/students", async (req, res) => {
   Decryptedtoken = decryptToken(req.headers.authorization);
   try {
     await Company.findOne({
-      emailId: Decryptedtoken.email,
+      emailId: Decryptedtoken.email
     })
-      .then((tokenuser) => {
+      .then(tokenuser => {
         if (tokenuser) {
           studentId = tokenuser.company_basic_detail_id;
           email = tokenuser.emailId;
@@ -394,25 +341,25 @@ route.get("/:id/students", async (req, res) => {
         } else {
           res.status(403).send({
             errors: {
-              err: "Unauthenticated User",
-            },
+              err: "Unauthenticated User"
+            }
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(`getting students who applied for this job ${err}`);
       });
     var finalarray = [];
     await Donation.find({
-      job_id: req.params.id,
+      job_id: req.params.id
     })
       .populate("student_id")
-      .then((tokenuser) => {
+      .then(tokenuser => {
         if (tokenuser) {
           // console.log(tokenuser)
-          tokenuser.map((t) => {
+          tokenuser.map(t => {
             finalusereducation = t.student_id.educations.filter(
-              (e) => e.isPrimary == 1
+              e => e.isPrimary == 1
             );
             // console.log(finalusereducation)
             t.student_id.educations = finalusereducation;
@@ -424,15 +371,15 @@ route.get("/:id/students", async (req, res) => {
         res.send({
           success: true,
           msg: "Successfully fetched student profile",
-          msgDesc: finalarray,
+          msgDesc: finalarray
         });
       });
   } catch (err) {
     console.log(`error getting jobs ${err}`);
     res.status(500).send({
       errors: {
-        body: err,
-      },
+        body: err
+      }
     });
   }
 });
@@ -442,9 +389,9 @@ route.post("/:jobId/:studentId", async (req, res) => {
     console.log(req.body.company.status);
     Decryptedtoken = decryptToken(req.headers.authorization);
     await Company.findOne({
-      emailId: Decryptedtoken.email,
+      emailId: Decryptedtoken.email
     })
-      .then((tokenuser) => {
+      .then(tokenuser => {
         if (tokenuser) {
           console.log(
             tokenuser.company_basic_detail_id +
@@ -456,48 +403,48 @@ route.post("/:jobId/:studentId", async (req, res) => {
         } else {
           res.status(403).send({
             errors: {
-              body: "Unauthenticated user",
-            },
+              body: "Unauthenticated user"
+            }
           });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(`getting students who applied for this job ${err}`);
       });
 
     const filter = {
       job_id: req.params.jobId,
-      student_basic_detail_id: req.params.studentId,
+      student_basic_detail_id: req.params.studentId
     };
     const update = { status: req.body.company.status };
 
     await Donation.findOneAndUpdate(filter, update, {
       new: true,
-      useFindAndModify: true,
+      useFindAndModify: true
     })
-      .then((tokenuser) => {
+      .then(tokenuser => {
         if (tokenuser) res.status(201).send(tokenuser);
         else
           res.status(500).send({
             errors: {
-              body: "No match found",
-            },
+              body: "No match found"
+            }
           });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         res.status(500).send({
           errors: {
-            body: err,
-          },
+            body: err
+          }
         });
       });
   } catch (err) {
     console.log(`error getting jobs ${err}`);
     res.status(500).send({
       errors: {
-        body: err,
-      },
+        body: err
+      }
     });
   }
 });
