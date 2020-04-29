@@ -111,7 +111,7 @@ class DonorHistory extends Component {
                   </h4>
                   {this.state.jobarr ? (
                     this.state.jobarr.map(i => (
-                      <div key={i.job_id}>
+                      <div key={i._id}>
                         <div
                           className="style__selected___1DMZ3 p-2 mt-3 jobdiv m-1 card"
                           onClick={e => {
@@ -124,11 +124,11 @@ class DonorHistory extends Component {
                               className="ml-2"
                               style={{ fontSize: "16px", fontWeight: "700" }}
                             >
-                              {i.job_id.job_title}
+                              {i.fundraiserId.title}
                             </h3>
                           </div>
                           <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
-                            {i.job_id.company_name}
+                            {i.fundraiserId.companyName}
                           </h3>
                           <h3
                             style={{
@@ -137,7 +137,7 @@ class DonorHistory extends Component {
                               fontSize: "14px"
                             }}
                           >
-                            {i.job_id.job_category} Job
+                            {i.fundraiserId.category} Job
                           </h3>
                           <h3
                             style={{
@@ -146,7 +146,7 @@ class DonorHistory extends Component {
                               fontSize: "14px"
                             }}
                           >
-                            Applied for this job on{" "}
+                            Donated for this fundraiser on{" "}
                             {i ? i.createdAt.split("T")[0] : ""}{" "}
                           </h3>
                         </div>

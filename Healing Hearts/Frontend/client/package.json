@@ -12,6 +12,7 @@
     "plotly.js": "^1.48.1",
     "plotly.js-basic-dist": "^1.53.0",
     "react": "^16.8.6",
+    "react-circular-progressbar": "^2.0.3",
     "react-cookie": "^3.0.4",
     "react-cookies": "^0.1.0",
     "react-datepicker": "^2.13.0",

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "../styles/jobs.css";
 import api_route from "../app-config";
 import { Redirect } from "react-router-dom";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 import axios from "axios";
 class FundraiserDesc extends Component {
@@ -11,8 +13,12 @@ class FundraiserDesc extends Component {
     jobId: "",
     applyerror: "",
     selectedjobId: "",
-    resumeShow: ""
+    resumeShow: "",
+    amountDonate: ""
   };
+  componentWillReceiveProps(nextProps) {
+    this.setState({ amountDonate: nextProps.jobdata.amountDonated });
+  }
 
   onResumeSubmit = e => {
     e.preventDefault();
@@ -40,6 +46,7 @@ class FundraiserDesc extends Component {
       )
       .then(res => {
         console.log(res);
+        this.setState({ amountDonate: res.data.amountdonate });
         var path = `${api_route.host}//thankyou-note.pdf`;
         this.setState({ resumeShow: path });
         this.setState({ applyerror: "Successfully Donated" });
@@ -74,62 +81,73 @@ class FundraiserDesc extends Component {
         {this.props.jobdata ? (
           <div>
             {this.renderRedirect()}
-            <div className="d-flex">
-              <div className=" pt-2 col-2">
-                {this.props.jobdata.companyId ? this.props.jobdata.companyId
-                  .profilePic ? (
-                  <div>
-                    <img
-                      className="circular-avatar-image-medium avatar-image-medium"
-                      src={`${api_route.host}//${this.props.jobdata.companyId
-                        .profilePic}`}
-                    />
-                  </div>
-                ) : (
-                  ""
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="p-2 b-1 ml-4">
-                <p
-                  style={{
-                    fontSize: "24px",
-                    fontWeight: "700",
-                    fontFamily: "Suisse Int",
-                    marginBottom: "5px"
-                  }}
-                >
-                  {this.props.jobdata.title}
-                </p>
-                <div
-                  style={{ textDecoration: "underline", cursor: "pointer" }}
-                  onClick={e => {
-                    this.setRedirect(this.props.jobdata.companyId._id);
-                    this.setState({
-                      id: this.props.jobdata.companyId._id
-                    });
-                  }}
-                >
+            <div className="">
+              <div className="d-flex justify-content-between">
+                <div className=" pt-2 col-3">
+                  {this.props.jobdata.companyId ? this.props.jobdata.companyId
+                    .profilePic ? (
+                    <div>
+                      <img
+                        className="circular-avatar-image-medium avatar-image-medium"
+                        src={`${api_route.host}//${this.props.jobdata.companyId
+                          .profilePic}`}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="p-2 b-1">
                   <p
                     style={{
-                      fontSize: "18px",
-                      fontWeight: "500",
+                      fontSize: "24px",
+                      fontWeight: "700",
                       fontFamily: "Suisse Int",
-                      color: "rgba(0,0,0,.56)"
+                      marginBottom: "5px"
                     }}
                   >
-                    {this.props.jobdata ? this.props.jobdata.companyName : ""}
+                    {this.props.jobdata.title}
                   </p>
-                </div>
-
-                <div>
-                  <p
-                    style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
-                    className=""
+                  <div
+                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                    onClick={e => {
+                      this.setRedirect(this.props.jobdata.companyId._id);
+                      this.setState({
+                        id: this.props.jobdata.companyId._id
+                      });
+                    }}
                   >
-                    {this.props.jobdata.category} Category
-                  </p>
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "500",
+                        fontFamily: "Suisse Int",
+                        color: "rgba(0,0,0,.56)"
+                      }}
+                    >
+                      {this.props.jobdata ? this.props.jobdata.companyName : ""}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p
+                      style={{ color: "rgba(0,0,0,.56)", fontSize: "14px" }}
+                      className=""
+                    >
+                      {this.props.jobdata.category} Category
+                    </p>
+                  </div>
+                </div>
+                <div align="right" className="pt-2 col-2">
+                  <CircularProgressbar
+                    value={this.state.amountDonate}
+                    maxValue={this.props.jobdata.amount}
+                    text={`${(this.state.amountDonate /
+                      this.props.jobdata.amount *
+                      100).toFixed(2)}%`}
+                  />
                 </div>
               </div>
             </div>

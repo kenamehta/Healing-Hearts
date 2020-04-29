@@ -3,6 +3,7 @@ import "../styles/home.css";
 class Home extends Component {
   state = {};
   render() {
+    localStorage.clear();
     return (
       <div>
         <div className="background-style">

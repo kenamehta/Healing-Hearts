@@ -44,27 +44,13 @@ route.get(
     if (req.params.categoryFilter !== "empty") {
       whereCondition = {
         ...whereCondition,
-        job_category: req.params.categoryFilter
-      };
-    }
-    if (req.params.companyFilter !== "empty") {
-      console.log("looooo" + req.params.companyFilter);
-      whereCondition = {
-        ...whereCondition,
         $or: [
           {
-            companyName: { $regex: new RegExp(req.params.companyFilter, "i") }
+            companyName: { $regex: new RegExp(req.params.categoryFilter, "i") }
           },
-          { title: { $regex: new RegExp(req.params.companyFilter, "i") } },
-          { category: { $regex: new RegExp(req.params.companyFilter, "i") } }
+          { title: { $regex: new RegExp(req.params.categoryFilter, "i") } },
+          { category: { $regex: new RegExp(req.params.categoryFilter, "i") } }
         ]
-      };
-    }
-
-    if (req.params.locationFilter !== "empty") {
-      whereCondition = {
-        ...whereCondition,
-        location: { $regex: new RegExp(req.params.locationFilter, "i") }
       };
     }
 
@@ -138,13 +124,13 @@ route.post("/", async (req, res) => {
       });
 
     const result = await Fundraiser.create({
-      
       companyName: name,
       companyId: companyId,
       title: req.body.fundraiser.title,
       description: req.body.fundraiser.description,
       category: req.body.fundraiser.category,
-      amount: req.body.fundraiser.amount
+      amount: req.body.fundraiser.amount,
+      amountDonated: 0
     });
 
     if (result) {
@@ -270,7 +256,7 @@ route.get("/applied/:statusFilter", async (req, res) => {
   var options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(limit, 10) || 10,
-    populate: "job_id"
+    populate: ["fundraiserId", "companyId"]
   };
   try {
     var whereCondition = {};
@@ -285,11 +271,8 @@ route.get("/applied/:statusFilter", async (req, res) => {
       emailId: Decryptedtoken.email
     })
       .then(tokenuser => {
-        console.log(
-          tokenuser.student_basic_detail_id +
-            "in details ------------------------"
-        );
-        studentId = tokenuser.student_basic_detail_id;
+        console.log(tokenuser._id + "in details ------------------------");
+        studentId = tokenuser._id;
         email = tokenuser.emailId;
         name = tokenuser.name;
       })
@@ -297,14 +280,14 @@ route.get("/applied/:statusFilter", async (req, res) => {
         console.log(`applying for jobs ${err}`);
       });
 
-    const jobsAppliedArr = await Donation.paginate(
+    const doantionarr = await Donation.paginate(
       {
-        student_basic_detail_id: studentId,
+        donorId: studentId,
         ...whereCondition
       },
       options
     ).then(finalarray => {
-      console.log("sending jobs-----------------" + finalarray);
+      console.log(finalarray);
       res.status(201).send({
         result: finalarray.docs,
         total: finalarray.total

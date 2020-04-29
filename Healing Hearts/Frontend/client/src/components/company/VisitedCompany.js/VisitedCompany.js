@@ -329,14 +329,14 @@ class VisitedCompany extends Component {
               <div className="card-body d-flex justify-content-between">
                 <div className="d-flex col-6 mt-2">
                   <div
-                    className="m-2"
+                    className="m-2 ml-1"
                     style={{ left: "40px", position: "relative" }}
                   >
                     <ion-icon name="search" />
                   </div>
                   <input
                     type="text"
-                    className="form-control p-2 pl-5"
+                    className="form-control p-2 pl-4 mx-3"
                     placeholder="Category"
                     onChange={e => {
                       this.setState(

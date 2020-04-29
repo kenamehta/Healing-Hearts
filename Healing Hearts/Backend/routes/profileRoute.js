@@ -22,30 +22,27 @@ route.get(
   async (req, res) => {
     console.log("----------getting all profiles");
     Decryptedtoken = decryptToken(req.headers.authorization);
-    var {page,limit}=req.query;
-    console.log(parseInt(page,10))
-    var options={
-      page:parseInt(page,10)||1,
-      limit:parseInt(limit,10)||10,
-      sort:{
-        name:1
+    var { page, limit } = req.query;
+    console.log(parseInt(page, 10));
+    var options = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(limit, 10) || 10,
+      sort: {
+        name: 1
       }
-    }
+    };
     if (
       req.params.studentnameFilter == "empty" &&
       req.params.majorFilter == "empty" &&
-      req.params.skillFilter == "empty"&&
-      req.params.collegeFilter=="empty"
+      req.params.skillFilter == "empty" &&
+      req.params.collegeFilter == "empty"
     ) {
       try {
         await Donor.findOne({
           emailId: Decryptedtoken.email
         })
           .then(tokenuser => {
-            console.log(
-              tokenuser._id +
-                "in details ------------------------"
-            );
+            console.log(tokenuser._id + "in details ------------------------");
             studentId = tokenuser._id;
             email = tokenuser.emailId;
             name = tokenuser.name;
@@ -76,20 +73,22 @@ route.get(
         //   newStudentarr.push(newStudent);
         // });
         // // newStudentarr.totalDocs=totalDocs;
-        // // 
+        // //
         // res.status(201).send({
         //   newStudentarr,
         //   total:totalDocs
         // });
-
-
-        const donors=await Donor.paginate({})
-        var totaldocs=donors.totalDocs
+        let { page, limit } = req.query;
+        let options = {
+          limit: parseInt(limit, 10) || 10,
+          page: parseInt(page, 10) || 1
+        };
+        const donors = await Donor.paginate({}, options);
+        var totaldocs = donors.totalDocs;
         res.status(201).send({
-            donors,
-            total:totaldocs
-          });
-
+          donors,
+          total: totaldocs
+        });
       } catch (err) {
         console.log(`error getting jobs ${err}`);
         res.status(500).send({
@@ -100,74 +99,97 @@ route.get(
       }
     } else {
       try {
-        await Donor.findOne({
-          emailId: Decryptedtoken.email
-        })
-          .then(tokenuser => {
-            console.log(
-              tokenuser._id +
-                "in details ------------------------"
-            );
-            studentId = tokenuser._id;
-            email = tokenuser.emailId;
-            name = tokenuser.name;
-          })
-          .catch(err => {
-            console.log(`error posting student journey ${err}`);
-          });
-        console.log(req.params.studentnameFilter)
-        var aggregate=Donor.aggregate([
-          { $unwind: "$educations" },
-          {
-            $match: {
-              "educations.isPrimary": "1",
-              $or: [
-                {
-                  name: {
-                    $regex: new RegExp(req.params.studentnameFilter, "i")
-                  }
-                },
-                {
-                  college: {
-                    $regex: new RegExp(req.params.collegeFilter, "i")
-                  }
-                },
-                {
-                  "educations.major": {
-                    $regex: new RegExp(req.params.majorFilter, "i")
-                  }
-                },
-                {
-                  "skills.skill_name": {
-                    $regex: new RegExp(req.params.skillFilter, "i")
-                  }
-                }
-              ]
+        // await Donor.findOne({
+        //   emailId: Decryptedtoken.email
+        // })
+        //   .then(tokenuser => {
+        //     console.log(tokenuser._id + "in details ------------------------");
+        //     studentId = tokenuser._id;
+        //     email = tokenuser.emailId;
+        //     name = tokenuser.name;
+        //   })
+        //   .catch(err => {
+        //     console.log(`error posting student journey ${err}`);
+        //   });
+        console.log(req.params.studentnameFilter);
+        let whereCondition = {};
+        if (req.params.studentnameFilter !== "empty") {
+          whereCondition = {
+            ...whereCondition,
+            name: {
+              $regex: new RegExp(req.params.studentnameFilter, "i")
             }
-          }
-        ]);
-        
-        const studentarr = await Donor.aggregatePaginate(aggregate,options);
-        console.log(studentarr)
-        var newStudentarr = [];
-        studentarr.docs.map(e => {
-          var skillArr = e.skills;
-          var skillcommaseperated = "";
-          skillArr.map(skill => {
-            skillcommaseperated
-              ? (skillcommaseperated =
-                  skillcommaseperated + "," + skill.skill_name)
-              : (skillcommaseperated = skill.skill_name);
-          });
-          newStudent = { ...e, skills: skillcommaseperated };
-          console.log(newStudent);
-          newStudentarr.push(newStudent);
-        });
+          };
+        }
+        if (req.params.majorFilter !== "empty") {
+          whereCondition = {
+            ...whereCondition,
+            title: {
+              $regex: new RegExp(req.params.majorFilter, "i")
+            }
+          };
+        }
+        let { page, limit } = req.query;
+        let options = {
+          limit: parseInt(limit, 10) || 10,
+          page: parseInt(page, 10) || 1
+        };
+        const donors = await Donor.paginate(whereCondition, options);
+        if (donors) {
+          res.status(200).send({ donors, total: donors.totalDocs });
+        }
+        // var aggregate=Donor.aggregate([
+        //   { $unwind: "$educations" },
+        //   {
+        //     $match: {
+        //       "educations.isPrimary": "1",
+        //       $or: [
+        //         {
+        //           name: {
+        //             $regex: new RegExp(req.params.studentnameFilter, "i")
+        //           }
+        //         },
+        //         {
+        //           college: {
+        //             $regex: new RegExp(req.params.collegeFilter, "i")
+        //           }
+        //         },
+        //         {
+        //           "educations.major": {
+        //             $regex: new RegExp(req.params.majorFilter, "i")
+        //           }
+        //         },
+        //         {
+        //           "skills.skill_name": {
+        //             $regex: new RegExp(req.params.skillFilter, "i")
+        //           }
+        //         }
+        //       ]
+        //     }
+        //   }
+        // ]);
 
-        res.status(201).send({
-          newStudentarr,
-          total:studentarr.totalDocs
-        });
+        // const studentarr = await Donor.aggregatePaginate(aggregate,options);
+        // console.log(studentarr);
+        // var newStudentarr = [];
+        // studentarr.docs.map(e => {
+        //   var skillArr = e.skills;
+        //   var skillcommaseperated = "";
+        //   skillArr.map(skill => {
+        //     skillcommaseperated
+        //       ? (skillcommaseperated =
+        //           skillcommaseperated + "," + skill.skill_name)
+        //       : (skillcommaseperated = skill.skill_name);
+        //   });
+        //   newStudent = { ...e, skills: skillcommaseperated };
+        //   console.log(newStudent);
+        //   newStudentarr.push(newStudent);
+        // });
+
+        // res.status(201).send({
+        //   newStudentarr,
+        //   total: studentarr.totalDocs
+        // });
       } catch (err) {
         console.log(`error getting jobs ${err}`);
         res.status(500).send({
@@ -193,9 +215,7 @@ route.get("/education/:id", async (req, res) => {
         }
       })
       .then(tokenuser => {
-        console.log(
-          tokenuser.dataValues._id + "in details"
-        );
+        console.log(tokenuser.dataValues._id + "in details");
         studentId = tokenuser.dataValues._id;
         email = tokenuser.dataValues.emailId;
         name = tokenuser.dataValues.name;
@@ -242,9 +262,7 @@ route.get("/skills/:id", async (req, res) => {
         }
       })
       .then(tokenuser => {
-        console.log(
-          tokenuser.dataValues._id + "in details"
-        );
+        console.log(tokenuser.dataValues._id + "in details");
         studentId = tokenuser.dataValues._id;
         email = tokenuser.dataValues.emailId;
         name = tokenuser.dataValues.name;
@@ -290,8 +308,7 @@ route.get("/journey/:id", async (req, res) => {
       })
       .then(tokenuser => {
         console.log(
-          tokenuser.dataValues._id +
-            "in details ------------------------"
+          tokenuser.dataValues._id + "in details ------------------------"
         );
         studentId = tokenuser.dataValues._id;
         email = tokenuser.dataValues.emailId;

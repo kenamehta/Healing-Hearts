@@ -5,6 +5,10 @@ import "../../styles/companyprofilepic.css";
 import "../../styles/company.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { CircularProgressbar } from "react-circular-progressbar";
+
+import "react-circular-progressbar/dist/styles.css";
+
 import {
   getCompanyProfile,
   editCompanyProfile,
@@ -48,7 +52,7 @@ class CompanyHome extends Component {
       companyFilter: this.state.companyFilter,
       locationFilter: this.state.locationFilter,
       categoryFilter: this.state.categoryFilter,
-      sortFilter: this.state.categoryFilter,
+      sortFilter: this.state.sortFilter,
       page: this.state.page,
       limit: this.state.limit
     });
@@ -61,7 +65,7 @@ class CompanyHome extends Component {
         companyFilter: this.state.companyFilter,
         locationFilter: this.state.locationFilter,
         categoryFilter: this.state.categoryFilter,
-        sortFilter: this.state.categoryFilter,
+        sortFilter: this.state.sortFilter,
         page: pageNumber,
         limit: this.state.limit
       })
@@ -73,6 +77,7 @@ class CompanyHome extends Component {
       companyFilter: this.state.companyFilter,
       locationFilter: this.state.locationFilter,
       categoryFilter: this.state.categoryFilter,
+      sortFilter: this.state.sortFilter,
       page: this.state.page,
       limit: this.state.limit
     });
@@ -386,14 +391,14 @@ class CompanyHome extends Component {
               <div className="card-body d-flex justify-content-between">
                 <div className="d-flex col-6 mt-2">
                   <div
-                    className="m-2"
-                    style={{ left: "40px", position: "relative" }}
+                    className="m-2 ml-1"
+                    style={{ left: "45px", position: "relative" }}
                   >
                     <ion-icon name="search" />
                   </div>
                   <input
                     type="text"
-                    className="form-control p-2 pl-4"
+                    className="form-control p-2 pl-4 mx-3"
                     placeholder="Category"
                     onChange={e => {
                       this.setState(
@@ -581,16 +586,19 @@ class CompanyHome extends Component {
                               {i.title}
                             </h3>
                           </div>
+                          <div className="col-3 pt-2">
+                            <CircularProgressbar
+                              value={i.amountDonated}
+                              maxValue={i.amount}
+                              text={`${(i.amountDonated /
+                                i.amount *
+                                100).toFixed(2)}%`}
+                            />
+                          </div>
                           <h3 style={{ fontSize: "16px", fontWeight: "400" }}>
                             <i>{i ? i.companyName : ""}</i>
                           </h3>
                         </div>
-                        <h3
-                          className="ml-4 mt-2"
-                          style={{ fontSize: "16px", fontWeight: "400" }}
-                        >
-                          {i ? i.description : ""}
-                        </h3>
 
                         <h3
                           className="ml-2 mt-2"

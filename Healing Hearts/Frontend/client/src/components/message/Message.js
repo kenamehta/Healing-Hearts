@@ -52,14 +52,14 @@ class Message extends Component {
                                 className="ml-2"
                                 style={{ fontSize: "16px", fontWeight: "700" }}
                               >
-                                {i.Receiver.name?i.Receiver.name:i.Receiver.company_name}
+                                {i.Receiver.name?i.Receiver.name:i.Receiver.companyName}
                                
                               </h3>
                               <h3
                                 className="ml-2"
                                 style={{ fontSize: "16px", fontWeight: "500" }}
                               >
-                                {i.Receiver.name?i.Receiver.college:i.Receiver.location}
+                                {i.Receiver.name?i.Receiver.title:i.Receiver.location}
                                
                               </h3>
                              </div>

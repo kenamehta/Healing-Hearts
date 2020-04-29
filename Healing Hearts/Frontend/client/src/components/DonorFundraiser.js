@@ -220,7 +220,7 @@ class DonorFundraiser extends Component {
             <div className="col-8">
               <div className="card" style={{ height: "500px" }}>
                 <div className="style__jobs___3seWY">
-                  <FundraiserDesc jobdata={this.state.jobobj} />
+                  <FundraiserDesc jobdata={this.state.jobobj} getJobs={this.props.getJobs} />
                 </div>
               </div>
             </div>

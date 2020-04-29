@@ -20,10 +20,10 @@ class DonorList extends Component {
     collegeFilter: "empty",
     page: "1",
     limit: "10",
-    count: "",
+    count: ""
   };
   componentWillReceiveProps(nextProps) {
-     console.log(nextProps.list.donors.docs);
+    console.log(nextProps.list.donors.docs);
     this.setState({ studentarr: nextProps.list.donors.docs }, () => {
       console.log(this.state.studentarr);
     });
@@ -37,7 +37,7 @@ class DonorList extends Component {
       skillFilter: this.state.skillFilter,
       collegeFilter: this.state.collegeFilter,
       page: this.state.page,
-      limit: this.state.limit,
+      limit: this.state.limit
     });
   };
   componentWillMount() {
@@ -47,7 +47,7 @@ class DonorList extends Component {
       skillFilter: this.state.skillFilter,
       collegeFilter: this.state.collegeFilter,
       page: this.state.page,
-      limit: this.state.limit,
+      limit: this.state.limit
     });
   }
   handlePageChange(pageNumber) {
@@ -60,14 +60,14 @@ class DonorList extends Component {
         skillFilter: this.state.skillFilter,
         collegeFilter: this.state.collegeFilter,
         page: pageNumber,
-        limit: this.state.limit,
+        limit: this.state.limit
       })
     );
   }
 
   setRedirect = () => {
     this.setState({
-      redirect: true,
+      redirect: true
     });
   };
   renderRedirect = () => {
@@ -98,7 +98,7 @@ class DonorList extends Component {
                     Filters
                   </h3>
                 </div>
-                <div className="style__divider___1j_Fp"></div>
+                <div className="style__divider___1j_Fp" />
                 <div
                   className="style__card-item___B1f7m:first-child"
                   style={{ padding: "16px" }}
@@ -112,14 +112,14 @@ class DonorList extends Component {
                   style={{
                     paddingBottom: "16px",
                     paddingLeft: "16px",
-                    paddingRight: "16px",
+                    paddingRight: "16px"
                   }}
                 >
                   <input
                     className="form-control"
                     type="text"
                     placeholder="enter a name..."
-                    onChange={(e) => {
+                    onChange={e => {
                       // this.filterName(e.target.value);
                       this.setState(
                         { studentnameFilter: e.target.value || "empty" },
@@ -128,30 +128,26 @@ class DonorList extends Component {
                         }
                       );
                     }}
-                  ></input>
+                  />
                 </div>
-                <div className="style__divider___1j_Fp"></div>
                 <div
                   className="style__card-item___B1f7m:first-child"
                   style={{ padding: "16px" }}
                 >
-                  <h3 style={{ fontSize: "16px", fontWeight: "500" }}>
-                    {" "}
-                    Major{" "}
-                  </h3>
+                  <h3 style={{ fontSize: "16px", fontWeight: "500" }}>Title</h3>
                 </div>
                 <div
                   style={{
                     paddingBottom: "16px",
                     paddingLeft: "16px",
-                    paddingRight: "16px",
+                    paddingRight: "16px"
                   }}
                 >
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="enter a major..."
-                    onChange={(e) => {
+                    placeholder="enter a title..."
+                    onChange={e => {
                       // this.filterMajor(e.target.value);
                       this.setState(
                         { majorFilter: e.target.value || "empty" },
@@ -160,141 +156,85 @@ class DonorList extends Component {
                         }
                       );
                     }}
-                  ></input>
-                </div>
-                <div className="style__divider___1j_Fp"></div>
-                <div
-                  className="style__card-item___B1f7m:first-child"
-                  style={{ padding: "16px" }}
-                >
-                  <h3 style={{ fontSize: "16px", fontWeight: "500" }}>
-                    {" "}
-                    College Name{" "}
-                  </h3>
-                </div>
-                <div
-                  style={{
-                    paddingBottom: "16px",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                  }}
-                >
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="enter college name..."
-                    onChange={(e) => {
-                      //   this.filterCollege(e.target.value);
-                      this.setState(
-                        { collegeFilter: e.target.value || "empty" },
-                        () => {
-                          this.getFilterList();
-                        }
-                      );
-                    }}
-                  ></input>
-                </div>
-
-                <div className="style__divider___1j_Fp"></div>
-                <div
-                  className="style__card-item___B1f7m:first-child"
-                  style={{ padding: "16px" }}
-                >
-                  <h3 style={{ fontSize: "16px", fontWeight: "500" }}>
-                    {" "}
-                    Skills{" "}
-                  </h3>
-                </div>
-                <div
-                  style={{
-                    paddingBottom: "16px",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                  }}
-                >
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="enter a skill..."
-                    onChange={(e) => {
-                      // this.filterSkill(e.target.value);
-                      this.setState(
-                        { skillFilter: e.target.value || "empty" },
-                        () => {
-                          this.getFilterList();
-                        }
-                      );
-                    }}
-                  ></input>
+                  />
                 </div>
               </div>
             </div>
-            <div className="col-9" align="center">
+            <div className="col-9" align="left">
               <div className="card" style={{ height: "500px" }}>
                 <div className="style__jobs___3seWY">
-                  <div className="style__card-item___B1f7m:last-child"></div>
+                  <div className="style__card-item___B1f7m:last-child" />
                   <div className="style__media-body___1_M6P">
                     {console.log(
                       this.props.list ? this.props.list.donors.docs[0] : ""
                     )}
-                    {this.state.studentarr
-                      ? this.state.studentarr.map((i) => (
-                          <div>
-                            <div className="p-2">
-                              <div class="card mt-4">
-                                <div
-                                  className="m-3"
-                                  style={{
-                                    
-                                    cursor: "pointer"
-                                  }}
-                                  onClick={(e) => {
-                                    this.setRedirect(i._id);
-                                    this.setState({
-                                      id: i._id,
-                                    });
-                                  }}
-                                >
-                                  <div className="d-flex justify-content-between">
-                                    <div className="d-flex">
-                                      <div className="col-5">
-                                        <img
-                                          style={{
-                                            width: "120px",
-                                          }}
-                                          src={`${api_route.host}//${i.profilePic}`}
-                                        ></img>
-                                      </div>
-                                      <div>
-                                        <h3
-                                          className="ml-5"
-                                          style={{
-                                            fontSize: "20px",
-                                            fontWeight: "600",
-                                          }}
-                                        >
-                                          {" "}
-                                          {i ? i.name : ""}
-                                        </h3>
+                    {this.state.studentarr ? (
+                      this.state.studentarr.map(i => (
+                        <div>
+                          <div className="p-2">
+                            <div class="card mt-4">
+                              <div
+                                className="m-3"
+                                style={{
+                                  cursor: "pointer"
+                                }}
+                                onClick={e => {
+                                  this.setRedirect(i._id);
+                                  this.setState({
+                                    id: i._id
+                                  });
+                                }}
+                              >
+                                <div className="d-flex">
+                                  <div className="d-flex">
+                                    <div className="col-2">
+                                      <img
+                                        style={{
+                                          width: "120px",height:"120px"
+                                        }}
+                                        src={`${api_route.host}//${i.profilePic}`}
+                                      />
+                                    </div>
+                                    <div>
+                                      <h3
+                                        className="ml-5"
+                                        style={{
+                                          fontSize: "20px",
+                                          fontWeight: "600"
+                                        }}
+                                      >
+                                        {" "}
+                                        {i ? i.name : ""}
+                                      </h3>
+                                      <h3
+                                        className="ml-5"
+                                        style={{
+                                          fontSize: "16px",
+                                          fontWeight: "400"
+                                        }}
+                                      >
+                                        {" "}
+                                        {i ? i.title : ""}
+                                      </h3>
 
-                                        <h3
-                                          className="ml-5"
-                                          style={{
-                                            fontSize: "16px",
-                                            fontWeight: "400",
-                                          }}
-                                        >
-                                          {" "}
-                                          {i ? i.about : ""}
-                                        </h3>
-                                        {/* <div className="ml-5">
+                                      <h3
+                                        className="ml-5"
+                                        style={{
+                                          fontSize: "13px",
+                                          fontWeight: "400"
+                                        }}
+                                      >
+                                        {" "}
+                                        {i ? i.about : ""}
+                                      </h3>
+                                      {/* <div className="ml-5">
                                           {i.skills ? i.skills : ""}
                                         </div> */}
-                                      </div>
                                     </div>
-                                    {/* <div className="d-flex justify-content-between"> */}
-                                    <div>
-                                      {/* <h3
+                                  </div>
+                                  {/* <div className="d-flex justify-content-between"> */}
+                                  <div>
+                                    {/* <h3
                                         className="ml-5"
                                         style={{
                                           fontSize: "16px",
@@ -311,7 +251,7 @@ class DonorList extends Component {
                                           : ""}
                                       </h3> */}
 
-                                      {/* {i.educations.end_time ? (
+                                    {/* {i.educations.end_time ? (
                                         <h3
                                           className="mr-5"
                                           style={{
@@ -328,14 +268,16 @@ class DonorList extends Component {
                                       ) : (
                                         ""
                                       )} */}
-                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        ))
-                      : ""}
+                        </div>
+                      ))
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
 
@@ -361,15 +303,15 @@ class DonorList extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   console.log(state);
   return {
-    list: state.studentListReducer.studentlist,
+    list: state.studentListReducer.studentlist
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getStudents: (payload) => dispatch(getStudents(payload)),
+    getStudents: payload => dispatch(getStudents(payload))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DonorList);

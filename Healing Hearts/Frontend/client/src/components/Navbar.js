@@ -90,22 +90,43 @@ class Navbar extends Component {
       <nav className="navbar  navbar-light bg-light">
         <div className="d-flex">
           <div>
-          {localStorage.getItem("student") ? 
-          <a
-              className="navbar-brand"
-              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
-              href="/home"
-            >
-              healing hEARTS
-            </a>:
-            <a
-              className="navbar-brand"
-              style={{ color: "#dc3545", fontWeight: "800", fontSize: "150%" }}
-              href="/donor/home"
-            >
-              healing hEARTS
-            </a>}
-
+            {localStorage.getItem("student") ? (
+              <a
+                className="navbar-brand"
+                style={{
+                  color: "#dc3545",
+                  fontWeight: "800",
+                  fontSize: "150%"
+                }}
+                href="/donor/home"
+              >
+                healing hEARTS
+              </a>
+            ) : localStorage.getItem("company") ? (
+              <a
+                className="navbar-brand"
+                style={{
+                  color: "#dc3545",
+                  fontWeight: "800",
+                  fontSize: "150%"
+                }}
+                href="/company/home"
+              >
+                healing hEARTS
+              </a>
+            ) : (
+              <a
+                className="navbar-brand"
+                style={{
+                  color: "#dc3545",
+                  fontWeight: "800",
+                  fontSize: "150%"
+                }}
+                href="/home"
+              >
+                healing hEARTS
+              </a>
+            )}
           </div>
           <div className="d-flex">
             <ion-icon
@@ -136,31 +157,13 @@ class Navbar extends Component {
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/donor/home"
-              >
-                Profile
-              </a>
-            ) : (
-              <a
-                className={liClasses}
-                style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/company/home"
-              >
-                Home
-              </a>
-            )}
-          </div>
-          <div>
-            {localStorage.getItem("student") ? (
-              <a
-                className={liClasses}
-                style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
                 href="/donor/fundraisers"
               >
                 Fundraisers
               </a>
-            ) :''
-            }
+            ) : (
+              ""
+            )}
           </div>
 
           <div>
@@ -168,7 +171,7 @@ class Navbar extends Component {
               <a
                 className={liClasses}
                 style={{ fontWeight: "500", color: "rgba(0,0,0,.5)" }}
-                href="/donor/application"
+                href="/donor/history"
               >
                 History
               </a>

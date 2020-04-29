@@ -142,6 +142,12 @@ class ProfilePic extends Component {
                     >
                       {this.props.profile ? this.props.profile.name : ""}
                     </h4>
+                    <h4
+                      className="card-title"
+                      style={{ fontSize: "15px", fontWeight: "500" }}
+                    >
+                      {this.props.profile ? this.props.profile.title : ""}
+                    </h4>
 
                     <div className={"collapse navbar-collapse " + showbutton}>
                       <button
@@ -156,7 +162,7 @@ class ProfilePic extends Component {
                       </button>
                     </div>
                     <div className={"collapse navbar-collapse " + show}>
-                      <input
+                      <input className='mt-2'
                         type="text"
                         placeholder={data.student ? data.student.name : ""}
                         onChange={e => {
@@ -164,7 +170,7 @@ class ProfilePic extends Component {
                         }}
                       />
                       <button
-                        className="btn btn-primary btn-xs"
+                        className="btn btn-primary btn-xs mt-2"
                         onClick={e => {
                           this.handleEdit();
                           this.setState({ saveflag: false });
