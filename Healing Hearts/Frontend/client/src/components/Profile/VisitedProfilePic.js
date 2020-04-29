@@ -13,7 +13,29 @@ class VisitedProfilePic extends Component {
      
     };
   }
+  sendMessage=()=>{
+    var receiverModel,senderModel
+      this.setState({ receiverModel: "Donor" });
+      receiverModel="Donor"
+      
   
+    if (localStorage.getItem("student")) {
+      this.setState({ senderModel: "Donor" });
+      senderModel= "Donor"
+    } else {
+      this.setState({ senderModel: "Company" });
+      senderModel= "Company"
+    }
+    let receiverId =this.props.profile._id;
+    console.log(receiverId)
+        let data = {
+      receiverModel: receiverModel,
+      senderModel: senderModel,
+      receiverId,
+      body: this.state.sendMessage
+    };
+    this.props.sendMessage(data);
+  }
 
   render() {
     const show = this.state.saveflag ? "show" : "";
@@ -29,7 +51,7 @@ class VisitedProfilePic extends Component {
               <div align="center" className="mt-2">
               {console.log("Picture here")}
               {this.props.profile?
-              <img src={this.props.profile.profile_picture} />:
+              <img src={this.props.profile.profilePic} />:
               <form onSubmit={this.updatePic}>
               <div>
                 <div className="style__edit-photo___B-_os">
@@ -75,7 +97,7 @@ class VisitedProfilePic extends Component {
                     >
                       {this.props.profile ? this.props.profile.name : ""}
                     </h4>
-                    <h4
+                    {/* <h4
                       className="card-title"
                       style={{ fontSize: "16px", fontWeight: "500" }}
                     >
@@ -94,8 +116,8 @@ class VisitedProfilePic extends Component {
                       {this.props.profile
                         ? this.props.profile.education[0].major
                         : ""}
-                    </h4>
-                    <h4
+                    </h4> */}
+                    {/* <h4
                       className="card-title"
                       style={{
                         fontSize: "16px",
@@ -110,7 +132,7 @@ class VisitedProfilePic extends Component {
                       {this.props.profile
                         ? this.props.profile.education[0].GPA
                         : ""}
-                    </h4>
+                    </h4> */}
 
                     <div className={"collapse navbar-collapse " + showbutton}>
                       {/* <button
@@ -143,7 +165,79 @@ class VisitedProfilePic extends Component {
                 ) : (
                   ""
                 )}
-              </div>
+              
+              <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        this.setState({ modalShow: "block" });
+                      }}
+                    >
+                      Send Message
+                    </button>
+              <div
+                      id="myModal"
+                      className="modal"
+                      style={{ display: this.state.modalShow }}
+                    >
+                      <div
+                        className="modal-content col-5"
+                        style={{ fontFamily: "Suisse" }}
+                      >
+                        <div className="container">
+                         <div>
+                         {this.state.addSendMsg ? (
+                        <p style={{ color: "green" }}>
+                          {this.state.addSendMsg}
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                         </div>
+                          <span
+                            class="close"
+                            onClick={e => {
+                              this.setState({ modalShow: "none" });
+                              this.setState({ addSendMsg: "" });
+                            }}
+                          >
+                            
+                          
+                      &times;
+                          </span>
+                          
+                          <div>
+                            <textarea
+                              row="4"
+                              id="text"
+                              placeholder="Enter your message here..."
+                              onClick={e => {
+                                this.setState({ showSendButton: "block" });
+                               
+                              }}
+                              onChange={e => {
+                                this.setState({ sendMessage: e.target.value });
+                              }}
+                              className="form-control"
+                            ></textarea>
+                          </div>
+                          <div className='modal-footer'>
+                            <button
+                              className=" btn btn-primary p-2"
+                              // style={{ display: this.state.showSendButton }}
+                              onClick={e => {
+                                this.sendMessage();
+                                document.getElementById("text").value = "";
+                                // this.setState({ showSendButton: "none" });
+                                this.setState({addSendMsg:'Message Sent'})
+                              }}
+                            >
+                              Send
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
             </div>
           </div>
         </div>

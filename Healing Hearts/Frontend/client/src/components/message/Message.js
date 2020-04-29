@@ -46,7 +46,7 @@ class Message extends Component {
                             }}
                           >
                             <div className="d-flex">
-                            <img src={i.Receiver.profile_picture?`${api_route.host}//${i.Receiver.profile_picture}`:`${api_route.host}//${i.Receiver.profilepicaddress}`} height="50" width="50"></img>
+                            <img src={i.Receiver.profilePic?`${api_route.host}//${i.Receiver.profilePic}`:`${api_route.host}//${i.Receiver.profilepicaddress}`} height="50" width="50"></img>
                             <div>
                               <h3
                                 className="ml-2"

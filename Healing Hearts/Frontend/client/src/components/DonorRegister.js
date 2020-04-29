@@ -35,7 +35,7 @@ class DonorRegister extends Component {
   };
   render() {
     if (this.props.authStudent) {
-      return <Redirect to="/student/home" />;
+      return <Redirect to="/donor/home" />;
     }
     return (
       <div className="row">
@@ -68,7 +68,7 @@ class DonorRegister extends Component {
                 id="sname"
                 name="sname"
                 className="form-control"
-                placeholder="Enter Your Organization Name"
+                placeholder="Enter Your Name"
                 onChange={e => {
                   this.setState({ fullname: e.target.value });
                 }}

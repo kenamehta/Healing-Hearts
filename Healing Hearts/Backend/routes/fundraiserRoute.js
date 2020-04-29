@@ -138,14 +138,7 @@ route.post("/", async (req, res) => {
       });
 
     const result = await Fundraiser.create({
-      // job_title: req.body.job.job_title,
-      // deadline: req.body.job.deadline,
-      // location: req.body.job.location,
-      // salary: req.body.job.salary,
-      // job_description: req.body.job.job_description,
-      // job_category: req.body.job.job_category,
-      // company_basic_detail_id: companyId,
-      // company_name: name
+      
       companyName: name,
       companyId: companyId,
       title: req.body.fundraiser.title,
@@ -186,7 +179,7 @@ route.post("/apply", async (req, res) => {
       .then(tokenuser => {
         if (tokenuser) {
           student = tokenuser;
-          studentId = tokenuser.student_basic_detail_id;
+          studentId = tokenuser._id;
           studentObjectId = tokenuser._id;
           email = tokenuser.emailId;
           name = tokenuser.name;
