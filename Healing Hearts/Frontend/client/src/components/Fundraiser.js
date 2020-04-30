@@ -15,7 +15,7 @@ class Fundraiser extends Component {
       }
     };
     axios
-      .get(`${api_route.host}/donor/trendingFundraisers`, config)
+      .get(`${api_route.host}/donor/trendingFundraisers/visual`, config)
       .then(res => {
         let x = [],
           y = [];

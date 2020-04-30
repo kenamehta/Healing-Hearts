@@ -343,8 +343,7 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
 });
 
 route.get("/analysis/categoryCount", async (req, res) => {
-  Decryptedtoken = decryptToken(req.headers.authorization);
-  if (Decryptedtoken.email !== null) {
+ 
     const don = await Fundraiser.aggregate([
       {
         $group: {
@@ -355,13 +354,7 @@ route.get("/analysis/categoryCount", async (req, res) => {
       { $sort: { count: -1 } }
     ]);
     res.status(200).send({ don });
-  } else {
-    res.status(404).send({
-      errors: {
-        message: [Decryptedtoken.error]
-      }
-    });
-  }
+   
 });
 
 module.exports = route;

@@ -89,6 +89,7 @@ route.get("/visit/:id", async (req, res) => {
     phone: student.phone,
     dob: student.dob,
     state: student.state,
+    title:student.title
   });
   // }
 });

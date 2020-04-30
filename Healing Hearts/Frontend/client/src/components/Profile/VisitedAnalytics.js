@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Plotly from "plotly.js-basic-dist";
-import api_route from "./../app-config";
+import api_route from "../../app-config";
 import axios from "axios";
 import createPlotlyComponent from "react-plotly.js/factory";
 const Plot = createPlotlyComponent(Plotly);
@@ -15,12 +15,13 @@ class VisitedAnalytics extends Component {
         }
       };
       axios
-        .get(`${api_route.host}/company/trendingFundraisers`, config)
+        .get(`${api_route.host}/company/analysis/categoryCount`, config)
         .then(res => {
           let x = [],
             y = [];
-          res.data.donations.map(don => {
-            x.push(don.title);
+          res.data.don.map(don => {
+              console.log(don)
+            x.push(don._id);
             y.push(don.count);
           });
           this.setState({ x, y });
@@ -28,22 +29,22 @@ class VisitedAnalytics extends Component {
   }
 
   render() {
-    return <div className="container ">
+    return <div className=" ">
     <div className="card jshadow">
       <div className="card-body">
         <h4 className="pb-3" style={{ fontWeight: "700" }}>
-          Trending Fundraiser
+        Category wise Donation
         </h4>
         <hr />
         <div>
           <Plot
             data={[
               {
-                x: this.state.x,
-                y: this.state.y,
-                type: "scattergl",
+                labels: this.state.x,
+                values: this.state.y,
+                type: "pie",
                 marker: { color: "red" },
-                name: "Trending fundraisers"
+                name: "Category wise Donation"
               }
             ]}
           />
