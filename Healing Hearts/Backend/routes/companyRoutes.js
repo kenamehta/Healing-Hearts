@@ -342,9 +342,14 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
   }
 });
 
-route.get("/analysis/categoryCount", async (req, res) => {
+route.get("/analysis/categoryCount/:id", async (req, res) => {
  
-    const don = await Fundraiser.aggregate([
+    const don = await Donations.aggregate([
+      {
+        $match:{
+
+        }
+      },
       {
         $group: {
           _id: "$category",
