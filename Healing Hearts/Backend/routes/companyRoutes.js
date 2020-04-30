@@ -10,7 +10,7 @@ const {
   validateEmail
 } = require("../companymiddleware");
 
-const { Company } = require("../db/companymodel");
+const { Company, Fundraiser } = require("../db/companymodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var multer = require("multer");
@@ -337,6 +337,28 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
     res.status(403).send({
       errors: {
         err: err
+      }
+    });
+  }
+});
+
+route.get("/analysis/categoryCount", async (req, res) => {
+  Decryptedtoken = decryptToken(req.headers.authorization);
+  if (Decryptedtoken.email !== null) {
+    const don = await Fundraiser.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { count: -1 } }
+    ]);
+    res.status(200).send({ don });
+  } else {
+    res.status(404).send({
+      errors: {
+        message: [Decryptedtoken.error]
       }
     });
   }
