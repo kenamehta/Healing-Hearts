@@ -4,12 +4,14 @@ const { generateToken, decryptToken } = require("../service/tokenservice");
 const { generateUUID } = require("../service/uuidservice");
 const passport = require("../authenticate/passport_init");
 const key = require("../service/key");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 const {
   validateUsername,
   validatePassword,
   validateEmail
 } = require("../companymiddleware");
-
+const { Donation } = require("../db/donationmodel");
 const { Company, Fundraiser } = require("../db/companymodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -344,12 +346,12 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
 
 route.get("/analysis/categoryCount/:id", async (req, res) => {
  
-    const don = await Donations.aggregate([
-      {
-        $match:{
-
-        }
-      },
+    const don = await Donation.aggregate([
+    {
+      $match:{
+        donorId:ObjectId(req.params.id)
+      }
+    },
       {
         $group: {
           _id: "$category",

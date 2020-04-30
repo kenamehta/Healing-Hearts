@@ -786,6 +786,7 @@ route.post("/upload/:id", async (req, res) => {
       donorId: req.body.donorId,
       companyId: req.body.companyId,
       amount: req.body.amountRaised,
+      category:req.body.category
     })
     result.amountdonate=amountdonated;
     const finalresponse={result,amountdonate:amountdonated}

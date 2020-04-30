@@ -18,7 +18,8 @@ const donation = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company"
     },
-    amount: String
+    amount: String,
+    category:String
   },
   { timestamps: true }
 );

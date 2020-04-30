@@ -15,7 +15,7 @@ class VisitedAnalytics extends Component {
         }
       };
       axios
-        .get(`${api_route.host}/company/analysis/categoryCount`, config)
+        .get(`${api_route.host}/company/analysis/categoryCount/${localStorage.getItem("visitedstudent")}`, config)
         .then(res => {
           let x = [],
             y = [];
