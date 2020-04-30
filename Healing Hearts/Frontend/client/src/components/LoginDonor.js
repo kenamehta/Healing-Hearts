@@ -3,6 +3,24 @@ import "../styles/login.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { loginDonor } from "../redux/actions/authAction";
+import counterpart from "counterpart";
+import Translate from "react-translate-component";
+import en from "./../lang/en";
+import hin from "./../lang/hin";
+import ch from "./../lang/ch";
+import api_route from "../app-config";
+
+counterpart.registerTranslations("en", en);
+counterpart.registerTranslations("hin", hin);
+counterpart.registerTranslations("ch", ch);
+
+counterpart.setLocale("en");
+
+const Link = props => {
+  return (
+    <Translate content={props.content} component="a" href="/donor/register" />
+  );
+};
 
 class LoginDonor extends Component {
   constructor(props) {
@@ -11,9 +29,11 @@ class LoginDonor extends Component {
       email: "",
       password: "",
       authFlag: false,
-      errors: ""
+      errors: "",
+      lang: "en"
     };
   }
+
   componentWillMount() {
     this.setState({
       authFlag: false
@@ -21,7 +41,6 @@ class LoginDonor extends Component {
   }
   handleSubmit = e => {
     e.preventDefault();
-    //console.log(this.state.email,"nfnfdknfdkskd")
     const data = {
       student: {
         email: this.state.email,
@@ -29,35 +48,15 @@ class LoginDonor extends Component {
       }
     };
     this.props.loginDonor(data);
-    // axios.defaults.withCredentials = true;
-
-    // axios.post("http://localhost:3001/student/login", data).then(res=>{
-    //       console.log("status code", res.status)
-    //     if (res.status === 200) {
-    //         this.setState({
-    //           authFlag: true
-    //         });
-    //       }
-    //       else{
-    //           this.setState({
-    //               authFlag:false
-    //           })
-    //           console.log("in else")
-    //       }
-
-    // })
-    // .catch(errors => {
-    //     console.log("in catch",errors.response.data);
-    //     this.setState({ authFlag:false,
-    //     errors:errors.response.data.errors.body
-    //     });
-
-    //   });
   };
   render() {
     if (this.props.authStudent) {
       return <Redirect to="/donor/home" />;
     }
+    const link = <Link content="link" />;
+    const placeholder1 = counterpart.translate("placeholder1");
+    const placeholder2 = counterpart.translate("placeholder2");
+    const login1 = counterpart.translate("login1");
     return (
       <div>
         <div className="row">
@@ -71,20 +70,24 @@ class LoginDonor extends Component {
                 height: "550px"
               }}
             >
-              <a className="logo" href="/">
+              
                 <img
                   alt="Healing heart logo image"
-                  height="42"
-                  src="https://d1sssn74k2rfxk.cloudfront.net/assets/logo-dc4406b950dd8ba10a81ab34703a2bca284e7c4ba46d7ec7656c83e052d0c6f3.svg"
+                  height="100"
+                  src={`${api_route.host}//donorbox.jpeg`}
                 />
-              </a>
+            
               <div className="content">
-                <h3 style={{ paddingTop: "40%" }}>
-                  Giving is not just about making a donation{" "}
-                </h3>
-                <h3 style={{ paddingTop: "10%" }}>
-                  Its about <ma />king a difference
-                </h3>
+                <Translate
+                  content="h31"
+                  component="h3"
+                  style={{ paddingTop: "10%" }}
+                />
+                <Translate
+                  content="h32"
+                  component="h3"
+                  style={{ paddingTop: "10%" }}
+                />
               </div>
             </div>
           </div>
@@ -97,16 +100,22 @@ class LoginDonor extends Component {
                 >
                   {this.props.autherror}
                 </p>
-                <h1 style={{ marginBottom: "9px", fontWeight: "bold" }}>
-                  Sign in
-                </h1>
-                <h3 style={{ fontWeight: "bold" }}>Welcome Donors</h3>
-                <p>Please sign in with your email and password</p>
+                <Translate
+                  content="h11"
+                  component="h1"
+                  style={{ marginBottom: "9px", fontWeight: "bold" }}
+                />
+                <Translate
+                  content="h33"
+                  component="h3"
+                  style={{ fontWeight: "bold" }}
+                />
+                <Translate content="p1" component="p" />
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     <input
                       className="form-control"
-                      placeholder="email@example.edu"
+                      placeholder={placeholder1}
                       type="email"
                       onChange={e => {
                         this.setState({ email: e.target.value });
@@ -118,7 +127,7 @@ class LoginDonor extends Component {
                   <div className="form-group">
                     <input
                       className="form-control"
-                      placeholder="password"
+                      placeholder={placeholder2}
                       type="password"
                       pattern=".{8,}"
                       onChange={e => {
@@ -132,7 +141,7 @@ class LoginDonor extends Component {
                       className="form-control"
                       type="submit"
                       id="mySubmit"
-                      value="Login"
+                      value={login1}
                       style={{
                         color: "white",
                         backgroundColor: "#1569e0",
@@ -141,9 +150,41 @@ class LoginDonor extends Component {
                     />
                   </div>
                 </form>
-                <h6>
-                  No account?<a href="/donor/register"> Sign up here</a>
-                </h6>
+                <Translate content="h61" component="h6" with={{ link }} />
+                <br />
+                <div
+                  align="center "
+                  style={{ fontSize: "13px", color: "blue", cursor: "pointer" }}
+                >
+                  <span
+                    onClick={() => {
+                      this.setState({ lang: "en" });
+                      counterpart.setLocale("en");
+                    }}
+                  >
+                    English
+                  </span>
+                  <span className="ml-3">|</span>
+                  <span
+                    className="ml-3"
+                    onClick={() => {
+                      this.setState({ lang: "hin" });
+                      counterpart.setLocale("hin");
+                    }}
+                  >
+                    हिन्दी
+                  </span>
+                  <span className="ml-3">|</span>
+                  <span
+                    className="ml-3"
+                    onClick={() => {
+                      this.setState({ lang: "ch" });
+                      counterpart.setLocale("ch");
+                    }}
+                  >
+                    中文
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -157,7 +198,6 @@ const mapStateToProps = state => {
   return {
     authStudent: state.auth.authStudent,
     autherror: state.auth.autherror
-    // loginSeller: state.loginReducer.isAuthenticatedSeller
   };
 };
 const mapDispatchToProps = dispatch => {
