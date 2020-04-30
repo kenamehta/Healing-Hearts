@@ -6,12 +6,16 @@ const { Fundraiser } = require("../db/companymodel");
 const { Donor } = require("../db/donormodel");
 const jwt = require("jsonwebtoken");
 
-route.get("/", async (req, res) => {
+route.get("/visual", async (req, res) => {
+  console.log("inside visual")
   Decryptedtoken = decryptToken(req.headers.authorization);
   if (Decryptedtoken.email !== null) {
+    console.log(Decryptedtoken.email)
     Donor.findOne({
-      where: { emailId: Decryptedtoken.email }
+       emailId: Decryptedtoken.email 
     }).then(async result => {
+      console.log(result)
+      try{
       if (result) {
         const don = await Donation.aggregate([
           {
@@ -40,12 +44,18 @@ route.get("/", async (req, res) => {
           res.status(200).send({ donations });
         });
       } else {
-        res.status(404).send({
+        res.status(403).send({
+          
           errors: {
             message: [Decryptedtoken.error]
           }
         });
       }
+    }
+    catch(error)
+    {
+      console.log(error)
+    }
     });
   }
 });

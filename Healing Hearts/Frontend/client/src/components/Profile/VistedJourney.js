@@ -15,13 +15,13 @@ class VisitedJourney extends Component {
 
     const show = (this.state.saveflag) ? "show" : "" ;
     return (
-      <div className="container mt-3 p-2 pb-5">
+      <div className=" mt-3 p-2 pb-5">
         <div className="card jshadow">
           <div className="card-body">
             <h4 className="card-title" style={{fontSize:"18px",fontWeight:"500"}}>My Journey</h4>
             <h6 className="card-subtitle mt-1 mb-2 text-muted"></h6>
             <p className="card-text" style={{color:'#1569e0',fontSize:'14px'}}>
-            What are you passionate about? What are you looking for on Handshake? What are your experiences or skills?
+              
             </p>
             <p className="card-text" style={{fontSize:'14px'}}>
             {this.props.journeyData?this.props.journeyData.career_objective:''}

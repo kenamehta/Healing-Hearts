@@ -97,6 +97,12 @@ class VisitedProfilePic extends Component {
                     >
                       {this.props.profile ? this.props.profile.name : ""}
                     </h4>
+                    <h4
+                      className="card-title"
+                      style={{ fontSize: "15px", fontWeight: "500" }}
+                    >
+                      {this.props.profile ? this.props.profile.title : ""}
+                    </h4>
                     {/* <h4
                       className="card-title"
                       style={{ fontSize: "16px", fontWeight: "500" }}

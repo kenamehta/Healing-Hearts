@@ -7,6 +7,7 @@ import VisitedJourney from "./VistedJourney";
 import VisitedEducation from "./VisitedEducation";
 import VisitedExperience from "./VisitedExperience";
 import VisitedSkills from "./VisitedSkills";
+import VisitedAnalytics from './VisitedAnalytics'
 // //import {getEducation} from '../redux/actions/profileAction'
 import { getProfileSelected } from "../../redux/actions/profileAction";
 import { sendMessage } from "../../redux/actions/messageAction";
@@ -37,8 +38,10 @@ class MainProfile extends Component {
           <div className="col-8">
             <VisitedJourney
               journeyData={this.props.profile}
+             
               //  updateCareerObjective={this.props.updateCareerObjective}
             />
+             <VisitedAnalytics/>
             {/* <VisitedEducation educationData={this.props.profile} />
 
             <VisitedExperience experienceData={this.props.profile} /> */}
