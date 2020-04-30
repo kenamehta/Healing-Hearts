@@ -36,8 +36,8 @@ class ApplicationDescription extends Component {
                   marginBottom: "5px",
                 }}
               >
-                {this.props.jobdata
-                  ? this.props.jobdata.fundraiserId.companyName
+                 {this.props.jobdata
+                  ? this.props.jobdata.fundraiserId.title
                   : ""}
               </p>
               <p
@@ -48,9 +48,10 @@ class ApplicationDescription extends Component {
                   color: "rgba(0,0,0,.56)",
                 }}
               >
-                {this.props.jobdata
-                  ? this.props.jobdata.fundraiserId.title
+              {this.props.jobdata
+                  ? this.props.jobdata.fundraiserId.companyName
                   : ""}
+               
               </p>
               <div className="d-flex mt-2">
               <div className="d-flex ">
@@ -95,12 +96,14 @@ class ApplicationDescription extends Component {
                   <p style={{ fontSize: "15px" }}>
                   ${this.props.jobdata ? this.props.jobdata.amount : ""}
                     {" "}
-                    funded on{" "}
-                    <i>
+                    funded on{" "}                    <i>
                       {this.props.jobdata
                         ? this.props.jobdata.createdAt.split("T")[0]
                         : ""}
                     </i>
+                    {" "} for {this.props.jobdata
+                  ? this.props.jobdata.fundraiserId.title
+                  : ""} initiative
                   </p>
                 </div>
                 {/* <div  className='col-9'> <p style={{fontSize:"15px"}}>Status for the appliation is<i> {this.props.jobdata?this.props.jobdata.status:''}</i>! </p></div> */}

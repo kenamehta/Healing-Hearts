@@ -57,7 +57,7 @@ class DonorHistory extends Component {
       <div className="maindiv">
         <div className="style__secondary-nav___3_H_G pb-2 mb-3" align="center">
           <h2 className="ml-5" style={{ fontSize: "20px", fontWeight: "600" }}>
-            Your Applications
+            Your Donations
           </h2>
         </div>
         <div className="container mt-3">
