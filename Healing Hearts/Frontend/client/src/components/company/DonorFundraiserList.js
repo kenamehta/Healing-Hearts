@@ -259,7 +259,7 @@ class DonorFundraiserList extends Component {
                                         {
                                           <a
                                             href={`${api_route.host}//${i.resume}`}
-                                            download="Resume 1.0"
+                                            //download="Resume 1.0"
                                             target="_blank"
                                           >
                                             Resume Download
