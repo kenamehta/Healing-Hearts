@@ -60,42 +60,6 @@ class DonorHistory extends Component {
             Your Donations
           </h2>
         </div>
-        <div className="container mt-3">
-          <div className="card">
-            <div className="d-flex p-2 ml-5">
-              <button
-                className="style__pill___3uHDM"
-                onClick={e => {
-                  this.setState({ statusFilter: "Pending" }, () => {
-                    this.getFilterJobs();
-                  });
-                }}
-              >
-                Pending
-              </button>
-              <button
-                className="style__pill___3uHDM"
-                onClick={e => {
-                  this.setState({ statusFilter: "Reviewed" }, () => {
-                    this.getFilterJobs();
-                  });
-                }}
-              >
-                Reviewed
-              </button>
-              <button
-                className="style__pill___3uHDM"
-                onClick={e => {
-                  this.setState({ statusFilter: "Declined" }, () => {
-                    this.getFilterJobs();
-                  });
-                }}
-              >
-                Declined
-              </button>
-            </div>
-          </div>
-        </div>
 
         <div className="container">
           <div className="row mt-3">

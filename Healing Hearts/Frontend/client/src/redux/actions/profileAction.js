@@ -118,11 +118,11 @@ export const getProfile = () => {
         if (res.status === 201) {
           console.log(res.data);
           var profile = res.data;
-          if(res.data.profile_picture){
-          var src = `${api_route.host}//${res.data.profile_picture}`;
-         
-          profile = { ...profile, profile_picture: src };
-          console.log(profile);
+          if (res.data.profile_picture) {
+            var src = `${api_route.host}//${res.data.profile_picture}`;
+
+            profile = { ...profile, profile_picture: src };
+            console.log(profile);
           }
           dispatch(getProfileDispatcher(profile));
         }
@@ -134,14 +134,18 @@ export const getProfile = () => {
 };
 
 export const getProfileSelected = () => {
-  console.log("localstorage is this " + window.localStorage.getItem("visitedstudent"));
+  console.log(
+    "localstorage is this " + window.localStorage.getItem("visitedstudent")
+  );
   let config = {
     headers: {
       Authorization: `${window.localStorage.getItem("student")}`
     }
   };
 
-  let url = `http://localhost:3001/donor/visit/${window.localStorage.getItem("visitedstudent")}`;
+  let url = `http://localhost:3001/donor/visit/${window.localStorage.getItem(
+    "visitedstudent"
+  )}`;
   return dispatch => {
     axios
       .get(url, config)
@@ -149,11 +153,11 @@ export const getProfileSelected = () => {
         if (res.status === 201) {
           console.log(res.data);
           var profile = res.data;
-          if(res.data.profilePic){
-          var src = `${api_route.host}//${res.data.profilePic}`;
-         
-          profile = { ...profile, profilePic: src };
-          console.log(src);
+          if (res.data.profilePic) {
+            var src = `${api_route.host}//${res.data.profilePic}`;
+
+            profile = { ...profile, profilePic: src };
+            console.log(src);
           }
           dispatch(getProfileDispatcher(profile));
         }

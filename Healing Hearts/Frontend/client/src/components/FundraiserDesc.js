@@ -15,10 +15,11 @@ class FundraiserDesc extends Component {
     selectedjobId: "",
     resumeShow: "",
     amountDonate: "",
-    category:''
+    category: ""
   };
   componentWillReceiveProps(nextProps) {
-    this.setState({ amountDonate: nextProps.jobdata.amountDonated });
+    if (nextProps.jobdata)
+      this.setState({ amountDonate: nextProps.jobdata.amountDonated });
   }
 
   onResumeSubmit = e => {
@@ -39,7 +40,7 @@ class FundraiserDesc extends Component {
       .post(
         `${api_route.host}/donor/upload/${this.state.selectedFundId}`,
         {
-          category:this.props.jobdata.category,
+          category: this.props.jobdata.category,
           amountRaised: this.state.amountRaised,
           companyId: this.state.selectedCompanyId,
           donorId: localStorage.getItem("loginId")
@@ -139,7 +140,6 @@ class FundraiserDesc extends Component {
                       className=""
                     >
                       {this.props.jobdata.category} Category
-                      
                     </p>
                   </div>
                 </div>

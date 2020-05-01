@@ -126,7 +126,7 @@ class DonorFundraiser extends Component {
                   placeholder="Title, organization or categories"
                   onChange={e => {
                     this.setState(
-                      { companyFilter: e.target.value || "empty" },
+                      { categoryFilter: e.target.value || "empty" },
                       () => {
                         this.getFilterJobs();
                       }
@@ -169,9 +169,8 @@ class DonorFundraiser extends Component {
                                 ""
                               )}
                             </div>
-                            <div >
+                            <div>
                               <div
-                               
                                 style={{ fontSize: "16px", fontWeight: "700" }}
                               >
                                 {i.title}
@@ -220,7 +219,10 @@ class DonorFundraiser extends Component {
             <div className="col-8">
               <div className="card" style={{ height: "500px" }}>
                 <div className="style__jobs___3seWY">
-                  <FundraiserDesc jobdata={this.state.jobobj} getJobs={this.props.getJobs} />
+                  <FundraiserDesc
+                    jobdata={this.state.jobobj}
+                    getJobs={this.props.getJobs}
+                  />
                 </div>
               </div>
             </div>
