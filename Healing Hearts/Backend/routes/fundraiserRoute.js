@@ -41,19 +41,19 @@ route.get(
     Decryptedtoken = decryptToken(req.headers.authorization);
     var sort = "";
     var whereCondition = {};
-    if (req.params.categoryFilter !== "empty") {
-      whereCondition = {
-        ...whereCondition,
-        $or: [
-          {
-            companyName: { $regex: new RegExp(req.params.categoryFilter, "i") }
-          },
-          { title: { $regex: new RegExp(req.params.categoryFilter, "i") } },
-          { category: { $regex: new RegExp(req.params.categoryFilter, "i") } }
-        ]
-      };
-    }
-
+    if(req.params.companyFilter !== "empty"){
+      whereCondition={companyName:req.params.companyFilter}
+                }
+          if (req.params.categoryFilter !== "empty") {
+            whereCondition = {
+              ...whereCondition,
+              $or: [
+                { title: { $regex: new RegExp(req.params.categoryFilter, "i") } },
+                { category: { $regex: new RegExp(req.params.categoryFilter, "i") } }
+              ]
+            };
+          }
+      
     console.log(Decryptedtoken.email);
 
     try {
