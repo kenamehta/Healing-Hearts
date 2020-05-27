@@ -345,23 +345,21 @@ route.post("/picture", upload.single("myimage"), async (req, res) => {
 });
 
 route.get("/analysis/categoryCount/:id", async (req, res) => {
- 
-    const don = await Donation.aggregate([
+  const don = await Donation.aggregate([
     {
-      $match:{
-        donorId:ObjectId(req.params.id)
+      $match: {
+        donorId: ObjectId(req.params.id)
       }
     },
-      {
-        $group: {
-          _id: "$category",
-          count: { $sum: 1 }
-        }
-      },
-      { $sort: { count: -1 } }
-    ]);
-    res.status(200).send({ don });
-   
+    {
+      $group: {
+        _id: "$category",
+        count: { $sum: 1 }
+      }
+    },
+    { $sort: { count: -1 } }
+  ]);
+  res.status(200).send({ don });
 });
 
 module.exports = route;

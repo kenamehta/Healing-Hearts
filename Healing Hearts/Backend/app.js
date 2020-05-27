@@ -6,11 +6,12 @@ const flash = require("connect-flash");
 const secret = require("./service/key");
 const app = express();
 const mongoose = require("mongoose");
+var cors = require("cors");
 //const Student =require("./db/studentmodel")
 // const passport = require('passport');
 app.use(flash());
 app.use(express.static("public"));
-
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(function(req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -41,12 +42,18 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(
-  "mongodb+srv://puneetjyot:handshake@handshake-mongo-zu6wh.mongodb.net/Handshake?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true
-  }
-);
+mongoose
+  .connect(
+    "mongodb+srv://puneetjyot:handshake@handshake-mongo-zu6wh.mongodb.net/Handshake?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true
+    }
+  )
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => {
+    console.log("Failed to connect to MongoDB");
+    console.log(err);
+  });
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/donor", require("./routes/studentRoutes"));
